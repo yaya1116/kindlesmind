@@ -351,8 +351,8 @@ function formatTradeDate(d = new Date()) {
 const ECPAY_PARAMS = {
   MerchantID: '3002607',
   TotalAmount: 299,
-  ItemName: 'KindleMind 深度關係診斷處方箋',
-  TradeDesc: 'KindleMind 靈魂處方箋數位報告',
+  ItemName: 'KindlesMind 深度關係診斷處方箋',
+  TradeDesc: 'KindlesMind 靈魂處方箋數位報告',
   ReturnURL: 'https://kindlesmind.com/ecpay/notify',
   ClientBackURL: 'https://kindlesmind.com/result',
   PaymentType: 'aio',
@@ -480,7 +480,7 @@ function HeroScreen({ onStart }) {
             <Flame size={30} className="text-white" />
           </div>
         </motion.div>
-        <h1 className="font-serif text-4xl font-bold tracking-tight text-warm-text mb-1">KindleMind</h1>
+        <h1 className="font-serif text-4xl font-bold tracking-tight text-warm-text mb-1">KindlesMind</h1>
         <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Relationship Temperature Diagnosis</p>
       </motion.div>
 
@@ -937,7 +937,7 @@ function FullReport({ profile, temp, dimData }) {
       <div className="text-center py-4">
         <Leaf size={14} className="text-warm-terracotta mx-auto mb-2 opacity-60" />
         <p className="text-warm-text-light text-xs">
-          KindleMind 診斷報告 · 僅供個人參考，不替代專業臨床診療
+          KindlesMind 診斷報告 · 僅供個人參考，不替代專業臨床診療
         </p>
       </div>
     </motion.div>
@@ -1588,7 +1588,7 @@ function LegalPage({ title, onBack, children }) {
       {/* Back nav */}
       <button onClick={onBack}
         className="flex items-center gap-1.5 text-warm-text-muted text-sm hover:text-warm-text transition-colors mb-8">
-        <ChevronLeft size={16} /> 返回 KindleMind
+        <ChevronLeft size={16} /> 返回 KindlesMind
       </button>
 
       {/* Header */}
@@ -1596,7 +1596,7 @@ function LegalPage({ title, onBack, children }) {
         <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium mb-4"
           style={{ backgroundColor: '#D48C7018', color: '#D48C70', border: '1px solid #D48C7030' }}>
           <Leaf size={11} />
-          KindleMind 法律文件
+          KindlesMind 法律文件
         </div>
         <h1 className="font-serif text-3xl text-warm-text font-bold mb-2">{title}</h1>
         <p className="text-warm-text-muted text-sm">最後更新：2025 年 1 月 1 日</p>
@@ -1628,18 +1628,18 @@ function PrivacyPage({ onBack }) {
   return (
     <LegalPage title="隱私權政策" onBack={onBack}>
       <LegalSection title="我們重視你的隱私">
-        <p>KindleMind（以下稱「本服務」）深刻理解，你在完成這份測驗時所揭露的，是你內心最私密的情感狀態。因此，我們對隱私保護的承諾，不只是法律義務，更是我們對每一位使用者的道德責任。</p>
+        <p>KindlesMind（以下稱「本服務」）深刻理解，你在完成這份測驗時所揭露的，是你內心最私密的情感狀態。因此，我們對隱私保護的承諾，不只是法律義務，更是我們對每一位使用者的道德責任。</p>
         <p>本政策說明我們如何收集、使用及保護你的個人資料。</p>
       </LegalSection>
 
       <LegalSection title="我們收集哪些資料">
-        <p><strong className="text-warm-text">測驗回答資料：</strong>你在 KindleMind 測驗中所選擇的答案，僅於你的瀏覽器本地端進行計算，用以生成你的個人化診斷結果。<strong className="text-warm-text">我們不會將你的答案傳輸至伺服器、不會儲存、也不會與任何第三方分享。</strong></p>
-        <p><strong className="text-warm-text">付款資料：</strong>若你選擇購買完整報告，付款程序將由綠界科技（ECPay）全程處理。KindleMind 不會接觸、儲存或傳輸你的信用卡號碼、有效期限或 CVV 安全碼。所有金融資料均由綠界科技依其隱私政策處理。</p>
+        <p><strong className="text-warm-text">測驗回答資料：</strong>你在 KindlesMind 測驗中所選擇的答案，僅於你的瀏覽器本地端進行計算，用以生成你的個人化診斷結果。<strong className="text-warm-text">我們不會將你的答案傳輸至伺服器、不會儲存、也不會與任何第三方分享。</strong></p>
+        <p><strong className="text-warm-text">付款資料：</strong>若你選擇購買完整報告，付款程序將由綠界科技（ECPay）全程處理。KindlesMind 不會接觸、儲存或傳輸你的信用卡號碼、有效期限或 CVV 安全碼。所有金融資料均由綠界科技依其隱私政策處理。</p>
         <p><strong className="text-warm-text">技術日誌：</strong>我們可能收集匿名的技術資訊（如瀏覽器類型、造訪時間），用於系統穩定性分析。此類資料不含任何可識別個人身分的資訊。</p>
       </LegalSection>
 
       <LegalSection title="資料的匿名化處理">
-        <p>KindleMind 的核心設計原則是「最小資料收集」。你的測驗回答<strong className="text-warm-text">從不離開你的裝置</strong>——所有分析邏輯均在你的瀏覽器中本地執行，結果計算完成後不會上傳至任何伺服器。</p>
+        <p>KindlesMind 的核心設計原則是「最小資料收集」。你的測驗回答<strong className="text-warm-text">從不離開你的裝置</strong>——所有分析邏輯均在你的瀏覽器中本地執行，結果計算完成後不會上傳至任何伺服器。</p>
         <p>這意味著即使是我們的開發團隊，也無法得知你回答了什麼、得到了哪種診斷結果。你的情感私密，由你自己完全掌控。</p>
       </LegalSection>
 
@@ -1653,7 +1653,7 @@ function PrivacyPage({ onBack }) {
       </LegalSection>
 
       <LegalSection title="Cookie 政策">
-        <p>KindleMind 目前不使用追蹤性 Cookie。我們僅使用瀏覽器本地儲存（localStorage）暫存你的測驗進度，以防止意外中斷造成資料遺失。此資料不會被傳輸至任何伺服器，你可以隨時透過清除瀏覽器資料將其刪除。</p>
+        <p>KindlesMind 目前不使用追蹤性 Cookie。我們僅使用瀏覽器本地儲存（localStorage）暫存你的測驗進度，以防止意外中斷造成資料遺失。此資料不會被傳輸至任何伺服器，你可以隨時透過清除瀏覽器資料將其刪除。</p>
       </LegalSection>
 
     </LegalPage>
@@ -1664,19 +1664,19 @@ function TermsPage({ onBack }) {
   return (
     <LegalPage title="服務條款" onBack={onBack}>
       <LegalSection title="服務性質說明">
-        <p>KindleMind 提供基於心理學研究的線上關係溫度診斷服務。本測驗由 KindleMind 心理師團隊研發，旨在協助使用者更深入了解自身的依附模式與情感狀態。</p>
-        <p><strong className="text-warm-text">重要聲明：</strong>KindleMind 提供的所有診斷結果、分析報告及建議內容，均僅供個人參考，<strong className="text-warm-text">不構成任何形式的醫療診斷、心理治療或專業臨床服務。</strong>若你有嚴重的心理健康需求，請尋求具執照的心理師或精神科醫師的協助。</p>
+        <p>KindlesMind 提供基於心理學研究的線上關係溫度診斷服務。本測驗由 KindlesMind 心理師團隊研發，旨在協助使用者更深入了解自身的依附模式與情感狀態。</p>
+        <p><strong className="text-warm-text">重要聲明：</strong>KindlesMind 提供的所有診斷結果、分析報告及建議內容，均僅供個人參考，<strong className="text-warm-text">不構成任何形式的醫療診斷、心理治療或專業臨床服務。</strong>若你有嚴重的心理健康需求，請尋求具執照的心理師或精神科醫師的協助。</p>
       </LegalSection>
 
       <LegalSection title="數位商品與付款">
-        <p>KindleMind 完整診斷報告屬於<strong className="text-warm-text">數位內容服務</strong>，購買後將即時提供全文閱覽。</p>
+        <p>KindlesMind 完整診斷報告屬於<strong className="text-warm-text">數位內容服務</strong>，購買後將即時提供全文閱覽。</p>
         <p><strong className="text-warm-text">關於退款政策：</strong>依據《消費者保護法》第 19 條第 1 項但書規定，提供非以有形媒介提供之數位內容，且經消費者事先同意始提供者，不適用七日猶豫期之規定。</p>
         <p>購買前，你將有機會預覽報告的目錄架構與部分免費內容，以充分評估是否適合你的需求。我們鼓勵你在充分考慮後再行購買。</p>
         <p>若因系統錯誤導致付款成功但無法存取報告內容，請於 7 個工作天內聯繫我們，我們將提供技術支援或全額退款。</p>
       </LegalSection>
 
       <LegalSection title="智慧財產權">
-        <p>KindleMind 平台上的所有內容，包括但不限於測驗題目、診斷架構、分析文字、靈魂原型描述、療癒處方箋等，均為 KindleMind 之原創作品，受著作權法保護。</p>
+        <p>KindlesMind 平台上的所有內容，包括但不限於測驗題目、診斷架構、分析文字、靈魂原型描述、療癒處方箋等，均為 KindlesMind 之原創作品，受著作權法保護。</p>
         <p>你購買的完整報告授權你個人閱覽使用，<strong className="text-warm-text">未經書面授權，不得轉載、重製、販售或以任何形式散布。</strong></p>
       </LegalSection>
 
@@ -1685,12 +1685,12 @@ function TermsPage({ onBack }) {
           <li>請誠實、真實地回答測驗問題，以獲得最準確的診斷結果</li>
           <li>禁止將本平台用於任何非法、侵害他人權益或騷擾他人的目的</li>
           <li>禁止以自動化程式（bot）大量存取本服務</li>
-          <li>KindleMind 保留在不另行通知的情況下修改服務內容的權利</li>
+          <li>KindlesMind 保留在不另行通知的情況下修改服務內容的權利</li>
         </ul>
       </LegalSection>
 
       <LegalSection title="免責聲明">
-        <p>本服務依「現狀」提供，KindleMind 不對任何因使用本服務而產生的間接損失負責。測驗結果基於統計學模型，不代表對個人情況的絕對判斷。人心複雜，任何心理測驗都無法完全涵蓋你的全部。</p>
+        <p>本服務依「現狀」提供，KindlesMind 不對任何因使用本服務而產生的間接損失負責。測驗結果基於統計學模型，不代表對個人情況的絕對判斷。人心複雜，任何心理測驗都無法完全涵蓋你的全部。</p>
       </LegalSection>
 
     </LegalPage>
@@ -1706,20 +1706,20 @@ function AboutPage({ onBack }) {
           style={{ background: 'linear-gradient(135deg, #D48C70, #B8704F)' }}>
           <Flame size={28} className="text-white" />
         </div>
-        <h2 className="font-serif text-2xl text-warm-text font-bold mb-1">KindleMind</h2>
+        <h2 className="font-serif text-2xl text-warm-text font-bold mb-1">KindlesMind</h2>
         <p className="text-warm-text-muted text-sm tracking-widest uppercase mb-4">Relationship Temperature Diagnosis</p>
         <p className="text-warm-text-muted text-sm leading-relaxed max-w-sm mx-auto">
-          KindleMind 相信，每一份不安的背後，都藏著一個渴望被好好理解的靈魂。我們用心理學的語言，為你的情感狀態點一盞燈。
+          KindlesMind 相信，每一份不安的背後，都藏著一個渴望被好好理解的靈魂。我們用心理學的語言，為你的情感狀態點一盞燈。
         </p>
       </div>
 
       <LegalSection title="我們是誰">
-        <p>KindleMind 由一群對心理學與科技充滿熱情的創作者所建立，致力於讓心理健康的資源更普及、更溫暖、更易於取用。</p>
+        <p>KindlesMind 由一群對心理學與科技充滿熱情的創作者所建立，致力於讓心理健康的資源更普及、更溫暖、更易於取用。</p>
         <p>我們的測驗框架以依附理論（Attachment Theory）、認知行為治療（CBT）及情緒聚焦治療（EFT）為理論基礎。</p>
       </LegalSection>
 
       <LegalSection title="我們的使命">
-        <p>在這個時代，有太多人在關係中感到孤獨和不被理解，卻沒有機會或資源去尋求專業協助。KindleMind 希望成為那座橋——</p>
+        <p>在這個時代，有太多人在關係中感到孤獨和不被理解，卻沒有機會或資源去尋求專業協助。KindlesMind 希望成為那座橋——</p>
         <ul className="list-disc list-inside space-y-1 pl-2">
           <li>讓你能夠以一個安全、匿名的方式，誠實面對自己的情感狀態</li>
           <li>提供有科學根據、有溫度的個人化洞察</li>
@@ -1729,7 +1729,7 @@ function AboutPage({ onBack }) {
 
       <LegalSection title="版本資訊">
         <p className="text-warm-text-light text-xs">
-          KindleMind v2.0<br />
+          KindlesMind v2.0<br />
           © 2026 KindlesMind. All Rights Reserved.
         </p>
       </LegalSection>
