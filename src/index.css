@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Noto Sans TC', system-ui, sans-serif;
+  }
+
+  body {
+    background-color: #FDF8F5;
+    color: #434242;
+  }
+}
+
+@layer utilities {
+  .font-serif-tc {
+    font-family: 'Noto Serif TC', Georgia, serif;
+  }
+
+  .text-shadow-warm {
+    text-shadow: 0 2px 12px rgba(212, 140, 112, 0.2);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FDF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D48C70;
+  border-radius: 3px;
+}
+
+/* Smooth transitions */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
