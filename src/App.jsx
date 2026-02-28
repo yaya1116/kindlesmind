@@ -1148,7 +1148,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRet
                     { icon: Brain,       color: '#E8956A', title: '依附人格成因溯源',       desc: '深入早期情感記憶，找到不安感真正的起源' },
                     { icon: Eye,         color: '#7B9EE8', title: '潛意識行為模式全面解讀', desc: '讀懂你在關係中反覆觸發的無意識反應劇本' },
                     { icon: AlertCircle, color: '#D48C70', title: '致命地雷 × 3 預防指南',  desc: '辨識並拆除最容易炸毀這段關係的互動陷阱' },
-                    { icon: Leaf,        color: '#5F7161', title: '30 天復原計畫',           desc: '每日具體步驟，重建你在愛中的情感安全感' },
+                    { icon: Leaf,        color: '#5F7161', title: '3 個月復原計畫',           desc: '每月具體步驟，重建你在愛中的情感安全感' },
                   ].map((item, i) => {
                     const Icon = item.icon
                     return (
