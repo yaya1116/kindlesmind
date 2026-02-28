@@ -944,7 +944,7 @@ function FullReport({ profile, temp, dimData }) {
   )
 }
 
-function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal }) {
+function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRetake }) {
   const { profile, temp, dimData } = results
   const [email, setEmail]               = useState('')
   const [emailTouched, setEmailTouched] = useState(false)
@@ -970,6 +970,13 @@ function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal }) {
         </div>
         <h2 className="font-serif text-2xl text-warm-text font-semibold mb-1">你的關係溫度報告</h2>
         <p className="text-warm-text-muted text-sm">以下是根據你的 20 個回答生成的專屬診斷</p>
+        <button
+          onClick={onRetake}
+          className="mt-4 inline-flex items-center gap-1.5 text-xs transition-colors hover:text-warm-terracotta"
+          style={{ color: '#B0A49F' }}>
+          <RefreshCw size={11} />
+          重新測驗
+        </button>
       </motion.div>
 
       {/* Temperature card */}
@@ -1932,6 +1939,13 @@ export default function App() {
 
   const handleUnlock = (email) => { setUserEmail(email); setShowPayment(true) }
   const handlePaySuccess = () => { setIsUnlocked(true); setShowPayment(false) }
+  const handleRetake = () => {
+    setPhase('hero')
+    setResults(null)
+    setIsUnlocked(false)
+    setUserEmail('')
+    window.scrollTo(0, 0)
+  }
   const handleNavLegal = (page) => { setLegalPage(page); window.scrollTo(0, 0) }
   const handleBackFromLegal = () => setLegalPage(null)
 
@@ -1996,6 +2010,7 @@ export default function App() {
                 isUnlocked={isUnlocked}
                 userEmail={userEmail}
                 onModal={setLegalModal}
+                onRetake={handleRetake}
               />
               <Footer onNav={handleNavLegal} onModal={setLegalModal} />
             </motion.div>
