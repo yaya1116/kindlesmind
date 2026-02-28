@@ -970,13 +970,15 @@ function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRet
         </div>
         <h2 className="font-serif text-2xl text-warm-text font-semibold mb-1">你的關係溫度報告</h2>
         <p className="text-warm-text-muted text-sm">以下是根據你的 20 個回答生成的專屬診斷</p>
-        <button
+        <motion.button
           onClick={onRetake}
-          className="mt-4 inline-flex items-center gap-1.5 text-xs transition-colors hover:text-warm-terracotta"
-          style={{ color: '#B0A49F' }}>
-          <RefreshCw size={11} />
+          className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all"
+          style={{ backgroundColor: '#F0EAE4', color: '#8A7F7C', border: '1px solid rgba(212,196,188,0.6)' }}
+          whileHover={{ scale: 1.03, backgroundColor: '#EAE0D8' }}
+          whileTap={{ scale: 0.97 }}>
+          <RefreshCw size={13} />
           重新測驗
-        </button>
+        </motion.button>
       </motion.div>
 
       {/* Temperature card */}
