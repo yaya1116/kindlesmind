@@ -8,18 +8,18 @@ export default {
     extend: {
       colors: {
         warm: {
-          bg: '#FDF8F5',
-          sage: '#5F7161',
-          'sage-light': '#7A8F7C',
-          'sage-dark': '#4A5A4C',
-          terracotta: '#D48C70',
-          'terracotta-light': '#E0A88E',
-          'terracotta-dark': '#B8704F',
-          text: '#434242',
-          'text-muted': '#7A7676',
-          'text-light': '#A89D9A',
-          cream: '#F5EDE6',
-          'cream-dark': '#EDE0D5',
+          bg: '#F5F0FA',
+          sage: '#6B7CB5',
+          'sage-light': '#8896C8',
+          'sage-dark': '#4A5A8C',
+          terracotta: '#C896A8',
+          'terracotta-light': '#DDB8C8',
+          'terracotta-dark': '#A07090',
+          text: '#3C3448',
+          'text-muted': '#7A70A0',
+          'text-light': '#A898C8',
+          cream: '#EDE8F8',
+          'cream-dark': '#E0D8F4',
         }
       },
       fontFamily: {
@@ -27,13 +27,13 @@ export default {
         sans: ['Noto Sans TC', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'warm-sm': '0 2px 8px rgba(95, 113, 97, 0.08)',
-        'warm': '0 4px 20px rgba(95, 113, 97, 0.12)',
-        'warm-lg': '0 8px 40px rgba(95, 113, 97, 0.16)',
-        'warm-xl': '0 16px 60px rgba(95, 113, 97, 0.20)',
-        'terracotta': '0 4px 20px rgba(212, 140, 112, 0.25)',
-        'terracotta-lg': '0 8px 40px rgba(212, 140, 112, 0.35)',
-        'inner-warm': 'inset 0 2px 8px rgba(95, 113, 97, 0.06)',
+        'warm-sm': '0 2px 8px rgba(107, 124, 181, 0.08)',
+        'warm': '0 4px 20px rgba(107, 124, 181, 0.12)',
+        'warm-lg': '0 8px 40px rgba(107, 124, 181, 0.16)',
+        'warm-xl': '0 16px 60px rgba(107, 124, 181, 0.20)',
+        'terracotta': '0 4px 20px rgba(200, 150, 168, 0.25)',
+        'terracotta-lg': '0 8px 40px rgba(200, 150, 168, 0.35)',
+        'inner-warm': 'inset 0 2px 8px rgba(107, 124, 181, 0.06)',
       },
       borderRadius: {
         '3xl': '1.5rem',
@@ -57,8 +57,8 @@ export default {
           '50%': { transform: 'translateY(-10px)' },
         },
         pulseWarm: {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(212, 140, 112, 0.4)' },
-          '50%': { boxShadow: '0 0 0 16px rgba(212, 140, 112, 0)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(200, 150, 168, 0.4)' },
+          '50%': { boxShadow: '0 0 0 16px rgba(200, 150, 168, 0)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% center' },

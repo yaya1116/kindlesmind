@@ -8,8 +8,8 @@
   }
 
   body {
-    background-color: #FDF8F5;
-    color: #434242;
+    background-color: #F5F0FA;
+    color: #3C3448;
   }
 }
 
@@ -19,7 +19,7 @@
   }
 
   .text-shadow-warm {
-    text-shadow: 0 2px 12px rgba(212, 140, 112, 0.2);
+    text-shadow: 0 2px 12px rgba(200, 150, 168, 0.2);
   }
 }
 
@@ -28,10 +28,10 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FDF8F5;
+  background: #F5F0FA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D48C70;
+  background: #C896A8;
   border-radius: 3px;
 }
 
