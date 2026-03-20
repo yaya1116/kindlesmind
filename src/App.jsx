@@ -1432,11 +1432,6 @@ function QuizScreen({ onComplete }) {
                 ))}
               </div>
 
-              {/* Scale hint */}
-              <div className="flex justify-between text-[10px] px-0.5" style={{ color: '#C4BADC' }}>
-                <span>完全不符合</span>
-                <span>完全符合</span>
-              </div>
             </div>
           </motion.div>
         </AnimatePresence>
