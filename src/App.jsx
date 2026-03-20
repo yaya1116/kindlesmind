@@ -1527,72 +1527,85 @@ function CalculatingScreen() {
 // ─── SHARE CARD ──────────────────────────────────────────────────────────────
 
 function ShareCard({ profile, dimData, diagCode, cardRef }) {
+  const ac = profile.accentColor || '#6B7CB5'
   const dims = [
-    { label: '焦慮', val: dimData[0]?.health ?? 50 },
-    { label: '迴避', val: dimData[1]?.health ?? 50 },
-    { label: '原生', val: dimData[2]?.health ?? 50 },
-    { label: '衝突', val: dimData[3]?.health ?? 50 },
+    { label: '親密焦慮', val: dimData[0]?.health ?? 50 },
+    { label: '親密迴避', val: dimData[1]?.health ?? 50 },
+    { label: '原生印記', val: dimData[2]?.health ?? 50 },
+    { label: '衝突模式', val: dimData[3]?.health ?? 50 },
   ]
-  const dimLabels = ['親密焦慮', '親密迴避', '原生印記', '衝突模式']
+  const paradox = profile.soulParadox || profile.summary || ''
+  const rx = profile.prescription?.[0]
   return (
     <div ref={cardRef} style={{
-      width: 640, background: 'linear-gradient(145deg,#F9F6FF 0%,#EDE8F7 50%,#F5EEF9 100%)',
-      padding: '48px 48px 40px', fontFamily: 'Noto Serif TC, serif', position: 'relative', overflow: 'hidden'
+      width: 540, minHeight: 960,
+      background: `linear-gradient(160deg, #1A1030 0%, #2A1A50 40%, #1E2A48 100%)`,
+      padding: '60px 44px 52px',
+      fontFamily: 'Noto Serif TC, serif',
+      position: 'relative', overflow: 'hidden',
+      display: 'flex', flexDirection: 'column',
+      boxSizing: 'border-box',
     }}>
-      {/* bg deco */}
-      <div style={{ position: 'absolute', top: -80, right: -80, width: 300, height: 300, borderRadius: '50%', background: 'rgba(180,160,220,0.12)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: -60, left: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(200,175,230,0.10)', pointerEvents: 'none' }} />
+      {/* bg orbs */}
+      <div style={{ position: 'absolute', top: -100, right: -100, width: 360, height: 360, borderRadius: '50%', background: `radial-gradient(circle, ${ac}33 0%, transparent 70%)`, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: -80, left: -80, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle, rgba(155,126,166,0.2) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-      {/* header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
-        <div>
-          <p style={{ fontSize: 11, letterSpacing: '0.18em', color: '#A898C0', marginBottom: 6, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>KindlesMind 靈魂原型診斷</p>
-          <h2 style={{ fontSize: 28, fontWeight: 700, color: '#2E2150', margin: 0, lineHeight: 1.25 }}>{profile.emoji} {profile.label}</h2>
-          <p style={{ fontSize: 14, color: '#7B6A9A', marginTop: 4, fontFamily: 'Noto Sans TC, sans-serif' }}>{profile.tag}</p>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: 11, color: '#B0A0C8', fontFamily: 'Noto Sans TC, sans-serif', marginBottom: 4, letterSpacing: '0.1em' }}>診斷代碼</div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: profile.accentColor || '#6B7CB5', letterSpacing: '0.12em', fontFamily: 'Noto Sans TC, sans-serif' }}>{diagCode}</div>
-        </div>
-      </div>
+      {/* top label */}
+      <p style={{ fontSize: 10, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.4)', marginBottom: 36, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 36px' }}>
+        KINDLESMIND · 靈魂原型診斷
+      </p>
 
-      {/* dim tags */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
-        {dimLabels.map((t, i) => (
-          <span key={i} style={{
-            background: 'rgba(107,124,181,0.12)', color: '#5A6EA8',
-            borderRadius: 20, padding: '4px 12px', fontSize: 12,
-            fontFamily: 'Noto Sans TC, sans-serif', border: '1px solid rgba(107,124,181,0.2)'
-          }}>#{t}</span>
-        ))}
-      </div>
+      {/* emoji large */}
+      <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>{profile.emoji}</div>
+
+      {/* name + tag */}
+      <h2 style={{ fontSize: 34, fontWeight: 700, color: '#FFFFFF', margin: '0 0 8px', lineHeight: 1.2 }}>{profile.label}</h2>
+      <p style={{ fontSize: 15, color: ac, margin: '0 0 6px', fontFamily: 'Noto Sans TC, sans-serif', fontWeight: 500 }}>{profile.tag}</p>
+      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: '0 0 36px', fontFamily: 'Noto Sans TC, sans-serif', letterSpacing: '0.08em' }}>{diagCode}</p>
+
+      {/* divider */}
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', marginBottom: 32 }} />
+
+      {/* soul paradox */}
+      <p style={{ fontSize: 11, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.35)', marginBottom: 12, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>靈魂悖論</p>
+      <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.82)', lineHeight: 1.85, margin: '0 0 32px', fontStyle: 'italic' }}>
+        {paradox.slice(0, 120)}{paradox.length > 120 ? '…' : ''}
+      </p>
 
       {/* dim bars */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px', marginBottom: 32 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 32 }}>
         {dims.map((d, i) => (
           <div key={i}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-              <span style={{ fontSize: 12, color: '#7B6A9A', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#4A3D6B', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
             </div>
-            <div style={{ height: 6, borderRadius: 4, background: 'rgba(180,160,220,0.25)' }}>
-              <div style={{ height: 6, borderRadius: 4, width: `${d.val}%`, background: 'linear-gradient(90deg,#9B7EA6,#6B7CB5)' }} />
+            <div style={{ height: 5, borderRadius: 4, background: 'rgba(255,255,255,0.1)' }}>
+              <div style={{ height: 5, borderRadius: 4, width: `${d.val}%`, background: `linear-gradient(90deg, ${ac}, rgba(155,126,166,0.9))` }} />
             </div>
           </div>
         ))}
       </div>
 
-      {/* quote */}
-      <div style={{ borderLeft: '3px solid rgba(107,124,181,0.4)', paddingLeft: 16, marginBottom: 32 }}>
-        <p style={{ fontSize: 13, color: '#5A4E7A', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
-          {profile.rootAnalysis?.slice(0, 80)}…
-        </p>
-      </div>
+      {/* prescription month 1 */}
+      {rx && (
+        <>
+          <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', marginBottom: 28 }} />
+          <p style={{ fontSize: 11, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.35)', marginBottom: 10, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>療癒處方 · 第一個月</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: ac, margin: '0 0 10px', fontFamily: 'Noto Sans TC, sans-serif' }}>{rx.title}</p>
+          {rx.steps?.slice(0, 2).map((s, i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: 11, color: ac, fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif', flexShrink: 0, marginTop: 1 }}>{i + 1}.</span>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
+            </div>
+          ))}
+        </>
+      )}
 
       {/* footer */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 16, borderTop: '1px solid rgba(180,160,220,0.25)' }}>
-        <p style={{ fontSize: 11, color: '#B0A0C8', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>kindlesmind.com · 靈魂溫度診斷</p>
-        <p style={{ fontSize: 11, color: '#B0A0C8', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考</p>
+      <div style={{ marginTop: 'auto', paddingTop: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>kindlesmind.com</p>
+        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考</p>
       </div>
     </div>
   )
@@ -1602,31 +1615,53 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
 
 function FullReport({ profile, dimData, diagCode }) {
   const cardRef = useRef(null)
-  const [copying, setCopying] = useState(false)
   const [downloading, setDownloading] = useState(false)
+  const [igStatus, setIgStatus] = useState('idle') // idle | done
+
+  const getImageBlob = async () => {
+    if (!cardRef.current) return null
+    const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+    const res = await fetch(dataUrl)
+    return res.blob()
+  }
 
   const handleDownload = async () => {
-    if (!cardRef.current) return
     setDownloading(true)
     try {
-      const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+      const blob = await getImageBlob()
+      const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
-      a.href = dataUrl
+      a.href = url
       a.download = `KindlesMind_${diagCode}.png`
       a.click()
+      URL.revokeObjectURL(url)
     } catch (e) { console.error(e) }
     setDownloading(false)
   }
 
-  const handleShare = async () => {
-    const text = `我在 KindlesMind 測出了「${profile.label}」(${diagCode})\n${profile.tag}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
-    if (navigator.share) {
-      try { await navigator.share({ title: 'KindlesMind 靈魂原型診斷', text, url: 'https://kindlesmind.com' }) } catch {}
-    } else {
-      await navigator.clipboard.writeText(text)
-      setCopying(true)
-      setTimeout(() => setCopying(false), 2000)
-    }
+  const handleThreads = () => {
+    const text = encodeURIComponent(
+      `我在 KindlesMind 測出了「${profile.label}」(${diagCode})\n${profile.tag}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
+    )
+    window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
+  }
+
+  const handleIG = async () => {
+    try {
+      const blob = await getImageBlob()
+      const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
+      } else {
+        // fallback: download image + hint
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url; a.download = `KindlesMind_${diagCode}.png`; a.click()
+        URL.revokeObjectURL(url)
+      }
+      setIgStatus('done')
+      setTimeout(() => setIgStatus('idle'), 3000)
+    } catch (e) { console.error(e) }
   }
 
   return (
@@ -1642,26 +1677,41 @@ function FullReport({ profile, dimData, diagCode }) {
       </div>
 
       {/* Share / Download buttons */}
-      <div className="flex gap-3">
+      <div className="space-y-2.5">
+        {/* row 1 */}
+        <div className="flex gap-2.5">
+          <motion.button
+            onClick={handleDownload}
+            disabled={downloading}
+            whileTap={{ scale: 0.97 }}
+            className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
+            style={{ background: 'rgba(107,124,181,0.1)', color: '#4A5A8C', border: '1px solid rgba(107,124,181,0.2)' }}>
+            {downloading ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
+            儲存圖片
+          </motion.button>
+          <motion.button
+            onClick={handleThreads}
+            whileTap={{ scale: 0.97 }}
+            className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
+            style={{ background: 'rgba(0,0,0,0.06)', color: '#1C1C1E', border: '1px solid rgba(0,0,0,0.1)' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.52.85-6.375 2.495-8.424C5.845 1.34 8.598.16 12.179.136h.014c2.76.018 5.117.89 7.005 2.592 1.854 1.67 3.007 4.02 3.428 6.989.08.558.118 1.13.118 1.7 0 2.032-.454 3.713-1.349 4.998-.915 1.314-2.286 2.092-3.87 2.187-.01 0-.019.001-.028.001-.847 0-1.63-.232-2.272-.672-.553-.383-.983-.934-1.24-1.574-.338.603-.783 1.101-1.326 1.48-.622.43-1.354.649-2.177.649h-.018zm-.022-3.567c.004 0 .008 0 .012 0 .41 0 .766-.13 1.059-.387.318-.278.556-.7.71-1.258.124-.454.187-.962.187-1.51 0-.32-.02-.627-.06-.913-.276-1.953-.951-3.354-2.009-4.163-.87-.659-1.99-.985-3.33-.97h-.012c-1.174.014-2.14.344-2.87.98-.763.664-1.178 1.676-1.235 3.01-.002.068-.004.136-.004.204 0 1.394.41 2.51 1.22 3.317.802.8 1.91 1.208 3.295 1.213.013 0 .025 0 .037-.001zm2.63-1.067c.619-.037 1.12-.34 1.49-.9.39-.591.59-1.418.59-2.458 0-.458-.03-.88-.09-1.26-.32-2.22-1.27-3.82-2.83-4.76-.74-.44-1.61-.69-2.59-.75.73.52 1.31 1.24 1.72 2.14.52 1.13.79 2.51.79 4.1 0 .72-.07 1.4-.21 2.03-.09.4-.21.77-.36 1.11.15.03.31.04.49.04z"/>
+            </svg>
+            分享到 Threads
+          </motion.button>
+        </div>
+        {/* row 2: IG */}
         <motion.button
-          onClick={handleDownload}
-          disabled={downloading}
+          onClick={handleIG}
           whileTap={{ scale: 0.97 }}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium transition-colors"
-          style={{ background: 'rgba(107,124,181,0.1)', color: '#4A5A8C', border: '1px solid rgba(107,124,181,0.2)' }}>
-          {downloading
-            ? <RefreshCw size={15} className="animate-spin" />
-            : <Download size={15} />}
-          儲存圖片
+          className="w-full flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
+          style={{ background: 'linear-gradient(90deg,rgba(225,48,108,0.12),rgba(193,53,132,0.12),rgba(131,58,180,0.12))', color: '#C13584', border: '1px solid rgba(193,53,132,0.25)' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          {igStatus === 'done' ? '圖片已準備好，貼到 IG 限時動態！' : '分享到 IG 限時動態'}
         </motion.button>
-        <motion.button
-          onClick={handleShare}
-          whileTap={{ scale: 0.97 }}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium transition-colors"
-          style={{ background: 'rgba(155,126,166,0.12)', color: '#6B4E80', border: '1px solid rgba(155,126,166,0.25)' }}>
-          {copying ? <Check size={15} /> : <Share2 size={15} />}
-          {copying ? '已複製！' : '分享'}
-        </motion.button>
+        <p className="text-center text-xs" style={{ color: 'rgba(100,80,130,0.5)' }}>儲存圖片後可手動貼到任何社群平台</p>
       </div>
 
       {/* Section: Root Analysis */}
