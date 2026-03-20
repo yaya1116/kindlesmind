@@ -1718,10 +1718,10 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">四維靈魂場域評估</p>
 
         {/* Radar chart + bars side-by-side on wider screens */}
-        <div className="flex flex-col sm:flex-row gap-5 mb-1">
+        <div className="flex flex-col gap-5 mb-1">
           {/* Radar chart */}
           <div className="flex-shrink-0 flex items-center justify-center"
-            style={{ width: 160, height: 160, alignSelf: 'center' }}>
+            style={{ width: 220, height: 220, alignSelf: 'center' }}>
             <RadarChart radarData={radarData} />
           </div>
           {/* Dim bars */}
