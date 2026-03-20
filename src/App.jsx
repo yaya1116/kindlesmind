@@ -1528,6 +1528,7 @@ function CalculatingScreen() {
 
 function ShareCard({ profile, dimData, diagCode, cardRef }) {
   const ac = profile.accentColor || '#6B7CB5'
+  const acLight = ac + '44'
   const dims = [
     { label: '親密焦慮', val: dimData[0]?.health ?? 50 },
     { label: '親密迴避', val: dimData[1]?.health ?? 50 },
@@ -1535,77 +1536,105 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
     { label: '衝突模式', val: dimData[3]?.health ?? 50 },
   ]
   const paradox = profile.soulParadox || profile.summary || ''
-  const rx = profile.prescription?.[0]
+  const monthColors = ['#D48C70', '#7B9EE8', '#6B7CB5']
+
   return (
     <div ref={cardRef} style={{
-      width: 540, minHeight: 960,
-      background: `linear-gradient(160deg, #1A1030 0%, #2A1A50 40%, #1E2A48 100%)`,
-      padding: '60px 44px 52px',
+      width: 540,
+      background: `linear-gradient(160deg, #150E2A 0%, #1E1535 35%, #151E30 100%)`,
       fontFamily: 'Noto Serif TC, serif',
       position: 'relative', overflow: 'hidden',
-      display: 'flex', flexDirection: 'column',
       boxSizing: 'border-box',
     }}>
       {/* bg orbs */}
-      <div style={{ position: 'absolute', top: -100, right: -100, width: 360, height: 360, borderRadius: '50%', background: `radial-gradient(circle, ${ac}33 0%, transparent 70%)`, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: -80, left: -80, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle, rgba(155,126,166,0.2) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: -120, right: -120, width: 400, height: 400, borderRadius: '50%', background: `radial-gradient(circle, ${ac}2A 0%, transparent 70%)`, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: 200, left: -80, width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(155,126,166,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-      {/* top label */}
-      <p style={{ fontSize: 10, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.4)', marginBottom: 36, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 36px' }}>
-        KINDLESMIND · 靈魂原型診斷
-      </p>
-
-      {/* emoji large */}
-      <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>{profile.emoji}</div>
-
-      {/* name + tag */}
-      <h2 style={{ fontSize: 34, fontWeight: 700, color: '#FFFFFF', margin: '0 0 8px', lineHeight: 1.2 }}>{profile.label}</h2>
-      <p style={{ fontSize: 15, color: ac, margin: '0 0 6px', fontFamily: 'Noto Sans TC, sans-serif', fontWeight: 500 }}>{profile.tag}</p>
-      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: '0 0 36px', fontFamily: 'Noto Sans TC, sans-serif', letterSpacing: '0.08em' }}>{diagCode}</p>
-
-      {/* divider */}
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', marginBottom: 32 }} />
-
-      {/* soul paradox */}
-      <p style={{ fontSize: 11, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.35)', marginBottom: 12, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>靈魂悖論</p>
-      <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.82)', lineHeight: 1.85, margin: '0 0 32px', fontStyle: 'italic' }}>
-        {paradox.slice(0, 120)}{paradox.length > 120 ? '…' : ''}
-      </p>
-
-      {/* dim bars */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 32 }}>
-        {dims.map((d, i) => (
-          <div key={i}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
-              <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
+      {/* ── SECTION 1: Hero card (mimics video card) ── */}
+      <div style={{ position: 'relative', margin: '0', padding: '0', overflow: 'hidden' }}>
+        {/* gradient hero bg */}
+        <div style={{
+          height: 260, width: '100%',
+          background: `linear-gradient(135deg, ${ac}55 0%, #2A1A50 50%, #151E30 100%)`,
+          display: 'flex', alignItems: 'flex-end',
+          padding: '0 44px 28px', boxSizing: 'border-box', position: 'relative'
+        }}>
+          {/* floating emoji */}
+          <div style={{ position: 'absolute', top: 36, right: 44, fontSize: 72, opacity: 0.25, lineHeight: 1 }}>{profile.emoji}</div>
+          <div style={{ position: 'absolute', top: 28, left: 44, fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>KINDLESMIND · 靈魂原型診斷</div>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 14px', marginBottom: 14, border: `1px solid ${ac}55` }}>
+              <span style={{ fontSize: 11, color: ac, fontFamily: 'Noto Sans TC, sans-serif', fontWeight: 600 }}>{profile.tag}</span>
             </div>
-            <div style={{ height: 5, borderRadius: 4, background: 'rgba(255,255,255,0.1)' }}>
-              <div style={{ height: 5, borderRadius: 4, width: `${d.val}%`, background: `linear-gradient(90deg, ${ac}, rgba(155,126,166,0.9))` }} />
+            <h2 style={{ fontSize: 36, fontWeight: 700, color: '#FFFFFF', margin: 0, lineHeight: 1.2, textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
+              {profile.emoji} {profile.label}
+            </h2>
+          </div>
+        </div>
+
+        {/* summary card */}
+        <div style={{ margin: '-1px 0 0', padding: '24px 44px', background: 'rgba(255,255,255,0.04)', borderTop: `1px solid ${ac}33` }}>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: 0, fontStyle: 'italic' }}>
+            {profile.summary || profile.archetypeDesc || ''}
+          </p>
+        </div>
+      </div>
+
+      {/* ── SECTION 2: Soul Paradox + Dim Bars ── */}
+      <div style={{ padding: '32px 44px 28px' }}>
+        {/* soul paradox */}
+        <div style={{ borderLeft: `3px solid ${ac}`, paddingLeft: 18, marginBottom: 32 }}>
+          <p style={{ fontSize: 10, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.3)', marginBottom: 10, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>靈魂悖論</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', lineHeight: 1.85, margin: 0 }}>
+            {paradox.slice(0, 150)}{paradox.length > 150 ? '…' : ''}
+          </p>
+        </div>
+
+        {/* dim bars */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 28px' }}>
+          {dims.map((d, i) => (
+            <div key={i}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.7)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
+              </div>
+              <div style={{ height: 4, borderRadius: 4, background: 'rgba(255,255,255,0.08)' }}>
+                <div style={{ height: 4, borderRadius: 4, width: `${d.val}%`, background: `linear-gradient(90deg, ${ac}, rgba(155,126,166,0.85))` }} />
+              </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── SECTION 3: Full 3-month Prescription ── */}
+      <div style={{ margin: '0 24px 0', borderRadius: 20, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+        <div style={{ padding: '20px 28px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <p style={{ fontSize: 10, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 4px' }}>三個月療癒處方箋</p>
+          <p style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>接下來，你可以這樣做</p>
+        </div>
+        {profile.prescription?.map((month, mi) => (
+          <div key={mi} style={{ padding: '20px 28px', borderBottom: mi < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: monthColors[mi], flexShrink: 0 }} />
+              <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Noto Sans TC, sans-serif', margin: 0 }}>{month.month}</p>
+            </div>
+            <p style={{ fontSize: 14, fontWeight: 600, color: monthColors[mi], margin: '0 0 12px', fontFamily: 'Noto Sans TC, sans-serif', paddingLeft: 16 }}>{month.title}</p>
+            {month.steps?.map((s, si) => (
+              <div key={si} style={{ display: 'flex', gap: 10, marginBottom: 10, paddingLeft: 16 }}>
+                <div style={{ width: 18, height: 18, borderRadius: '50%', background: `${monthColors[mi]}22`, border: `1px solid ${monthColors[mi]}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                  <span style={{ fontSize: 9, color: monthColors[mi], fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif' }}>{si + 1}</span>
+                </div>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
+              </div>
+            ))}
           </div>
         ))}
       </div>
 
-      {/* prescription month 1 */}
-      {rx && (
-        <>
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', marginBottom: 28 }} />
-          <p style={{ fontSize: 11, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.35)', marginBottom: 10, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>療癒處方 · 第一個月</p>
-          <p style={{ fontSize: 13, fontWeight: 600, color: ac, margin: '0 0 10px', fontFamily: 'Noto Sans TC, sans-serif' }}>{rx.title}</p>
-          {rx.steps?.slice(0, 2).map((s, i) => (
-            <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
-              <span style={{ fontSize: 11, color: ac, fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif', flexShrink: 0, marginTop: 1 }}>{i + 1}.</span>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
-            </div>
-          ))}
-        </>
-      )}
-
-      {/* footer */}
-      <div style={{ marginTop: 'auto', paddingTop: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>kindlesmind.com</p>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考</p>
+      {/* ── Footer ── */}
+      <div style={{ padding: '24px 44px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif', letterSpacing: '0.08em' }}>kindlesmind.com</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考 · {diagCode}</p>
       </div>
     </div>
   )
