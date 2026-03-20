@@ -1641,15 +1641,6 @@ function FullReport({ profile, dimData, diagCode }) {
         <ShareCard profile={profile} dimData={dimData} diagCode={diagCode} cardRef={cardRef} />
       </div>
 
-      {/* Unlock banner */}
-      <div className="flex items-center gap-2.5 rounded-2xl px-4 py-3"
-        style={{ backgroundColor: 'rgba(107,124,181,0.08)', border: '1px solid rgba(107,124,181,0.2)' }}>
-        <Unlock size={16} className="flex-shrink-0" style={{ color: '#6B7CB5' }} />
-        <p className="text-sm font-medium flex-1" style={{ color: '#4A5A8C' }}>
-          完整診斷報告已解鎖 · 僅供您個人參考
-        </p>
-      </div>
-
       {/* Share / Download buttons */}
       <div className="flex gap-3">
         <motion.button
