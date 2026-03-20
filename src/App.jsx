@@ -1528,103 +1528,88 @@ function CalculatingScreen() {
 
 function ShareCard({ profile, dimData, diagCode, cardRef }) {
   const ac = profile.accentColor || '#6B7CB5'
-  const acLight = ac + '44'
   const dims = [
-    { label: '親密焦慮', val: dimData[0]?.health ?? 50 },
-    { label: '親密迴避', val: dimData[1]?.health ?? 50 },
-    { label: '原生印記', val: dimData[2]?.health ?? 50 },
-    { label: '衝突模式', val: dimData[3]?.health ?? 50 },
+    { label: '焦慮', val: dimData[0]?.health ?? 50 },
+    { label: '迴避', val: dimData[1]?.health ?? 50 },
+    { label: '原生', val: dimData[2]?.health ?? 50 },
+    { label: '衝突', val: dimData[3]?.health ?? 50 },
   ]
   const paradox = profile.soulParadox || profile.summary || ''
   const monthColors = ['#D48C70', '#7B9EE8', '#6B7CB5']
 
   return (
     <div ref={cardRef} style={{
-      width: 540,
-      background: `linear-gradient(160deg, #150E2A 0%, #1E1535 35%, #151E30 100%)`,
+      width: 640,
+      background: 'linear-gradient(145deg,#F9F6FF 0%,#EDE8F7 55%,#F2EDF8 100%)',
       fontFamily: 'Noto Serif TC, serif',
       position: 'relative', overflow: 'hidden',
       boxSizing: 'border-box',
     }}>
-      {/* bg orbs */}
-      <div style={{ position: 'absolute', top: -120, right: -120, width: 400, height: 400, borderRadius: '50%', background: `radial-gradient(circle, ${ac}2A 0%, transparent 70%)`, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 200, left: -80, width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(155,126,166,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      {/* bg deco */}
+      <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(180,160,220,0.13)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: 120, left: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(200,175,230,0.09)', pointerEvents: 'none' }} />
 
-      {/* ── SECTION 1: Hero card (mimics video card) ── */}
-      <div style={{ position: 'relative', margin: '0', padding: '0', overflow: 'hidden' }}>
-        {/* gradient hero bg */}
-        <div style={{
-          height: 260, width: '100%',
-          background: `linear-gradient(135deg, ${ac}55 0%, #2A1A50 50%, #151E30 100%)`,
-          display: 'flex', alignItems: 'flex-end',
-          padding: '0 44px 28px', boxSizing: 'border-box', position: 'relative'
-        }}>
-          {/* floating emoji */}
-          <div style={{ position: 'absolute', top: 36, right: 44, fontSize: 72, opacity: 0.25, lineHeight: 1 }}>{profile.emoji}</div>
-          <div style={{ position: 'absolute', top: 28, left: 44, fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>KINDLESMIND · 靈魂原型診斷</div>
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 14px', marginBottom: 14, border: `1px solid ${ac}55` }}>
-              <span style={{ fontSize: 11, color: ac, fontFamily: 'Noto Sans TC, sans-serif', fontWeight: 600 }}>{profile.tag}</span>
+      {/* ── Header ── */}
+      <div style={{ padding: '44px 48px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <p style={{ fontSize: 10, letterSpacing: '0.2em', color: '#B0A0C8', marginBottom: 20, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 20px' }}>KINDLESMIND &nbsp;·&nbsp; 靈魂原型診斷</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 16 }}>
+            <span style={{ fontSize: 42, lineHeight: 1 }}>{profile.emoji}</span>
+            <div>
+              <h2 style={{ fontSize: 32, fontWeight: 700, color: '#2E2150', margin: 0, lineHeight: 1.2 }}>{profile.label}</h2>
+              <p style={{ fontSize: 14, color: ac, margin: '5px 0 0', fontFamily: 'Noto Sans TC, sans-serif', fontWeight: 500 }}>{profile.tag}</p>
             </div>
-            <h2 style={{ fontSize: 36, fontWeight: 700, color: '#FFFFFF', margin: 0, lineHeight: 1.2, textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
-              {profile.emoji} {profile.label}
-            </h2>
           </div>
         </div>
-
-        {/* summary card */}
-        <div style={{ margin: '-1px 0 0', padding: '24px 44px', background: 'rgba(255,255,255,0.04)', borderTop: `1px solid ${ac}33` }}>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: 0, fontStyle: 'italic' }}>
-            {profile.summary || profile.archetypeDesc || ''}
-          </p>
+        <div style={{ textAlign: 'right', marginTop: 2 }}>
+          <p style={{ fontSize: 10, color: '#C0B0D8', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 4px', letterSpacing: '0.08em' }}>診斷代碼</p>
+          <p style={{ fontSize: 15, fontWeight: 700, color: ac, fontFamily: 'Noto Sans TC, sans-serif', margin: 0, letterSpacing: '0.06em' }}>{diagCode}</p>
         </div>
       </div>
 
-      {/* ── SECTION 2: Soul Paradox + Dim Bars ── */}
-      <div style={{ padding: '32px 44px 28px' }}>
-        {/* soul paradox */}
-        <div style={{ borderLeft: `3px solid ${ac}`, paddingLeft: 18, marginBottom: 32 }}>
-          <p style={{ fontSize: 10, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.3)', marginBottom: 10, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>靈魂悖論</p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', lineHeight: 1.85, margin: 0 }}>
-            {paradox.slice(0, 150)}{paradox.length > 150 ? '…' : ''}
-          </p>
-        </div>
-
-        {/* dim bars */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 28px' }}>
+      {/* ── Dim bars ── */}
+      <div style={{ padding: '0 48px 28px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 32px' }}>
           {dims.map((d, i) => (
             <div key={i}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.7)', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
+                <span style={{ fontSize: 12, color: '#7B6A9A', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#4A3D6B', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
               </div>
-              <div style={{ height: 4, borderRadius: 4, background: 'rgba(255,255,255,0.08)' }}>
-                <div style={{ height: 4, borderRadius: 4, width: `${d.val}%`, background: `linear-gradient(90deg, ${ac}, rgba(155,126,166,0.85))` }} />
+              <div style={{ height: 5, borderRadius: 4, background: 'rgba(180,160,220,0.22)' }}>
+                <div style={{ height: 5, borderRadius: 4, width: `${d.val}%`, background: `linear-gradient(90deg,${ac},rgba(155,126,166,0.8))` }} />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── SECTION 3: Full 3-month Prescription ── */}
-      <div style={{ margin: '0 24px 0', borderRadius: 20, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
-        <div style={{ padding: '20px 28px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <p style={{ fontSize: 10, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 4px' }}>三個月療癒處方箋</p>
-          <p style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>接下來，你可以這樣做</p>
+      {/* ── Soul paradox quote ── */}
+      <div style={{ margin: '0 48px 28px', borderLeft: `3px solid ${ac}88`, paddingLeft: 18 }}>
+        <p style={{ fontSize: 12, color: '#6B5A8A', lineHeight: 1.85, margin: 0, fontStyle: 'italic' }}>
+          {paradox.slice(0, 130)}{paradox.length > 130 ? '…' : ''}
+        </p>
+      </div>
+
+      {/* ── Full 3-month Prescription ── */}
+      <div style={{ margin: '0 36px 36px', borderRadius: 18, background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(196,184,228,0.35)', overflow: 'hidden' }}>
+        <div style={{ padding: '18px 28px 14px', borderBottom: '1px solid rgba(196,184,228,0.25)', background: 'rgba(255,255,255,0.5)' }}>
+          <p style={{ fontSize: 10, letterSpacing: '0.14em', color: '#A898C0', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 3px' }}>三個月療癒處方箋</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#3A2E58', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>接下來，你可以這樣做</p>
         </div>
         {profile.prescription?.map((month, mi) => (
-          <div key={mi} style={{ padding: '20px 28px', borderBottom: mi < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: monthColors[mi], flexShrink: 0 }} />
-              <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Noto Sans TC, sans-serif', margin: 0 }}>{month.month}</p>
+          <div key={mi} style={{ padding: '16px 28px', borderBottom: mi < 2 ? '1px solid rgba(196,184,228,0.2)' : 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: monthColors[mi], flexShrink: 0 }} />
+              <p style={{ fontSize: 10, color: '#A898C0', fontFamily: 'Noto Sans TC, sans-serif', margin: 0 }}>{month.month}</p>
             </div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: monthColors[mi], margin: '0 0 12px', fontFamily: 'Noto Sans TC, sans-serif', paddingLeft: 16 }}>{month.title}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: monthColors[mi], margin: '0 0 10px', fontFamily: 'Noto Sans TC, sans-serif', paddingLeft: 16 }}>{month.title}</p>
             {month.steps?.map((s, si) => (
-              <div key={si} style={{ display: 'flex', gap: 10, marginBottom: 10, paddingLeft: 16 }}>
-                <div style={{ width: 18, height: 18, borderRadius: '50%', background: `${monthColors[mi]}22`, border: `1px solid ${monthColors[mi]}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+              <div key={si} style={{ display: 'flex', gap: 10, marginBottom: 8, paddingLeft: 16 }}>
+                <div style={{ width: 17, height: 17, borderRadius: '50%', background: `${monthColors[mi]}18`, border: `1px solid ${monthColors[mi]}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
                   <span style={{ fontSize: 9, color: monthColors[mi], fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif' }}>{si + 1}</span>
                 </div>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
+                <p style={{ fontSize: 11, color: '#5A4A76', lineHeight: 1.7, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
               </div>
             ))}
           </div>
@@ -1632,9 +1617,9 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
       </div>
 
       {/* ── Footer ── */}
-      <div style={{ padding: '24px 44px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif', letterSpacing: '0.08em' }}>kindlesmind.com</p>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考 · {diagCode}</p>
+      <div style={{ padding: '0 48px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: 10, color: '#C0B0D0', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>kindlesmind.com · 靈魂溫度診斷</p>
+        <p style={{ fontSize: 10, color: '#C0B0D0', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考</p>
       </div>
     </div>
   )
@@ -1669,7 +1654,12 @@ function FullReport({ profile, dimData, diagCode }) {
   }
 
   const handleThreads = async () => {
-    // Download share image first so user can attach it
+    // Must open window synchronously (before any await) to avoid popup blocker
+    const text = encodeURIComponent(
+      `我在 KindlesMind 測出了「${profile.label}」\n${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
+    )
+    window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
+    // Then download image in background
     try {
       const blob = await getImageBlob()
       const url = URL.createObjectURL(blob)
@@ -1679,13 +1669,6 @@ function FullReport({ profile, dimData, diagCode }) {
       a.click()
       URL.revokeObjectURL(url)
     } catch (e) { console.error(e) }
-    // Open Threads with text (no diagCode)
-    const text = encodeURIComponent(
-      `我在 KindlesMind 測出了「${profile.label}」\n${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
-    )
-    setTimeout(() => {
-      window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
-    }, 600)
   }
 
   const handleIG = async () => {
