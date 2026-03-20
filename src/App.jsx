@@ -1610,18 +1610,9 @@ function FullReport({ profile, dimData }) {
   )
 }
 
-function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRetake }) {
+function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
-  const [email, setEmail]               = useState('')
-  const [emailTouched, setEmailTouched] = useState(false)
-  const [emailFocused, setEmailFocused] = useState(false)
-  const [resendState, setResendState]   = useState(null) // null | 'sending' | 'sent'
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-
-  const handleResend = () => {
-    setResendState('sending')
-    setTimeout(() => setResendState('sent'), 1800)
-  }
+  const [supportClicked, setSupportClicked] = useState(false)
 
   return (
     <motion.div className="min-h-screen px-5 py-10 max-w-lg mx-auto"
@@ -1931,122 +1922,50 @@ function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRet
                 </div>
               </div>
 
-              {/* ── 4. Email collection ── */}
-              <motion.div
-                className="px-6 pt-5 pb-1"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65, duration: 0.45, ease: 'easeOut' }}>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: '#7270A0' }}>
-                  接收診斷處方箋的電子信箱
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  onFocus={() => setEmailFocused(true)}
-                  onBlur={() => { setEmailFocused(false); setEmailTouched(true) }}
-                  placeholder="example@email.com"
-                  className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition-all duration-200"
-                  style={{
-                    backgroundColor: '#EBE6F8',
-                    border: `1.5px solid ${
-                      emailFocused
-                        ? '#6B7CB5'
-                        : emailTouched && !isEmailValid
-                          ? 'rgba(232,114,74,0.6)'
-                          : 'rgba(196,184,228,0.5)'
-                    }`,
-                    color: '#3C3448',
-                  }}
-                />
-                {emailTouched && !isEmailValid && email.length > 0 && (
-                  <motion.p
-                    className="text-xs mt-1 ml-1"
-                    style={{ color: '#E8724A' }}
-                    initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>
-                    請輸入有效的電子信箱格式
-                  </motion.p>
-                )}
-                <p className="text-xs mt-2 leading-relaxed" style={{ color: '#A898C0' }}>
-                  診斷處方箋將發送至您的信箱，請確保輸入正確以便從{' '}
-                  <span style={{ color: '#7A8EB0' }}>@kindlesmind.com</span>{' '}
-                  接收報告。
-                </p>
-              </motion.div>
-
-              {/* ── 5. Price + CTA ── */}
+              {/* ── 4. Support CTA ── */}
               <div className="px-6 py-5">
-                {/* Price row */}
-                <div className="flex items-end justify-between mb-4">
-                  <div>
-                    <span className="text-xs line-through block mb-0.5" style={{ color: '#B4AACC' }}>原價 NT$980</span>
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-serif text-4xl font-bold text-warm-text leading-none">NT$299</span>
-                      <span className="text-warm-text-muted text-xs">一次付費</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="inline-block text-white text-xs px-3 py-1.5 rounded-full font-semibold mb-1"
-                      style={{ background: 'linear-gradient(135deg, #9B7EA6, #7B5E8A)' }}>
-                      省 NT$681
-                    </span>
-                    <p className="text-warm-text-light text-xs">永久查閱</p>
-                  </div>
-                </div>
-
-                {/* Breathing gradient CTA button */}
-                <motion.button
-                  className="group relative w-full py-4 rounded-3xl text-white font-semibold text-base overflow-hidden flex items-center justify-center gap-2.5 mb-4 transition-opacity duration-200"
+                {/* BMC primary button */}
+                <motion.a
+                  href="https://portaly.cc/kindlesmind"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative w-full py-4 rounded-3xl font-semibold text-base overflow-hidden flex items-center justify-center gap-2.5 mb-3 no-underline"
                   style={{
-                    background: 'linear-gradient(135deg, #7B5E8A 0%, #6B8FA3 48%, #9B7EA6 100%)',
-                    opacity: isEmailValid ? 1 : 0.45,
-                    cursor: isEmailValid ? 'pointer' : 'not-allowed',
+                    background: 'linear-gradient(135deg, #FFDD00 0%, #FFC01E 100%)',
+                    color: '#1A1200',
+                    boxShadow: '0 4px 20px rgba(255,192,30,0.35)',
                   }}
-                  onClick={() => { if (isEmailValid) onUnlock(email) }}
-                  disabled={!isEmailValid}
-                  animate={{
-                    boxShadow: [
-                      '0 4px 20px rgba(123,94,138,0.3), 0 0 0 0 rgba(155,126,166,0)',
-                      '0 8px 36px rgba(155,126,166,0.45), 0 0 0 6px rgba(155,126,166,0.06)',
-                      '0 4px 20px rgba(123,94,138,0.3), 0 0 0 0 rgba(155,126,166,0)',
-                    ],
-                  }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-                  whileHover={{ scale: 1.015, y: -1 }}
+                  onClick={() => setSupportClicked(true)}
+                  whileHover={{ scale: 1.015, y: -1, boxShadow: '0 8px 32px rgba(255,192,30,0.5)' }}
                   whileTap={{ scale: 0.98 }}>
-                  {/* Shimmer sweep on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)' }} />
-                  <Sparkles size={15} className="relative z-10 flex-shrink-0" />
-                  <span className="relative z-10">解鎖我的專屬靈魂處方箋</span>
+                    style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)' }} />
+                  <img src="https://portaly.cc/favicon.ico" alt="" className="relative z-10 w-5 h-5 rounded-sm flex-shrink-0" />
+                  <span className="relative z-10">支持一杯咖啡，解鎖完整報告</span>
                   <ArrowRight size={15} className="relative z-10 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
+                </motion.a>
 
-                {/* Monochrome payment badges */}
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <MonochromeBadges />
-                </div>
+                {/* Honor unlock — appears after clicking BMC */}
+                <AnimatePresence>
+                  {supportClicked && (
+                    <motion.button
+                      key="honor-btn"
+                      onClick={() => onUnlock()}
+                      className="w-full py-3 rounded-2xl text-sm font-medium transition-colors mb-3"
+                      style={{ backgroundColor: '#EFE9F8', color: '#7270A0', border: '1px solid rgba(196,184,228,0.7)' }}
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      whileHover={{ backgroundColor: '#E4DCEF' }}
+                      whileTap={{ scale: 0.98 }}>
+                      我已支持，顯示完整報告 ✓
+                    </motion.button>
+                  )}
+                </AnimatePresence>
 
-                {/* Safety text */}
-                <div className="flex items-start justify-center gap-1.5 mb-3">
-                  <ShieldCheck size={10} className="flex-shrink-0 mt-0.5" style={{ color: '#A898C0' }} />
-                  <p className="text-center leading-relaxed" style={{ color: '#A898C0', fontSize: '10px' }}>
-                    SSL 256-bit 加密安全支付 · 由綠界科技提供技術支援<br />
-                    交易將於 kindlesmind.com 安全環境下進行
-                  </p>
-                </div>
-
-                {/* Refund defense copy */}
-                <div className="rounded-xl px-3 py-2.5" style={{ backgroundColor: '#EFE9F8', border: '1px solid rgba(196,184,228,0.5)' }}>
-                  <p className="text-center leading-relaxed" style={{ color: '#A898C8', fontSize: '10px' }}>
-                    本商品為數位內容服務，購買後立即解鎖，<strong style={{ color: '#9A918E' }}>不適用 7 天鑑賞期</strong>。<br />
-                    點擊購買即代表您同意本站之
-                    <button onClick={() => onModal?.('terms')} className="underline underline-offset-1 hover:opacity-80 transition-opacity mx-0.5" style={{ color: '#9A918E', fontSize: 'inherit' }}>
-                      服務條款
-                    </button>。
-                  </p>
-                </div>
+                <p className="text-center leading-relaxed" style={{ color: '#B4AACC', fontSize: '11px' }}>
+                  榮譽制 · 你的支持讓這個計畫走得更遠 🙏
+                </p>
               </div>
 
             </motion.div>
@@ -2055,29 +1974,6 @@ function ResultScreen({ results, onUnlock, isUnlocked, userEmail, onModal, onRet
           <motion.div key="unlocked" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <FullReport profile={profile} dimData={dimData} />
 
-            {/* ── Resend button ── */}
-            <motion.div
-              className="text-center py-4 px-5"
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-              {resendState === 'sent' ? (
-                <motion.p
-                  className="text-xs flex items-center justify-center gap-1.5"
-                  style={{ color: '#6B7CB5' }}
-                  initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-                  <BadgeCheck size={13} />
-                  已重新寄送至 {userEmail || '您的信箱'}，請確認垃圾郵件匣。
-                </motion.p>
-              ) : (
-                <button
-                  onClick={handleResend}
-                  disabled={resendState === 'sending'}
-                  className="flex items-center justify-center gap-1.5 mx-auto text-xs transition-colors hover:text-warm-terracotta disabled:opacity-50"
-                  style={{ color: '#A898C0' }}>
-                  <RefreshCw size={11} className={resendState === 'sending' ? 'animate-spin' : ''} />
-                  {resendState === 'sending' ? '寄送中…' : '沒收到報告？點此重新寄送'}
-                </button>
-              )}
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -2687,13 +2583,11 @@ function Footer({ onNav, onModal }) {
 // ─── APP ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [phase, setPhase]             = useState('hero')
-  const [results, setResults]         = useState(null)
-  const [showPayment, setShowPayment] = useState(false)
-  const [isUnlocked, setIsUnlocked]   = useState(false)
-  const [userEmail, setUserEmail]     = useState('')
-  const [legalPage, setLegalPage]     = useState(null)  // null | 'privacy' | 'terms' | 'about'
-  const [legalModal, setLegalModal]   = useState(null)  // null | 'terms' | 'privacy' | 'disclaimer'
+  const [phase, setPhase]           = useState('hero')
+  const [results, setResults]       = useState(null)
+  const [isUnlocked, setIsUnlocked] = useState(false)
+  const [legalPage, setLegalPage]   = useState(null)  // null | 'privacy' | 'terms' | 'about'
+  const [legalModal, setLegalModal] = useState(null)  // null | 'terms' | 'privacy' | 'disclaimer'
 
   const handleQuizComplete = (answers) => {
     setPhase('calculating')
@@ -2701,13 +2595,11 @@ export default function App() {
     setTimeout(() => { setResults(r); setPhase('result') }, 3600)
   }
 
-  const handleUnlock = (email) => { setUserEmail(email); setShowPayment(true) }
-  const handlePaySuccess = () => { setIsUnlocked(true); setShowPayment(false) }
+  const handleUnlock = () => setIsUnlocked(true)
   const handleRetake = () => {
     setPhase('hero')
     setResults(null)
     setIsUnlocked(false)
-    setUserEmail('')
     window.scrollTo(0, 0)
   }
   const handleNavLegal = (page) => { setLegalPage(page); window.scrollTo(0, 0) }
@@ -2773,7 +2665,6 @@ export default function App() {
                 results={results}
                 onUnlock={handleUnlock}
                 isUnlocked={isUnlocked}
-                userEmail={userEmail}
                 onModal={setLegalModal}
                 onRetake={handleRetake}
               />
@@ -2784,11 +2675,6 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {showPayment && (
-          <EcpayModal onClose={() => setShowPayment(false)} onSuccess={handlePaySuccess} email={userEmail} />
-        )}
-      </AnimatePresence>
 
       <AnimatePresence>
         {legalModal && (
