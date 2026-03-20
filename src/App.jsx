@@ -1528,11 +1528,12 @@ function CalculatingScreen() {
 
 function ShareCard({ profile, dimData, diagCode, cardRef }) {
   const dims = [
-    { label: '焦慮', val: dimData[0] },
-    { label: '迴避', val: dimData[1] },
-    { label: '原生', val: dimData[2] },
-    { label: '衝突', val: dimData[3] },
+    { label: '焦慮', val: dimData[0]?.health ?? 50 },
+    { label: '迴避', val: dimData[1]?.health ?? 50 },
+    { label: '原生', val: dimData[2]?.health ?? 50 },
+    { label: '衝突', val: dimData[3]?.health ?? 50 },
   ]
+  const dimLabels = ['親密焦慮', '親密迴避', '原生印記', '衝突模式']
   return (
     <div ref={cardRef} style={{
       width: 640, background: 'linear-gradient(145deg,#F9F6FF 0%,#EDE8F7 50%,#F5EEF9 100%)',
@@ -1546,8 +1547,8 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
         <div>
           <p style={{ fontSize: 11, letterSpacing: '0.18em', color: '#A898C0', marginBottom: 6, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>KindlesMind 靈魂原型診斷</p>
-          <h2 style={{ fontSize: 28, fontWeight: 700, color: '#2E2150', margin: 0, lineHeight: 1.25 }}>{profile.name}</h2>
-          <p style={{ fontSize: 14, color: '#7B6A9A', marginTop: 4, fontFamily: 'Noto Sans TC, sans-serif' }}>{profile.tagline}</p>
+          <h2 style={{ fontSize: 28, fontWeight: 700, color: '#2E2150', margin: 0, lineHeight: 1.25 }}>{profile.emoji} {profile.label}</h2>
+          <p style={{ fontSize: 14, color: '#7B6A9A', marginTop: 4, fontFamily: 'Noto Sans TC, sans-serif' }}>{profile.tag}</p>
         </div>
         <div style={{ textAlign: 'right' }}>
           <div style={{ fontSize: 11, color: '#B0A0C8', fontFamily: 'Noto Sans TC, sans-serif', marginBottom: 4, letterSpacing: '0.1em' }}>診斷代碼</div>
@@ -1555,9 +1556,9 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
         </div>
       </div>
 
-      {/* tags */}
+      {/* dim tags */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
-        {profile.tags?.slice(0, 4).map((t, i) => (
+        {dimLabels.map((t, i) => (
           <span key={i} style={{
             background: 'rgba(107,124,181,0.12)', color: '#5A6EA8',
             borderRadius: 20, padding: '4px 12px', fontSize: 12,
@@ -1618,7 +1619,7 @@ function FullReport({ profile, dimData, diagCode }) {
   }
 
   const handleShare = async () => {
-    const text = `我在 KindlesMind 測出了「${profile.name}」(${diagCode})\n${profile.tagline}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
+    const text = `我在 KindlesMind 測出了「${profile.label}」(${diagCode})\n${profile.tag}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
     if (navigator.share) {
       try { await navigator.share({ title: 'KindlesMind 靈魂原型診斷', text, url: 'https://kindlesmind.com' }) } catch {}
     } else {
