@@ -805,6 +805,34 @@ function calcResults(answers) {
   return { profile, dimData, primaryDim: p, profileKey, dimScores, diagCode, radarData }
 }
 
+// Reverse-lookup map: 'KM-01' → 'secure'
+const CODE_TO_PROFILE = Object.fromEntries(
+  Object.entries(DIAG_CODE_MAP).map(([k, v]) => [v, k])
+)
+// Bucket midpoints (score range 7–35, bucket 1–5)
+const BUCKET_MID = { 1: 9, 2: 14, 3: 19, 4: 25, 5: 31 }
+
+function parseCode(raw) {
+  const code = raw.trim().toUpperCase()
+  // Format: KM-XX-A{1-5}B{1-5}C{1-5}D{1-5}
+  const m = code.match(/^(KM-\d{2})-A([1-5])B([1-5])C([1-5])D([1-5])$/)
+  if (!m) return null
+  const profileKey = CODE_TO_PROFILE[m[1]]
+  const profile = profileKey ? PROFILES[profileKey] : null
+  if (!profile) return null
+  const dimScores = { 1: BUCKET_MID[+m[2]], 2: BUCKET_MID[+m[3]], 3: BUCKET_MID[+m[4]], 4: BUCKET_MID[+m[5]] }
+  const dimData = DIMENSIONS.map(dim => {
+    const score = dimScores[dim.id]
+    const health = Math.round(100 - ((score - 7) / 28) * 100)
+    return { ...dim, score, health }
+  })
+  const radarData = DIMENSIONS.map(dim => ({
+    ...dim, score: dimScores[dim.id],
+    pct: Math.round(((dimScores[dim.id] - 7) / 28) * 100),
+  }))
+  return { profile, dimData, primaryDim: DIMENSIONS[0], profileKey, dimScores, diagCode: code, radarData }
+}
+
 function getDimText(dimId, health) {
   const level = health >= 75 ? 3 : health >= 50 ? 2 : health >= 25 ? 1 : 0
   const map = {
@@ -1121,7 +1149,17 @@ function RadarChart({ radarData }) {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
-function HeroScreen({ onStart }) {
+function HeroScreen({ onStart, onCode }) {
+  const [codeInput, setCodeInput] = useState('')
+  const [codeError, setCodeError] = useState(false)
+
+  const handleCode = () => {
+    const result = parseCode(codeInput)
+    if (!result) { setCodeError(true); return }
+    setCodeError(false)
+    onCode(result)
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden">
       <Orb x="-5%" y="15%" size={320} color="#9B7EA6" delay={0} />
@@ -1192,6 +1230,38 @@ function HeroScreen({ onStart }) {
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}>
         約 8 分鐘完成 · 28 道情境題目 · 4 個靈魂維度
       </motion.p>
+
+      {/* Code lookup */}
+      <motion.div className="mt-6 w-full max-w-xs"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
+        <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
+        <div className="flex gap-2">
+          <input
+            value={codeInput}
+            onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
+            onKeyDown={e => e.key === 'Enter' && handleCode()}
+            placeholder="KM-04-A3B3C3D4"
+            className="flex-1 rounded-xl px-3 py-2.5 text-sm border outline-none"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
+              color: '#434242', fontFamily: 'Noto Sans TC, sans-serif',
+              letterSpacing: '0.06em'
+            }} />
+          <motion.button
+            onClick={handleCode}
+            whileTap={{ scale: 0.97 }}
+            className="px-4 rounded-xl text-sm font-medium text-white"
+            style={{ background: 'linear-gradient(135deg,#7B5E8A,#5A7A8E)', flexShrink: 0 }}>
+            查看
+          </motion.button>
+        </div>
+        {codeError && (
+          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
+            代碼格式錯誤，請確認後再試
+          </p>
+        )}
+      </motion.div>
 
       {/* Dimension preview */}
       <motion.div className="mt-10 grid grid-cols-2 gap-2 w-full max-w-xs"
@@ -1671,14 +1741,16 @@ function FullReport({ profile, dimData, diagCode }) {
     } catch (e) { console.error(e) }
   }
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
   const handleIG = async () => {
     try {
       const blob = await getImageBlob()
       const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      if (isMobile && navigator.share && navigator.canShare?.({ files: [file] })) {
         await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
       } else {
-        // fallback: download image + hint
+        // Desktop fallback: download only
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url; a.download = `KindlesMind_${diagCode}.png`; a.click()
@@ -1734,7 +1806,7 @@ function FullReport({ profile, dimData, diagCode }) {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
           </svg>
-          {igStatus === 'done' ? '圖片已準備好，貼到 IG 限時動態！' : '分享到 IG 限時動態'}
+          {igStatus === 'done' ? '圖片已準備好，貼到 IG 限時動態！' : isMobile ? '分享到 IG 限時動態' : '下載圖片（貼到 IG 限時動態）'}
         </motion.button>
         <p className="text-center text-xs" style={{ color: 'rgba(100,80,130,0.5)' }}>儲存圖片後可手動貼到任何社群平台</p>
       </div>
@@ -1930,8 +2002,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         </div>
       </motion.div>
 
-      {/* ── 療癒處方預覽（免費首月）── */}
-      <motion.div className="rounded-3xl border p-6 mb-5 overflow-hidden relative"
+      {/* ── 療癒處方預覽（免費首月，解鎖後隱藏）── */}
+      {!isUnlocked && <motion.div className="rounded-3xl border p-6 mb-5 overflow-hidden relative"
         style={{ background: 'linear-gradient(135deg, #F9F6FF 0%, #F1EDF8 100%)', borderColor: 'rgba(155,126,166,0.2)' }}
         initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42 }}>
 
@@ -1994,7 +2066,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             </div>
           ))}
         </div>
-      </motion.div>
+      </motion.div>}
 
       {/* ── LOCKED SECTION ── */}
       <AnimatePresence mode="wait">
@@ -2787,6 +2859,12 @@ export default function App() {
     setTimeout(() => { setResults(r); setPhase('result') }, 3600)
   }
 
+  const handleCodeResult = (parsed) => {
+    setResults(parsed)
+    setIsUnlocked(true)   // code lookup = already unlocked
+    setPhase('result')
+    window.scrollTo(0, 0)
+  }
   const handleUnlock = () => setIsUnlocked(true)
   const handleRetake = () => {
     setPhase('hero')
@@ -2829,7 +2907,7 @@ export default function App() {
           {/* ── Main app flow ── */}
           {!legalPage && phase === 'hero' && (
             <motion.div key="hero" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.35 }}>
-              <HeroScreen onStart={() => setPhase('quiz')} />
+              <HeroScreen onStart={() => setPhase('quiz')} onCode={handleCodeResult} />
               <Footer onNav={handleNavLegal} onModal={setLegalModal} />
             </motion.div>
           )}
