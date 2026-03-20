@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { toPng } from 'html-to-image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Heart, Thermometer, Lock, Unlock, Sparkles, FileText,
   CheckCircle, ArrowRight, X, Brain, Shield, TrendingUp,
   ChevronRight, ChevronLeft, Star, Flame, Leaf, Sun, Moon,
   Wind, Clock, Eye, RefreshCw, AlertCircle, Mail, ExternalLink,
-  UserCheck, ShieldCheck, BadgeCheck, Zap
+  UserCheck, ShieldCheck, BadgeCheck, Zap,
+  Download, Share2, Copy, Check
 } from 'lucide-react'
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -1027,7 +1029,7 @@ function RadarChart({ radarData }) {
   ]
 
   return (
-    <svg viewBox="0 0 220 220" style={{ width: '100%', height: '100%' }}>
+    <svg viewBox="-25 0 270 220" style={{ width: '100%', height: 'auto' }}>
       <defs>
         {radarData.map((d, i) => (
           <linearGradient key={i} id={`rg${i}`} x1="0" y1="0" x2="1" y2="1">
@@ -1522,9 +1524,110 @@ function CalculatingScreen() {
   )
 }
 
+// ─── SHARE CARD ──────────────────────────────────────────────────────────────
+
+function ShareCard({ profile, dimData, diagCode, cardRef }) {
+  const dims = [
+    { label: '焦慮', val: dimData[0] },
+    { label: '迴避', val: dimData[1] },
+    { label: '原生', val: dimData[2] },
+    { label: '衝突', val: dimData[3] },
+  ]
+  return (
+    <div ref={cardRef} style={{
+      width: 640, background: 'linear-gradient(145deg,#F9F6FF 0%,#EDE8F7 50%,#F5EEF9 100%)',
+      padding: '48px 48px 40px', fontFamily: 'Noto Serif TC, serif', position: 'relative', overflow: 'hidden'
+    }}>
+      {/* bg deco */}
+      <div style={{ position: 'absolute', top: -80, right: -80, width: 300, height: 300, borderRadius: '50%', background: 'rgba(180,160,220,0.12)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: -60, left: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(200,175,230,0.10)', pointerEvents: 'none' }} />
+
+      {/* header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
+        <div>
+          <p style={{ fontSize: 11, letterSpacing: '0.18em', color: '#A898C0', marginBottom: 6, textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif' }}>KindlesMind 靈魂原型診斷</p>
+          <h2 style={{ fontSize: 28, fontWeight: 700, color: '#2E2150', margin: 0, lineHeight: 1.25 }}>{profile.name}</h2>
+          <p style={{ fontSize: 14, color: '#7B6A9A', marginTop: 4, fontFamily: 'Noto Sans TC, sans-serif' }}>{profile.tagline}</p>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: 11, color: '#B0A0C8', fontFamily: 'Noto Sans TC, sans-serif', marginBottom: 4, letterSpacing: '0.1em' }}>診斷代碼</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: profile.accentColor || '#6B7CB5', letterSpacing: '0.12em', fontFamily: 'Noto Sans TC, sans-serif' }}>{diagCode}</div>
+        </div>
+      </div>
+
+      {/* tags */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
+        {profile.tags?.slice(0, 4).map((t, i) => (
+          <span key={i} style={{
+            background: 'rgba(107,124,181,0.12)', color: '#5A6EA8',
+            borderRadius: 20, padding: '4px 12px', fontSize: 12,
+            fontFamily: 'Noto Sans TC, sans-serif', border: '1px solid rgba(107,124,181,0.2)'
+          }}>#{t}</span>
+        ))}
+      </div>
+
+      {/* dim bars */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px', marginBottom: 32 }}>
+        {dims.map((d, i) => (
+          <div key={i}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ fontSize: 12, color: '#7B6A9A', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.label}</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#4A3D6B', fontFamily: 'Noto Sans TC, sans-serif' }}>{d.val}%</span>
+            </div>
+            <div style={{ height: 6, borderRadius: 4, background: 'rgba(180,160,220,0.25)' }}>
+              <div style={{ height: 6, borderRadius: 4, width: `${d.val}%`, background: 'linear-gradient(90deg,#9B7EA6,#6B7CB5)' }} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* quote */}
+      <div style={{ borderLeft: '3px solid rgba(107,124,181,0.4)', paddingLeft: 16, marginBottom: 32 }}>
+        <p style={{ fontSize: 13, color: '#5A4E7A', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+          {profile.rootAnalysis?.slice(0, 80)}…
+        </p>
+      </div>
+
+      {/* footer */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 16, borderTop: '1px solid rgba(180,160,220,0.25)' }}>
+        <p style={{ fontSize: 11, color: '#B0A0C8', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>kindlesmind.com · 靈魂溫度診斷</p>
+        <p style={{ fontSize: 11, color: '#B0A0C8', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>僅供個人參考</p>
+      </div>
+    </div>
+  )
+}
+
 // ─── RESULT ──────────────────────────────────────────────────────────────────
 
-function FullReport({ profile, dimData }) {
+function FullReport({ profile, dimData, diagCode }) {
+  const cardRef = useRef(null)
+  const [copying, setCopying] = useState(false)
+  const [downloading, setDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    if (!cardRef.current) return
+    setDownloading(true)
+    try {
+      const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+      const a = document.createElement('a')
+      a.href = dataUrl
+      a.download = `KindlesMind_${diagCode}.png`
+      a.click()
+    } catch (e) { console.error(e) }
+    setDownloading(false)
+  }
+
+  const handleShare = async () => {
+    const text = `我在 KindlesMind 測出了「${profile.name}」(${diagCode})\n${profile.tagline}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
+    if (navigator.share) {
+      try { await navigator.share({ title: 'KindlesMind 靈魂原型診斷', text, url: 'https://kindlesmind.com' }) } catch {}
+    } else {
+      await navigator.clipboard.writeText(text)
+      setCopying(true)
+      setTimeout(() => setCopying(false), 2000)
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -1532,13 +1635,41 @@ function FullReport({ profile, dimData }) {
       transition={{ duration: 0.7 }}
       className="mt-6 space-y-5">
 
+      {/* Hidden ShareCard for export */}
+      <div style={{ position: 'fixed', left: -9999, top: 0, pointerEvents: 'none', zIndex: -1 }}>
+        <ShareCard profile={profile} dimData={dimData} diagCode={diagCode} cardRef={cardRef} />
+      </div>
+
       {/* Unlock banner */}
-      <div className="flex items-center gap-2.5 bg-warm-sage/8 border border-warm-sage/20 rounded-2xl px-4 py-3"
-        style={{ backgroundColor: 'rgba(107,124,181,0.08)', borderColor: 'rgba(107,124,181,0.2)' }}>
-        <Unlock size={16} className="text-warm-sage flex-shrink-0" style={{ color: '#6B7CB5' }} />
-        <p className="text-sm font-medium" style={{ color: '#4A5A8C' }}>
+      <div className="flex items-center gap-2.5 rounded-2xl px-4 py-3"
+        style={{ backgroundColor: 'rgba(107,124,181,0.08)', border: '1px solid rgba(107,124,181,0.2)' }}>
+        <Unlock size={16} className="flex-shrink-0" style={{ color: '#6B7CB5' }} />
+        <p className="text-sm font-medium flex-1" style={{ color: '#4A5A8C' }}>
           完整診斷報告已解鎖 · 僅供您個人參考
         </p>
+      </div>
+
+      {/* Share / Download buttons */}
+      <div className="flex gap-3">
+        <motion.button
+          onClick={handleDownload}
+          disabled={downloading}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium transition-colors"
+          style={{ background: 'rgba(107,124,181,0.1)', color: '#4A5A8C', border: '1px solid rgba(107,124,181,0.2)' }}>
+          {downloading
+            ? <RefreshCw size={15} className="animate-spin" />
+            : <Download size={15} />}
+          儲存圖片
+        </motion.button>
+        <motion.button
+          onClick={handleShare}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium transition-colors"
+          style={{ background: 'rgba(155,126,166,0.12)', color: '#6B4E80', border: '1px solid rgba(155,126,166,0.25)' }}>
+          {copying ? <Check size={15} /> : <Share2 size={15} />}
+          {copying ? '已複製！' : '分享'}
+        </motion.button>
       </div>
 
       {/* Section: Root Analysis */}
@@ -1720,8 +1851,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         {/* Radar chart + bars side-by-side on wider screens */}
         <div className="flex flex-col gap-5 mb-1">
           {/* Radar chart */}
-          <div className="flex-shrink-0 flex items-center justify-center"
-            style={{ width: 220, height: 220, alignSelf: 'center' }}>
+          <div style={{ margin: '0 40px' }}>
             <RadarChart radarData={radarData} />
           </div>
           {/* Dim bars */}
@@ -1967,7 +2097,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           </motion.div>
         ) : (
           <motion.div key="unlocked" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <FullReport profile={profile} dimData={dimData} />
+            <FullReport profile={profile} dimData={dimData} diagCode={diagCode} />
 
           </motion.div>
         )}
@@ -2296,7 +2426,7 @@ function PrivacyPage({ onBack }) {
 
       <LegalSection title="我們收集哪些資料">
         <p><strong className="text-warm-text">測驗回答資料：</strong>你在 KindlesMind 測驗中所選擇的答案，僅於你的瀏覽器本地端進行計算，用以生成你的個人化診斷結果。<strong className="text-warm-text">我們不會將你的答案傳輸至伺服器、不會儲存、也不會與任何第三方分享。</strong></p>
-        <p><strong className="text-warm-text">付款資料：</strong>若你選擇購買完整報告，付款程序將由綠界科技（ECPay）全程處理。KindlesMind 不會接觸、儲存或傳輸你的信用卡號碼、有效期限或 CVV 安全碼。所有金融資料均由綠界科技依其隱私政策處理。</p>
+        <p><strong className="text-warm-text">支持與付款：</strong>若你選擇支持 KindlesMind，連結將導向 Portaly 頁面，由你自行完成支持流程。KindlesMind 不會接觸、儲存或傳輸任何付款資訊，所有金融資料由 Portaly 依其隱私政策處理。</p>
         <p><strong className="text-warm-text">技術日誌：</strong>我們可能收集匿名的技術資訊（如瀏覽器類型、造訪時間），用於系統穩定性分析。此類資料不含任何可識別個人身分的資訊。</p>
       </LegalSection>
 
@@ -2308,7 +2438,7 @@ function PrivacyPage({ onBack }) {
       <LegalSection title="第三方服務">
         <p>本服務目前使用以下第三方服務：</p>
         <ul className="list-disc list-inside space-y-1 pl-2">
-          <li><strong className="text-warm-text">綠界科技 ECPay</strong>：提供安全的線上金流處理服務</li>
+          <li><strong className="text-warm-text">Portaly</strong>：提供支持頁面連結服務</li>
           <li><strong className="text-warm-text">Google Fonts</strong>：提供字型資源（Noto Serif TC、Noto Sans TC）</li>
         </ul>
         <p>上述第三方服務各有其獨立的隱私政策，我們建議你自行查閱。</p>
@@ -2437,8 +2567,8 @@ function LegalModal({ modalKey, onClose }) {
           body: '您的 Email 地址僅用於寄送診斷報告，不會用於行銷或轉售給任何第三方。',
         },
         {
-          title: '付款資料保護',
-          body: '付款程序由綠界科技（ECPay）全程處理。KindlesMind 不會接觸、儲存或傳輸您的信用卡資訊。',
+          title: '支持方式說明',
+          body: '支持連結將導向 Portaly 頁面，由你自行選擇支持金額。KindlesMind 不會接觸、儲存或傳輸任何付款資訊。',
         },
         {
           title: 'Cookie 政策',
