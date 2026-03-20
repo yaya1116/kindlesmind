@@ -1639,11 +1639,24 @@ function FullReport({ profile, dimData, diagCode }) {
     setDownloading(false)
   }
 
-  const handleThreads = () => {
+  const handleThreads = async () => {
+    // Download share image first so user can attach it
+    try {
+      const blob = await getImageBlob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `KindlesMind_${diagCode}.png`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (e) { console.error(e) }
+    // Open Threads with text (no diagCode)
     const text = encodeURIComponent(
-      `我在 KindlesMind 測出了「${profile.label}」(${diagCode})\n${profile.tag}\n\n去測測你是哪種靈魂原型 👉 https://kindlesmind.com`
+      `我在 KindlesMind 測出了「${profile.label}」\n${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
     )
-    window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
+    setTimeout(() => {
+      window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
+    }, 600)
   }
 
   const handleIG = async () => {
