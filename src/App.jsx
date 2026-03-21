@@ -1172,10 +1172,7 @@ function HeroScreen({ onStart, onCode }) {
         <motion.div className="relative mb-5"
           animate={{ filter: ['drop-shadow(0 0 12px rgba(155,126,166,0.3))', 'drop-shadow(0 0 28px rgba(155,126,166,0.6))', 'drop-shadow(0 0 12px rgba(155,126,166,0.3))'] }}
           transition={{ duration: 3, repeat: Infinity }}>
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-terracotta-lg"
-            style={{ background: 'linear-gradient(135deg, #9B7EA6, #7B5E8A)' }}>
-            <Sparkles size={30} className="text-white" />
-          </div>
+          <img src="/logo.svg" alt="KindlesMind" className="w-16 h-16 rounded-2xl shadow-terracotta-lg" />
         </motion.div>
         <h1 className="font-serif text-4xl font-bold tracking-tight text-warm-text mb-1">KindlesMind</h1>
         <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Soul Frequency Diagnosis</p>
@@ -1554,11 +1551,10 @@ function CalculatingScreen() {
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.25 }}
           />
         ))}
-        <motion.div className="relative w-24 h-24 rounded-full flex items-center justify-center shadow-warm-xl"
-          style={{ background: 'linear-gradient(135deg, #9B7EA6, #7B5E8A)' }}
+        <motion.div className="relative w-24 h-24"
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
-          <Sparkles size={34} className="text-white" />
+          <img src="/logo.svg" alt="KindlesMind" className="w-24 h-24 rounded-full shadow-warm-xl" />
         </motion.div>
       </div>
 
@@ -2801,11 +2797,8 @@ function Footer({ onNav, onModal }) {
       <div className="max-w-lg mx-auto">
 
         {/* Brand */}
-        <div className="flex items-center justify-center gap-1.5 mb-4">
-          <div className="w-5 h-5 rounded-md flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg,#9B7EA6,#7B5E8A)' }}>
-            <Sparkles size={10} className="text-white" />
-          </div>
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <img src="/logo.svg" alt="KindlesMind" className="w-6 h-6 rounded-md" />
           <span className="font-serif text-sm font-semibold text-warm-text">KindlesMind</span>
         </div>
 
