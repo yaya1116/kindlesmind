@@ -1,5 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#5F7161"/>
-  <path d="M16 8 C16 8, 10 12, 10 17 C10 20.3 12.7 23 16 23 C19.3 23 22 20.3 22 17 C22 12 16 8 16 8Z" fill="#FDF8F5" opacity="0.9"/>
-  <path d="M16 13 C16 13, 13 15.5, 13 18 C13 19.7 14.3 21 16 21 C17.7 21 19 19.7 19 18 C19 15.5 16 13 16 13Z" fill="#D48C70"/>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DC8DF3"/>
+      <stop offset="100%" stop-color="#33ABD3"/>
+    </linearGradient>
+    <linearGradient id="icon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#f0e8ff" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <!-- Open book left page -->
+  <path d="M7 12 Q7 10 9 10 L15 10.5 L15 22 Q11 21.5 9 22 Q7 22 7 20 Z" fill="url(#icon)" opacity="0.92"/>
+  <!-- Open book right page -->
+  <path d="M25 12 Q25 10 23 10 L17 10.5 L17 22 Q21 21.5 23 22 Q25 22 25 20 Z" fill="url(#icon)" opacity="0.92"/>
+  <!-- Book spine center line -->
+  <rect x="15.2" y="10" width="1.6" height="12" rx="0.8" fill="white" opacity="0.6"/>
+  <!-- Flame -->
+  <path d="M16 4 C16 4, 13 6.5, 13 8.5 C13 10 14.3 11 16 11 C17.7 11 19 10 19 8.5 C19 6.5 16 4 16 4Z"
+        fill="white" opacity="0.95"/>
+  <path d="M16 6.5 C16 6.5, 14.5 7.5, 14.5 8.5 C14.5 9.3 15.2 10 16 10 C16.8 10 17.5 9.3 17.5 8.5 C17.5 7.5 16 6.5 16 6.5Z"
+        fill="url(#bg)" opacity="0.7"/>
 </svg>
