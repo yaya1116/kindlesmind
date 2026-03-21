@@ -13,10 +13,10 @@ import {
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
 const DIMENSIONS = [
-  { id: 1, name: '親密焦慮',    sub: 'Anxiety',   Icon: Heart, color: '#9B7EA6' },
-  { id: 2, name: '親密迴避',    sub: 'Avoidance', Icon: Moon,  color: '#7B9BB5' },
-  { id: 3, name: '原生家庭印記', sub: 'Origins',   Icon: Leaf,  color: '#8A7A5E' },
-  { id: 4, name: '衝突應激模式', sub: 'Conflict',  Icon: Zap,   color: '#A07070' },
+  { id: 1, name: '親密焦慮',    sub: 'Anxiety',   Icon: Heart, color: '#DC8DF3' },
+  { id: 2, name: '親密迴避',    sub: 'Avoidance', Icon: Moon,  color: '#33ABD3' },
+  { id: 3, name: '原生家庭印記', sub: 'Origins',   Icon: Leaf,  color: '#A06BE0' },
+  { id: 4, name: '衝突應激模式', sub: 'Conflict',  Icon: Zap,   color: '#4BBDE8' },
 ]
 
 const QUESTIONS = [
@@ -1065,9 +1065,13 @@ function RadarChart({ radarData }) {
             <stop offset="100%" stopColor={d.color} stopOpacity="0.2" />
           </linearGradient>
         ))}
+        <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#DC8DF3" />
+          <stop offset="100%" stopColor="#33ABD3" />
+        </linearGradient>
         <linearGradient id="dataFill" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#9B7EA6" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#6B7CB5" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="#DC8DF3" stopOpacity="0.40" />
+          <stop offset="100%" stopColor="#33ABD3" stopOpacity="0.18" />
         </linearGradient>
       </defs>
 
@@ -1091,7 +1095,7 @@ function RadarChart({ radarData }) {
       {/* Data polygon */}
       <polygon points={dataPoly}
         fill="url(#dataFill)"
-        stroke="#9B7EA6"
+        stroke="url(#brandGrad)"
         strokeWidth="1.8"
         strokeLinejoin="round" />
 
@@ -1162,15 +1166,15 @@ function HeroScreen({ onStart, onCode }) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden">
-      <Orb x="-5%" y="15%" size={320} color="#9B7EA6" delay={0} />
-      <Orb x="75%" y="60%" size={260} color="#7B9BB5" opacity={0.06} delay={3} />
-      <Orb x="40%" y="40%" size={500} color="#9B7EA6" opacity={0.03} delay={5} />
+      <Orb x="-5%" y="15%" size={320} color="#DC8DF3" delay={0} />
+      <Orb x="75%" y="60%" size={260} color="#33ABD3" opacity={0.07} delay={3} />
+      <Orb x="40%" y="40%" size={500} color="#DC8DF3" opacity={0.04} delay={5} />
 
       {/* Logo */}
       <motion.div className="flex flex-col items-center mb-10"
         initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         <motion.div className="relative mb-5"
-          animate={{ filter: ['drop-shadow(0 0 12px rgba(155,126,166,0.3))', 'drop-shadow(0 0 28px rgba(155,126,166,0.6))', 'drop-shadow(0 0 12px rgba(155,126,166,0.3))'] }}
+          animate={{ filter: ['drop-shadow(0 0 12px rgba(220,141,243,0.4))', 'drop-shadow(0 0 32px rgba(220,141,243,0.75))', 'drop-shadow(0 0 12px rgba(220,141,243,0.4))'] }}
           transition={{ duration: 3, repeat: Infinity }}>
           <img src="/logo.svg" alt="KindlesMind" className="w-16 h-16 rounded-2xl shadow-terracotta-lg" />
         </motion.div>
@@ -1186,7 +1190,7 @@ function HeroScreen({ onStart, onCode }) {
         </p>
         <p className="text-warm-text-muted text-sm leading-relaxed">
           二十八道情境，四維靈魂地圖。<br />
-          <span style={{ color: '#9B7EA6' }}>找到你的心靈原色。</span>
+          <span style={{ background: 'linear-gradient(90deg,#DC8DF3,#33ABD3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>找到你的心靈原色。</span>
         </p>
       </motion.div>
 
@@ -1200,7 +1204,7 @@ function HeroScreen({ onStart, onCode }) {
         ].map(({ Icon, label, sub }, i) => (
           <div key={i} className="text-center">
             <div className="flex items-center justify-center gap-1 mb-0.5">
-              <Icon size={11} style={{ color: '#9B7EA6' }} />
+              <Icon size={11} style={{ color: '#DC8DF3' }} />
               <span className="text-warm-text text-xs font-semibold">{label}</span>
             </div>
             <span className="text-warm-text-light text-xs">{sub}</span>
@@ -1211,7 +1215,7 @@ function HeroScreen({ onStart, onCode }) {
       {/* CTA */}
       <motion.button
         className="group relative overflow-hidden px-10 py-4 rounded-2xl text-white font-medium text-base shadow-terracotta-lg"
-        style={{ background: 'linear-gradient(135deg, #7B5E8A, #5A7A8E)' }}
+        style={{ background: 'linear-gradient(135deg, #DC8DF3, #33ABD3)' }}
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
         whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
         onClick={onStart}>
@@ -1220,7 +1224,7 @@ function HeroScreen({ onStart, onCode }) {
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
         </span>
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(135deg, #9B7EA6, #7B9BB5)' }} />
+          style={{ background: 'linear-gradient(135deg, #C060E8, #1F8CB5)' }} />
       </motion.button>
 
       <motion.p className="text-warm-text-light text-xs mt-4"
@@ -1292,8 +1296,14 @@ function MilestoneCard({ milestone, onContinue }) {
         {/* Circle progress */}
         <div className="relative w-24 h-24 mx-auto mb-6">
           <svg width="96" height="96" viewBox="0 0 96 96" className="-rotate-90">
+            <defs>
+              <linearGradient id="mgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#DC8DF3" />
+                <stop offset="100%" stopColor="#33ABD3" />
+              </linearGradient>
+            </defs>
             <circle cx="48" cy="48" r={r} fill="none" stroke="#E0D8F4" strokeWidth="6" />
-            <motion.circle cx="48" cy="48" r={r} fill="none" stroke="#9B7EA6" strokeWidth="6"
+            <motion.circle cx="48" cy="48" r={r} fill="none" stroke="url(#mgGrad)" strokeWidth="6"
               strokeLinecap="round"
               strokeDasharray={circ}
               initial={{ strokeDashoffset: circ }}
@@ -1320,7 +1330,7 @@ function MilestoneCard({ milestone, onContinue }) {
 
           <motion.button
             className="w-full py-3.5 rounded-2xl text-white font-medium shadow-warm"
-            style={{ background: 'linear-gradient(135deg, #7B5E8A, #5A7A8E)' }}
+            style={{ background: 'linear-gradient(135deg, #DC8DF3, #33ABD3)' }}
             onClick={onContinue}
             whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
             繼續前行 <ArrowRight size={14} className="inline ml-1" />
@@ -1534,8 +1544,8 @@ function CalculatingScreen() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      <Orb x="10%" y="20%" size={250} color="#9B7EA6" opacity={0.08} />
-      <Orb x="60%" y="55%" size={200} color="#7B9BB5" opacity={0.07} delay={2} />
+      <Orb x="10%" y="20%" size={250} color="#DC8DF3" opacity={0.10} />
+      <Orb x="60%" y="55%" size={200} color="#33ABD3" opacity={0.08} delay={2} />
 
       {/* Breathing orb */}
       <div className="relative mb-10">
@@ -1569,13 +1579,13 @@ function CalculatingScreen() {
         {steps.map((text, i) => (
           <motion.div key={i}
             className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-500"
-            style={i <= step ? { backgroundColor: 'rgba(155,126,166,0.07)' } : {}}
+            style={i <= step ? { backgroundColor: 'rgba(220,141,243,0.08)' } : {}}
             initial={{ x: -16, opacity: 0 }}
             animate={{ x: 0, opacity: i <= step ? 1 : 0.25 }}
             transition={{ delay: i * 0.18 }}>
             <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-500"
               style={{
-                backgroundColor: i < step ? '#9B7EA6' : i === step ? '#7B9BB5' : '#E0D8F4'
+                backgroundColor: i < step ? '#DC8DF3' : i === step ? '#33ABD3' : '#E0D8F4'
               }}>
               {i < step
                 ? <CheckCircle size={12} className="text-white" />
@@ -1778,7 +1788,7 @@ function FullReport({ profile, dimData, diagCode }) {
             disabled={downloading}
             whileTap={{ scale: 0.97 }}
             className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
-            style={{ background: 'rgba(107,124,181,0.1)', color: '#4A5A8C', border: '1px solid rgba(107,124,181,0.2)' }}>
+            style={{ background: 'rgba(220,141,243,0.1)', color: '#8B30C0', border: '1px solid rgba(220,141,243,0.25)' }}>
             {downloading ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
             儲存圖片
           </motion.button>
@@ -1850,7 +1860,7 @@ function FullReport({ profile, dimData, diagCode }) {
               <ul className="space-y-1.5">
                 {month.steps.map((s, j) => (
                   <li key={j} className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
-                    <CheckCircle size={13} className="flex-shrink-0 mt-0.5 text-warm-sage" style={{ color: '#6B7CB5' }} />
+                    <CheckCircle size={13} className="flex-shrink-0 mt-0.5 text-warm-sage" style={{ color: '#DC8DF3' }} />
                     {s}
                   </li>
                 ))}
@@ -1883,7 +1893,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center justify-center gap-2 flex-wrap mb-4">
           <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
-            style={{ backgroundColor: '#9B7EA618', color: '#9B7EA6', border: '1px solid #9B7EA630' }}>
+            style={{ background: 'linear-gradient(135deg,rgba(220,141,243,0.12),rgba(51,171,211,0.10))', color: '#9B3FCC', border: '1px solid rgba(220,141,243,0.3)' }}>
             <Sparkles size={11} />
             診斷完成 · {new Date().toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' })}
           </div>
@@ -1940,8 +1950,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
           {/* Free insight pill */}
           <div className="flex items-start gap-2.5 rounded-xl px-4 py-3 border"
-            style={{ backgroundColor: 'rgba(107,124,181,0.06)', borderColor: 'rgba(107,124,181,0.15)' }}>
-            <Eye size={14} className="flex-shrink-0 mt-0.5" style={{ color: '#6B7CB5' }} />
+            style={{ backgroundColor: 'rgba(220,141,243,0.06)', borderColor: 'rgba(220,141,243,0.18)' }}>
+            <Eye size={14} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
             <p className="text-sm text-warm-text-muted leading-relaxed">
               <span className="font-semibold text-warm-text">初步觀測：</span>{profile.freeInsight}
             </p>
@@ -2085,7 +2095,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             {/* ── Main invitation card ── */}
             <motion.div
               className="bg-white overflow-hidden"
-              style={{ borderRadius: '28px', border: '1px solid rgba(196,184,228,0.5)', boxShadow: '0 16px 60px rgba(107,124,181,0.12), 0 4px 16px rgba(212,140,112,0.08)' }}
+              style={{ borderRadius: '28px', border: '1px solid rgba(196,184,228,0.5)', boxShadow: '0 16px 60px rgba(220,141,243,0.15), 0 4px 16px rgba(51,171,211,0.10)' }}
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
 
               {/* ── 1. Blurred report preview ── */}
@@ -2154,7 +2164,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                     { icon: Brain,       color: '#E8956A', title: '依附人格成因溯源',       desc: '深入早期情感記憶，找到不安感真正的起源' },
                     { icon: Eye,         color: '#7B9EE8', title: '潛意識行為模式全面解讀', desc: '讀懂你在關係中反覆觸發的無意識反應劇本' },
                     { icon: AlertCircle, color: '#D48C70', title: '致命地雷 × 3 預防指南',  desc: '辨識並拆除最容易炸毀這段關係的互動陷阱' },
-                    { icon: Leaf,        color: '#6B7CB5', title: '3 個月復原計畫',           desc: '每月具體步驟，重建你在愛中的情感安全感' },
+                    { icon: Leaf,        color: '#33ABD3', title: '3 個月復原計畫',           desc: '每月具體步驟，重建你在愛中的情感安全感' },
                   ].map((item, i) => {
                     const Icon = item.icon
                     return (
@@ -2487,7 +2497,7 @@ function EcpayModal({ onClose, onSuccess, email }) {
                     className="flex items-start gap-2 rounded-2xl px-4 py-3 text-left max-w-xs mx-auto"
                     style={{ backgroundColor: '#6B7CB512', border: '1px solid #6B7CB528' }}
                     initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
-                    <Mail size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#6B7CB5' }} />
+                    <Mail size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
                     <p className="text-xs leading-relaxed" style={{ color: '#5A6A5C' }}>
                       診斷報告已同步寄送至<br />
                       <strong className="font-medium">{email}</strong><br />
@@ -2875,11 +2885,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden" style={{ backgroundColor: '#FDF8F5' }}>
+    <div className="min-h-screen relative overflow-x-hidden" style={{ backgroundColor: '#F4EEFF' }}>
       <NoiseOverlay />
       {/* Global ambient gradient */}
       <div className="fixed inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse at 15% 85%, rgba(155,126,166,0.06) 0%, transparent 50%), radial-gradient(ellipse at 85% 15%, rgba(123,155,181,0.05) 0%, transparent 50%)'
+        background: 'radial-gradient(ellipse at 15% 85%, rgba(220,141,243,0.09) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(51,171,211,0.08) 0%, transparent 55%)'
       }} />
 
       <div className="relative z-10">
