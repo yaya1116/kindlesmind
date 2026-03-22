@@ -1238,13 +1238,13 @@ function HeroScreen({ onStart, onCode }) {
       <motion.div className="mt-6 w-full max-w-xs"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
         <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <input
             value={codeInput}
             onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
             onKeyDown={e => e.key === 'Enter' && handleCode()}
             placeholder="KM-04-A3B3C3D4"
-            className="flex-1 rounded-xl px-3 py-2.5 text-sm border outline-none"
+            className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
             style={{
               background: 'rgba(255,255,255,0.7)',
               border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
@@ -1254,8 +1254,8 @@ function HeroScreen({ onStart, onCode }) {
           <motion.button
             onClick={handleCode}
             whileTap={{ scale: 0.97 }}
-            className="px-4 rounded-xl text-sm font-medium text-white"
-            style={{ background: 'linear-gradient(135deg,#7B5E8A,#5A7A8E)', flexShrink: 0 }}>
+            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
+            style={{ background: 'linear-gradient(135deg,#7B5E8A,#5A7A8E)' }}>
             查看
           </motion.button>
         </div>
@@ -1706,57 +1706,46 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
 function FullReport({ profile, dimData, diagCode }) {
   const cardRef = useRef(null)
   const [downloading, setDownloading] = useState(false)
+  const [cachedBlob, setCachedBlob] = useState(null)
 
-  const getImageBlob = async () => {
-    if (!cardRef.current) return null
-    const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
-    const res = await fetch(dataUrl)
-    return res.blob()
-  }
+  // Pre-generate share image in background so download button works instantly
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (!cardRef.current) return
+      try {
+        const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+        const res = await fetch(dataUrl)
+        setCachedBlob(await res.blob())
+      } catch (e) { /* silent - will generate on demand */ }
+    }, 1200)
+    return () => clearTimeout(timer)
+  }, [])
 
-  const handleDownload = async () => {
+  // Called synchronously (no prior await) so iOS user-gesture is preserved for navigator.share
+  const handleDownload = () => {
     setDownloading(true)
-    // Open new tab synchronously (user gesture active) — required to avoid popup blocker on mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    const newWin = isMobile ? window.open('', '_blank') : null
-    try {
-      const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
-      if (newWin) {
-        // Write image into the pre-opened tab; user can long-press to save on iOS
-        newWin.document.open()
-        newWin.document.write(`<html><head><title>KindlesMind</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{margin:0;padding:0}body{background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;display:block}p{color:#aaa;font-family:sans-serif;font-size:13px;margin-top:14px;text-align:center}</style></head><body><img src="${dataUrl}"><p>長按圖片即可儲存到相簿</p></body></html>`)
-        newWin.document.close()
-      } else {
-        const a = document.createElement('a')
-        a.href = dataUrl
-        a.download = `KindlesMind_${diagCode}.png`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-      }
-    } catch (e) { if (newWin) newWin.close(); console.error(e) }
-    setDownloading(false)
+    const blob = cachedBlob
+    if (!blob) { setDownloading(false); return }
+    const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
+        .catch(console.error).finally(() => setDownloading(false))
+    } else {
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = `KindlesMind_${diagCode}.png`
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      setDownloading(false)
+    }
   }
 
-  const handleThreads = async () => {
-    // Must open window synchronously (before any await) to avoid popup blocker
+  const handleThreads = () => {
     const text = encodeURIComponent(
       `我在 KindlesMind 測出了「${profile.label}」\n${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
     )
     window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
-    // Then download image in background
-    try {
-      const blob = await getImageBlob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `KindlesMind_${diagCode}.png`
-      a.click()
-      URL.revokeObjectURL(url)
-    } catch (e) { console.error(e) }
   }
-
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
   return (
     <motion.div
@@ -1847,8 +1836,9 @@ function FullReport({ profile, dimData, diagCode }) {
           whileTap={{ scale: 0.97 }}
           className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
           style={{ background: 'rgba(0,0,0,0.06)', color: '#1C1C1E', border: '1px solid rgba(0,0,0,0.1)' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.52.85-6.375 2.495-8.424C5.845 1.34 8.598.16 12.179.136h.014c2.76.018 5.117.89 7.005 2.592 1.854 1.67 3.007 4.02 3.428 6.989.08.558.118 1.13.118 1.7 0 2.032-.454 3.713-1.349 4.998-.915 1.314-2.286 2.092-3.87 2.187-.01 0-.019.001-.028.001-.847 0-1.63-.232-2.272-.672-.553-.383-.983-.934-1.24-1.574-.338.603-.783 1.101-1.326 1.48-.622.43-1.354.649-2.177.649h-.018zm-.022-3.567c.004 0 .008 0 .012 0 .41 0 .766-.13 1.059-.387.318-.278.556-.7.71-1.258.124-.454.187-.962.187-1.51 0-.32-.02-.627-.06-.913-.276-1.953-.951-3.354-2.009-4.163-.87-.659-1.99-.985-3.33-.97h-.012c-1.174.014-2.14.344-2.87.98-.763.664-1.178 1.676-1.235 3.01-.002.068-.004.136-.004.204 0 1.394.41 2.51 1.22 3.317.802.8 1.91 1.208 3.295 1.213.013 0 .025 0 .037-.001zm2.63-1.067c.619-.037 1.12-.34 1.49-.9.39-.591.59-1.418.59-2.458 0-.458-.03-.88-.09-1.26-.32-2.22-1.27-3.82-2.83-4.76-.74-.44-1.61-.69-2.59-.75.73.52 1.31 1.24 1.72 2.14.52 1.13.79 2.51.79 4.1 0 .72-.07 1.4-.21 2.03-.09.4-.21.77-.36 1.11.15.03.31.04.49.04z"/>
+          {/* Threads logo — Simple Icons (CC0) */}
+          <svg width="16" height="16" viewBox="0 0 192 192" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-43.246-41.457-43.398h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C58.062 139.629 52 122.473 52 96c0-26.473 6.062-43.629 18.056-57.38C81.272 25.148 98.522 17.83 121.335 17.66c22.974.172 40.527 7.456 52.168 21.645C184.675 53.318 191 70.474 191 96a131.6 131.6 0 0 1-.987 16.077c-1.338-.208-2.853-.347-4.508-.417-3.338-.14-6.946.098-10.56.787 1.065-6.403 1.583-13.218 1.055-20.46zm-41.055 55.371c-10.537.577-21.512-4.14-21.98-13.493-.336-6.38 4.537-13.494 19.235-14.351 1.683-.097 3.34-.144 4.97-.144 6.328 0 12.253.61 17.658 1.766-2.01 25.18-10.023 25.756-19.883 26.222z"/>
           </svg>
           分享到 Threads
         </motion.button>
