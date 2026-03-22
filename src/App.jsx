@@ -1490,8 +1490,7 @@ function QuizScreen({ onComplete }) {
       {/* Fixed bottom bar — anchor labels + 1–5 buttons + nav */}
       <div className="flex-shrink-0 px-5 pt-3 pb-6 bg-warm-bg border-t border-warm-cream-dark/20">
         {/* Anchor labels */}
-        <div className="flex justify-between text-xs leading-snug mb-3 px-0.5"
-          style={{ color: dim.color + 'AA' }}>
+        <div className="flex justify-between text-xs leading-snug mb-3 px-0.5 text-warm-text">
           <span className="max-w-[42%]">{q.anchor1}</span>
           <span className="max-w-[42%] text-right">{q.anchor5}</span>
         </div>
