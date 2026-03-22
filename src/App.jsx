@@ -1706,7 +1706,6 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
 function FullReport({ profile, dimData, diagCode }) {
   const cardRef = useRef(null)
   const [downloading, setDownloading] = useState(false)
-  const [igStatus, setIgStatus] = useState('idle') // idle | done
 
   const getImageBlob = async () => {
     if (!cardRef.current) return null
@@ -1719,12 +1718,19 @@ function FullReport({ profile, dimData, diagCode }) {
     setDownloading(true)
     try {
       const blob = await getImageBlob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `KindlesMind_${diagCode}.png`
-      a.click()
-      URL.revokeObjectURL(url)
+      const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
+      if (isMobile && navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
+      } else {
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `KindlesMind_${diagCode}.png`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+      }
     } catch (e) { console.error(e) }
     setDownloading(false)
   }
@@ -1748,24 +1754,6 @@ function FullReport({ profile, dimData, diagCode }) {
   }
 
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-
-  const handleIG = async () => {
-    try {
-      const blob = await getImageBlob()
-      const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
-      if (isMobile && navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
-      } else {
-        // Desktop fallback: download only
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url; a.download = `KindlesMind_${diagCode}.png`; a.click()
-        URL.revokeObjectURL(url)
-      }
-      setIgStatus('done')
-      setTimeout(() => setIgStatus('idle'), 3000)
-    } catch (e) { console.error(e) }
-  }
 
   return (
     <motion.div
@@ -1803,18 +1791,6 @@ function FullReport({ profile, dimData, diagCode }) {
             分享到 Threads
           </motion.button>
         </div>
-        {/* row 2: IG */}
-        <motion.button
-          onClick={handleIG}
-          whileTap={{ scale: 0.97 }}
-          className="w-full flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
-          style={{ background: 'linear-gradient(90deg,rgba(225,48,108,0.12),rgba(193,53,132,0.12),rgba(131,58,180,0.12))', color: '#C13584', border: '1px solid rgba(193,53,132,0.25)' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-          {igStatus === 'done' ? '圖片已準備好，貼到 IG 限時動態！' : isMobile ? '分享到 IG 限時動態' : '下載圖片（貼到 IG 限時動態）'}
-        </motion.button>
-        <p className="text-center text-xs" style={{ color: 'rgba(100,80,130,0.5)' }}>儲存圖片後可手動貼到任何社群平台</p>
       </div>
 
       {/* Section: Root Analysis */}
