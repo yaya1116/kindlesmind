@@ -782,7 +782,8 @@ function calcResults(answers) {
   const dimData = DIMENSIONS.map(dim => {
     const score  = dimScores[dim.id]
     const health = Math.round(100 - ((score - 7) / 28) * 100)
-    return { ...dim, score, health }
+    const pct    = 100 - health
+    return { ...dim, score, health, pct }
   })
 
   // ── 診斷代碼 ────────────────────────────────────────────────────────────────
@@ -824,7 +825,8 @@ function parseCode(raw) {
   const dimData = DIMENSIONS.map(dim => {
     const score = dimScores[dim.id]
     const health = Math.round(100 - ((score - 7) / 28) * 100)
-    return { ...dim, score, health }
+    const pct    = 100 - health
+    return { ...dim, score, health, pct }
   })
   const radarData = DIMENSIONS.map(dim => ({
     ...dim, score: dimScores[dim.id],
@@ -900,7 +902,7 @@ function Orb({ x, y, size, color, opacity = 0.07, delay = 0 }) {
   )
 }
 
-function DimBar({ dim, health, delay = 0, text }) {
+function DimBar({ dim, pct, delay = 0, text }) {
   return (
     <div className="mb-5">
       <div className="flex justify-between items-center mb-1.5">
@@ -908,13 +910,13 @@ function DimBar({ dim, health, delay = 0, text }) {
           <dim.Icon size={12} style={{ color: dim.color }} />
           {dim.name}
         </span>
-        <span className="text-xs font-bold" style={{ color: dim.color }}>{health}%</span>
+        <span className="text-xs font-bold" style={{ color: dim.color }}>{pct}%</span>
       </div>
       <div className="h-1.5 bg-warm-cream-dark rounded-full overflow-hidden mb-2">
         <motion.div className="h-full rounded-full"
           style={{ background: `linear-gradient(90deg, ${dim.color}99, ${dim.color})` }}
           initial={{ width: 0 }}
-          animate={{ width: `${health}%` }}
+          animate={{ width: `${pct}%` }}
           transition={{ duration: 1.1, delay, ease: 'easeOut' }}
         />
       </div>
@@ -1977,7 +1979,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           {/* Dim bars */}
           <div className="flex-1 min-w-0">
             {dimData.map((d, i) => (
-              <DimBar key={d.id} dim={d} health={d.health} delay={0.45 + i * 0.1} text={getDimText(d.id, d.health)} />
+              <DimBar key={d.id} dim={d} pct={d.pct} delay={0.45 + i * 0.1} text={getDimText(d.id, d.health)} />
             ))}
           </div>
         </div>
