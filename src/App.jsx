@@ -1885,7 +1885,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       </motion.div>
 
       {/* SoulMap card */}
-      <motion.div className="bg-white rounded-none shadow-warm-lg border-y border-warm-cream-dark/40 overflow-hidden mb-5 -mx-5"
+      <motion.div className="bg-white overflow-hidden mb-5"
+        style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', borderTop: '1px solid rgba(180,160,200,0.2)', borderBottom: '1px solid rgba(180,160,200,0.2)' }}
         initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
 
         {/* ── Video cover — pure visual, no text overlay ── */}
