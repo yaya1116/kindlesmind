@@ -1490,7 +1490,7 @@ function QuizScreen({ onComplete }) {
       {/* Fixed bottom bar — anchor labels + 1–5 buttons + nav */}
       <div className="flex-shrink-0 px-5 pt-3 pb-6 bg-warm-bg border-t border-warm-cream-dark/20">
         {/* Anchor labels */}
-        <div className="flex justify-between text-xs leading-snug mb-3 px-0.5 text-warm-text">
+        <div className="flex justify-between text-xs leading-snug mb-3 px-0.5" style={{ color: '#2B1A42' }}>
           <span className="max-w-[42%]">{q.anchor1}</span>
           <span className="max-w-[42%] text-right">{q.anchor5}</span>
         </div>
@@ -1716,24 +1716,25 @@ function FullReport({ profile, dimData, diagCode }) {
 
   const handleDownload = async () => {
     setDownloading(true)
+    // Open new tab synchronously (user gesture active) — required to avoid popup blocker on mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    const newWin = isMobile ? window.open('', '_blank') : null
     try {
-      const blob = await getImageBlob()
-      const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        // Mobile: use native share sheet (saves to photos on iOS/Android)
-        await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
+      const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+      if (newWin) {
+        // Write image into the pre-opened tab; user can long-press to save on iOS
+        newWin.document.open()
+        newWin.document.write(`<html><head><title>KindlesMind</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{margin:0;padding:0}body{background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;display:block}p{color:#aaa;font-family:sans-serif;font-size:13px;margin-top:14px;text-align:center}</style></head><body><img src="${dataUrl}"><p>長按圖片即可儲存到相簿</p></body></html>`)
+        newWin.document.close()
       } else {
-        // Desktop: trigger download
-        const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
-        a.href = url
+        a.href = dataUrl
         a.download = `KindlesMind_${diagCode}.png`
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
-        URL.revokeObjectURL(url)
       }
-    } catch (e) { console.error(e) }
+    } catch (e) { if (newWin) newWin.close(); console.error(e) }
     setDownloading(false)
   }
 
@@ -1861,10 +1862,10 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const [supportClicked, setSupportClicked] = useState(false)
 
   return (
-    <motion.div className="min-h-screen px-5 py-10 max-w-lg mx-auto"
+    <motion.div className="min-h-screen py-10 max-w-lg mx-auto"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* Header */}
-      <motion.div className="text-center mb-7"
+      <motion.div className="px-5 text-center mb-7"
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center justify-center gap-2 flex-wrap mb-4">
           <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
@@ -1883,9 +1884,9 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <p className="text-warm-text-muted text-sm">以下是根據你的 28 道情境題繪製的靈魂地圖</p>
       </motion.div>
 
-      {/* SoulMap card */}
+      {/* SoulMap card — naturally full-width (no px-5 on parent) */}
       <motion.div className="bg-white overflow-hidden mb-5"
-        style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', borderTop: '1px solid rgba(180,160,200,0.2)', borderBottom: '1px solid rgba(180,160,200,0.2)' }}
+        style={{ borderTop: '1px solid rgba(180,160,200,0.2)', borderBottom: '1px solid rgba(180,160,200,0.2)' }}
         initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
 
         {/* ── Video cover — pure visual, no text overlay ── */}
@@ -1935,6 +1936,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         </div>
       </motion.div>
 
+      <div className="px-5">
       {/* Archetype card */}
       <motion.div className="bg-white rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 p-6 mb-5"
         initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
@@ -1975,10 +1977,10 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           <div style={{ margin: '0 40px' }}>
             <RadarChart radarData={radarData} />
           </div>
-          {/* Dim bars */}
+          {/* Dim bars — use radarData.pct so numbers match radar labels */}
           <div className="flex-1 min-w-0">
             {dimData.map((d, i) => (
-              <DimBar key={d.id} dim={d} pct={d.pct} delay={0.45 + i * 0.1} text={getDimText(d.id, d.health)} />
+              <DimBar key={d.id} dim={d} pct={radarData[i]?.pct ?? d.pct} delay={0.45 + i * 0.1} text={getDimText(d.id, d.health)} />
             ))}
           </div>
         </div>
@@ -2239,6 +2241,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         </motion.button>
       </motion.div>
 
+      </div>{/* end px-5 wrapper */}
     </motion.div>
   )
 }
