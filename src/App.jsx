@@ -1768,32 +1768,6 @@ function FullReport({ profile, dimData, diagCode }) {
         <ShareCard profile={profile} dimData={dimData} diagCode={diagCode} cardRef={cardRef} />
       </div>
 
-      {/* Share / Download buttons */}
-      <div className="space-y-2.5">
-        {/* row 1 */}
-        <div className="flex gap-2.5">
-          <motion.button
-            onClick={handleDownload}
-            disabled={downloading}
-            whileTap={{ scale: 0.97 }}
-            className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
-            style={{ background: 'rgba(220,141,243,0.1)', color: '#8B30C0', border: '1px solid rgba(220,141,243,0.25)' }}>
-            {downloading ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
-            儲存圖片
-          </motion.button>
-          <motion.button
-            onClick={handleThreads}
-            whileTap={{ scale: 0.97 }}
-            className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
-            style={{ background: 'rgba(0,0,0,0.06)', color: '#1C1C1E', border: '1px solid rgba(0,0,0,0.1)' }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.52.85-6.375 2.495-8.424C5.845 1.34 8.598.16 12.179.136h.014c2.76.018 5.117.89 7.005 2.592 1.854 1.67 3.007 4.02 3.428 6.989.08.558.118 1.13.118 1.7 0 2.032-.454 3.713-1.349 4.998-.915 1.314-2.286 2.092-3.87 2.187-.01 0-.019.001-.028.001-.847 0-1.63-.232-2.272-.672-.553-.383-.983-.934-1.24-1.574-.338.603-.783 1.101-1.326 1.48-.622.43-1.354.649-2.177.649h-.018zm-.022-3.567c.004 0 .008 0 .012 0 .41 0 .766-.13 1.059-.387.318-.278.556-.7.71-1.258.124-.454.187-.962.187-1.51 0-.32-.02-.627-.06-.913-.276-1.953-.951-3.354-2.009-4.163-.87-.659-1.99-.985-3.33-.97h-.012c-1.174.014-2.14.344-2.87.98-.763.664-1.178 1.676-1.235 3.01-.002.068-.004.136-.004.204 0 1.394.41 2.51 1.22 3.317.802.8 1.91 1.208 3.295 1.213.013 0 .025 0 .037-.001zm2.63-1.067c.619-.037 1.12-.34 1.49-.9.39-.591.59-1.418.59-2.458 0-.458-.03-.88-.09-1.26-.32-2.22-1.27-3.82-2.83-4.76-.74-.44-1.61-.69-2.59-.75.73.52 1.31 1.24 1.72 2.14.52 1.13.79 2.51.79 4.1 0 .72-.07 1.4-.21 2.03-.09.4-.21.77-.36 1.11.15.03.31.04.49.04z"/>
-            </svg>
-            分享到 Threads
-          </motion.button>
-        </div>
-      </div>
-
       {/* Section: Root Analysis */}
       <div className="bg-white rounded-3xl border border-warm-cream-dark/40 shadow-warm p-6">
         <SectionLabel icon={Brain} color="#E8956A">深度根源分析</SectionLabel>
@@ -1853,6 +1827,29 @@ function FullReport({ profile, dimData, diagCode }) {
         <p className="text-warm-text-light text-xs">
           KindlesMind 診斷報告 · 僅供個人參考，不替代專業臨床診療
         </p>
+      </div>
+
+      {/* Share / Download buttons */}
+      <div className="flex gap-2.5 pb-2">
+        <motion.button
+          onClick={handleDownload}
+          disabled={downloading}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
+          style={{ background: 'rgba(220,141,243,0.1)', color: '#8B30C0', border: '1px solid rgba(220,141,243,0.25)' }}>
+          {downloading ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
+          儲存圖片
+        </motion.button>
+        <motion.button
+          onClick={handleThreads}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium"
+          style={{ background: 'rgba(0,0,0,0.06)', color: '#1C1C1E', border: '1px solid rgba(0,0,0,0.1)' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.52.85-6.375 2.495-8.424C5.845 1.34 8.598.16 12.179.136h.014c2.76.018 5.117.89 7.005 2.592 1.854 1.67 3.007 4.02 3.428 6.989.08.558.118 1.13.118 1.7 0 2.032-.454 3.713-1.349 4.998-.915 1.314-2.286 2.092-3.87 2.187-.01 0-.019.001-.028.001-.847 0-1.63-.232-2.272-.672-.553-.383-.983-.934-1.24-1.574-.338.603-.783 1.101-1.326 1.48-.622.43-1.354.649-2.177.649h-.018zm-.022-3.567c.004 0 .008 0 .012 0 .41 0 .766-.13 1.059-.387.318-.278.556-.7.71-1.258.124-.454.187-.962.187-1.51 0-.32-.02-.627-.06-.913-.276-1.953-.951-3.354-2.009-4.163-.87-.659-1.99-.985-3.33-.97h-.012c-1.174.014-2.14.344-2.87.98-.763.664-1.178 1.676-1.235 3.01-.002.068-.004.136-.004.204 0 1.394.41 2.51 1.22 3.317.802.8 1.91 1.208 3.295 1.213.013 0 .025 0 .037-.001zm2.63-1.067c.619-.037 1.12-.34 1.49-.9.39-.591.59-1.418.59-2.458 0-.458-.03-.88-.09-1.26-.32-2.22-1.27-3.82-2.83-4.76-.74-.44-1.61-.69-2.59-.75.73.52 1.31 1.24 1.72 2.14.52 1.13.79 2.51.79 4.1 0 .72-.07 1.4-.21 2.03-.09.4-.21.77-.36 1.11.15.03.31.04.49.04z"/>
+          </svg>
+          分享到 Threads
+        </motion.button>
       </div>
     </motion.div>
   )
