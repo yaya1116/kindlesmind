@@ -1416,9 +1416,9 @@ function QuizScreen({ onComplete }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col px-5 py-8 max-w-lg mx-auto">
+    <div className="h-dvh flex flex-col max-w-lg mx-auto overflow-hidden">
       {/* Header progress */}
-      <div className="mb-6">
+      <div className="flex-shrink-0 px-5 pt-8 pb-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg flex items-center justify-center"
@@ -1463,8 +1463,8 @@ function QuizScreen({ onComplete }) {
         </div>
       </div>
 
-      {/* Question card */}
-      <div className="flex-1 overflow-hidden">
+      {/* Question card — scrollable */}
+      <div className="flex-1 overflow-y-auto px-5 pb-3">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div key={currentQ} custom={direction} variants={slideVariants}
             initial="enter" animate="center" exit="exit"
@@ -1477,52 +1477,51 @@ function QuizScreen({ onComplete }) {
                 {dim.name} · Q{q.id}
               </div>
 
-              <p className="font-serif text-lg text-warm-text leading-relaxed mb-6 font-medium">
+              <p className="font-serif text-lg text-warm-text leading-relaxed font-medium">
                 {q.text}
               </p>
-
-              {/* Anchor labels */}
-              <div className="flex justify-between text-xs leading-snug mb-4 px-0.5"
-                style={{ color: dim.color + 'AA' }}>
-                <span className="max-w-[42%]">{q.anchor1}</span>
-                <span className="max-w-[42%] text-right">{q.anchor5}</span>
-              </div>
-
-              {/* 1–5 Likert scale */}
-              <div className="flex justify-between gap-2 mb-3">
-                {ANSWERS.map((ans, i) => (
-                  <motion.button key={i}
-                    className="flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-2xl border-2 transition-all duration-200"
-                    style={selected === i
-                      ? { borderColor: dim.color, backgroundColor: dim.color, color: '#fff' }
-                      : {
-                          borderColor: '#DDD5F0',
-                          backgroundColor: selected !== null && selected !== i ? '#F8F6FF' : '#F3EFF9',
-                          color: '#9B90B8',
-                          opacity: selected !== null && selected !== i ? 0.5 : 1,
-                        }}
-                    onClick={() => handleOptionClick(i)}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.06 }}
-                    whileTap={{ scale: 0.95 }}>
-                    <span className="text-lg font-bold leading-none">{ans.weight}</span>
-                  </motion.button>
-                ))}
-              </div>
-
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Nav */}
-      <div className="flex justify-between items-center mt-5">
-        <button onClick={handlePrev} disabled={currentQ === 0}
-          className="flex items-center gap-1 text-warm-text-muted text-sm disabled:opacity-25 hover:text-warm-text transition-colors">
-          <ChevronLeft size={16} /> 前一題
-        </button>
-        <span className="text-warm-text-light text-xs">點選選項自動前進</span>
+      {/* Fixed bottom bar — anchor labels + 1–5 buttons + nav */}
+      <div className="flex-shrink-0 px-5 pt-3 pb-6 bg-warm-bg border-t border-warm-cream-dark/20">
+        {/* Anchor labels */}
+        <div className="flex justify-between text-xs leading-snug mb-3 px-0.5"
+          style={{ color: dim.color + 'AA' }}>
+          <span className="max-w-[42%]">{q.anchor1}</span>
+          <span className="max-w-[42%] text-right">{q.anchor5}</span>
+        </div>
+
+        {/* 1–5 Likert scale */}
+        <div className="flex justify-between gap-2 mb-3">
+          {ANSWERS.map((ans, i) => (
+            <motion.button key={i}
+              className="flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-2xl border-2 transition-all duration-200"
+              style={selected === i
+                ? { borderColor: dim.color, backgroundColor: dim.color, color: '#fff' }
+                : {
+                    borderColor: '#DDD5F0',
+                    backgroundColor: selected !== null && selected !== i ? '#F8F6FF' : '#F3EFF9',
+                    color: '#9B90B8',
+                    opacity: selected !== null && selected !== i ? 0.5 : 1,
+                  }}
+              onClick={() => handleOptionClick(i)}
+              whileTap={{ scale: 0.95 }}>
+              <span className="text-lg font-bold leading-none">{ans.weight}</span>
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Nav */}
+        <div className="flex justify-between items-center">
+          <button onClick={handlePrev} disabled={currentQ === 0}
+            className="flex items-center gap-1 text-warm-text-muted text-sm disabled:opacity-25 hover:text-warm-text transition-colors">
+            <ChevronLeft size={16} /> 前一題
+          </button>
+          <span className="text-warm-text-light text-xs">點選選項自動前進</span>
+        </div>
       </div>
     </div>
   )
@@ -1719,9 +1718,11 @@ function FullReport({ profile, dimData, diagCode }) {
     try {
       const blob = await getImageBlob()
       const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
-      if (isMobile && navigator.share && navigator.canShare?.({ files: [file] })) {
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        // Mobile: use native share sheet (saves to photos on iOS/Android)
         await navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
       } else {
+        // Desktop: trigger download
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
