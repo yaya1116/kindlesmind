@@ -1864,6 +1864,25 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
   const [supportClicked, setSupportClicked] = useState(false)
+  const [verifyEmail, setVerifyEmail]       = useState('')
+  const [verifyStatus, setVerifyStatus]     = useState('idle') // idle | checking | paid | not_paid
+
+  const handleVerifyPayment = async () => {
+    if (!verifyEmail.trim()) return
+    setVerifyStatus('checking')
+    try {
+      const res = await fetch(`/api/check-payment?email=${encodeURIComponent(verifyEmail.trim())}`)
+      const { paid } = await res.json()
+      if (paid) {
+        setVerifyStatus('paid')
+        setTimeout(() => onUnlock(), 600)
+      } else {
+        setVerifyStatus('not_paid')
+      }
+    } catch {
+      setVerifyStatus('not_paid')
+    }
+  }
 
   return (
     <motion.div className="min-h-screen py-10 max-w-lg mx-auto"
@@ -2147,21 +2166,48 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 </motion.a>
               </div>
 
-              {/* Honor unlock */}
+              {/* Email verify unlock */}
               <AnimatePresence>
                 {supportClicked && (
-                  <motion.button
-                    key="honor-btn"
-                    onClick={() => onUnlock()}
-                    className="w-full py-3 rounded-2xl text-sm font-medium mb-3"
-                    style={{ backgroundColor: '#EFE9F8', color: '#7270A0', border: '1px solid rgba(196,184,228,0.7)' }}
+                  <motion.div
+                    key="email-verify"
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    whileHover={{ backgroundColor: '#E4DCEF' }}
-                    whileTap={{ scale: 0.98 }}>
-                    我已支持，顯示完整報告 ✓
-                  </motion.button>
+                    className="mb-3 rounded-2xl p-4"
+                    style={{ backgroundColor: '#F2F0FA', border: '1px solid rgba(196,184,228,0.5)' }}>
+                    <p className="text-xs font-medium mb-2" style={{ color: '#7270A0' }}>
+                      付款完成後，輸入購買時的 Email 驗證解鎖：
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="email"
+                        value={verifyEmail}
+                        onChange={e => { setVerifyEmail(e.target.value); setVerifyStatus('idle') }}
+                        onKeyDown={e => e.key === 'Enter' && handleVerifyPayment()}
+                        placeholder="your@email.com"
+                        className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
+                        style={{ border: '1px solid rgba(196,184,228,0.7)', backgroundColor: '#fff', color: '#434242' }}
+                      />
+                      <motion.button
+                        onClick={handleVerifyPayment}
+                        disabled={verifyStatus === 'checking' || verifyStatus === 'paid'}
+                        className="px-4 py-2 rounded-xl text-sm font-semibold flex-shrink-0"
+                        style={{
+                          backgroundColor: verifyStatus === 'paid' ? '#4CAF82' : '#1A1A1A',
+                          color: '#fff',
+                          opacity: verifyStatus === 'checking' ? 0.6 : 1,
+                        }}
+                        whileTap={{ scale: 0.97 }}>
+                        {verifyStatus === 'checking' ? '驗證中…' : verifyStatus === 'paid' ? '✓' : '驗證'}
+                      </motion.button>
+                    </div>
+                    {verifyStatus === 'not_paid' && (
+                      <p className="text-xs mt-2" style={{ color: '#E07070' }}>
+                        尚未收到付款記錄，請確認 Email 是否正確，或稍後再試。
+                      </p>
+                    )}
+                  </motion.div>
                 )}
               </AnimatePresence>
 
