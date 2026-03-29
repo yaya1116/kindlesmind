@@ -2839,15 +2839,35 @@ export default function App() {
   const [legalPage, setLegalPage]   = useState(null)  // null | 'privacy' | 'terms' | 'about'
   const [legalModal, setLegalModal] = useState(null)  // null | 'terms' | 'privacy' | 'disclaimer'
 
-  // ── Restore result from URL on first load ──────────────────────────────────
+  // ── Restore result from URL or localStorage on first load ─────────────────
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const answers = decodeAnswers(params.get('a'))
-    if (answers) {
-      const r = calcResults(answers)
-      setResults(r)
-      setIsUnlocked(params.get('u') === '1')
-      setPhase('result')
+    const urlEncoded = params.get('a')
+
+    if (urlEncoded) {
+      // Priority 1: URL params
+      const answers = decodeAnswers(urlEncoded)
+      if (answers) {
+        const unlocked = params.get('u') === '1'
+        setResults(calcResults(answers))
+        setIsUnlocked(unlocked)
+        setPhase('result')
+        try { localStorage.setItem('km_last_result', JSON.stringify({ encoded: urlEncoded, unlocked })) } catch {}
+      }
+    } else {
+      // Priority 2: localStorage (e.g. user returned from Portaly without URL params)
+      try {
+        const saved = JSON.parse(localStorage.getItem('km_last_result') || 'null')
+        if (saved?.encoded) {
+          const answers = decodeAnswers(saved.encoded)
+          if (answers) {
+            setResults(calcResults(answers))
+            setIsUnlocked(saved.unlocked || false)
+            setPhase('result')
+            window.history.replaceState(null, '', `?a=${saved.encoded}${saved.unlocked ? '&u=1' : ''}`)
+          }
+        }
+      } catch {}
     }
   }, [])
 
@@ -2855,6 +2875,7 @@ export default function App() {
     setPhase('calculating')
     const encoded = encodeAnswers(answers)
     window.history.replaceState(null, '', `?a=${encoded}`)
+    try { localStorage.setItem('km_last_result', JSON.stringify({ encoded, unlocked: false })) } catch {}
     const r = calcResults(answers)
     setTimeout(() => { setResults(r); setPhase('result') }, 3600)
   }
@@ -2870,12 +2891,17 @@ export default function App() {
     const params = new URLSearchParams(window.location.search)
     params.set('u', '1')
     window.history.replaceState(null, '', `?${params.toString()}`)
+    try {
+      const saved = JSON.parse(localStorage.getItem('km_last_result') || '{}')
+      localStorage.setItem('km_last_result', JSON.stringify({ ...saved, unlocked: true }))
+    } catch {}
   }
   const handleRetake = () => {
     setPhase('hero')
     setResults(null)
     setIsUnlocked(false)
     window.history.replaceState(null, '', window.location.pathname)
+    try { localStorage.removeItem('km_last_result') } catch {}
     window.scrollTo(0, 0)
   }
   const handleNavLegal = (page) => { setLegalPage(page); window.scrollTo(0, 0) }
