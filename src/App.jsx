@@ -2078,7 +2078,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                     葉
                   </div>
                   <div>
-                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儀 諮商心理師</p>
+                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儂 諮商心理師</p>
                     <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所 × 職涯諮詢師</p>
                   </div>
                 </div>
