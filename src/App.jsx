@@ -2094,10 +2094,10 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 <div className="flex items-center gap-3.5 mb-4">
                   <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0"
                     style={{ background: 'linear-gradient(135deg, #52C17A 0%, #2E9E59 100%)' }}>
-                    葉
+                    黃
                   </div>
                   <div>
-                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儂 諮商心理師</p>
+                    <p className="font-semibold text-warm-text text-base leading-tight">黃惟雅 諮商心理師</p>
                     <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所 × 職涯諮詢師</p>
                   </div>
                 </div>
@@ -2119,7 +2119,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                   <p className="font-semibold text-warm-text text-sm">深度解析預約資訊包</p>
                 </div>
                 <p className="text-xs leading-relaxed mb-4" style={{ color: '#9A94B8' }}>
-                  購買後將提供葉心理師的專屬預約連結與諮詢前準備資料，協助你在正式諮商前更有方向
+                  購買後將提供黃心理師的專屬預約連結與諮詢前準備資料，協助你在正式諮商前更有方向
                 </p>
 
                 {/* Items */}
@@ -2127,7 +2127,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                   style={{ backgroundColor: '#F7F5FC', border: '1px solid rgba(196,184,228,0.3)' }}>
                   {[
                     { icon: '📄', text: '依附類型個人化分析報告（3,500+ 字）' },
-                    { icon: '📅', text: '葉心理師專屬預約資訊 × 諮詢前準備清單' },
+                    { icon: '📅', text: '黃心理師專屬預約資訊 × 諮詢前準備清單' },
                     { icon: '💬', text: '3 個月情感安全感重建步驟指南' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-2.5">
