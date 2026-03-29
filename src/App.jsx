@@ -683,6 +683,19 @@ const DIAG_CODE_MAP = {
   c_lonely:     'KM-10', ad_severed: 'KM-11', dc_snapshot:  'KM-12',
 }
 
+// ─── URL ENCODE / DECODE ──────────────────────────────────────────────────────
+
+function encodeAnswers(answers) {
+  return answers.map(a => a.weight).join('')
+}
+
+function decodeAnswers(encoded) {
+  if (!encoded || encoded.length !== 20) return null
+  const weights = encoded.split('').map(Number)
+  if (weights.some(w => w < 1 || w > 5)) return null
+  return QUESTIONS.map((q, i) => ({ dim: q.dim, weight: weights[i] }))
+}
+
 function calcResults(answers) {
   // ── Raw dim scores: 7 Q × 1–5 weight → range 7–35 per dim ──────────────────
   const dimScores = { 1: 0, 2: 0, 3: 0, 4: 0 }
@@ -1418,7 +1431,7 @@ function QuizScreen({ onComplete }) {
   }
 
   return (
-    <div className="h-dvh flex flex-col max-w-lg mx-auto overflow-hidden">
+    <div className="h-dvh flex flex-col max-w-lg mx-auto overflow-hidden" style={{ overscrollBehavior: 'none' }}>
       {/* Header progress */}
       <div className="flex-shrink-0 px-5 pt-8 pb-4">
         <div className="flex items-center justify-between mb-2">
@@ -1602,13 +1615,13 @@ function CalculatingScreen() {
 
 // ─── SHARE CARD ──────────────────────────────────────────────────────────────
 
-function ShareCard({ profile, dimData, diagCode, cardRef }) {
+function ShareCard({ profile, dimData, radarData, diagCode, cardRef }) {
   const ac = profile.accentColor || '#6B7CB5'
   const dims = [
-    { label: '焦慮', val: dimData[0]?.health ?? 50 },
-    { label: '迴避', val: dimData[1]?.health ?? 50 },
-    { label: '原生', val: dimData[2]?.health ?? 50 },
-    { label: '衝突', val: dimData[3]?.health ?? 50 },
+    { label: '焦慮', val: radarData?.[0]?.pct ?? dimData[0]?.pct ?? 50 },
+    { label: '迴避', val: radarData?.[1]?.pct ?? dimData[1]?.pct ?? 50 },
+    { label: '原生', val: radarData?.[2]?.pct ?? dimData[2]?.pct ?? 50 },
+    { label: '衝突', val: radarData?.[3]?.pct ?? dimData[3]?.pct ?? 50 },
   ]
   const paradox = profile.soulParadox || profile.summary || ''
   const monthColors = ['#D48C70', '#7B9EE8', '#6B7CB5']
@@ -1703,7 +1716,7 @@ function ShareCard({ profile, dimData, diagCode, cardRef }) {
 
 // ─── RESULT ──────────────────────────────────────────────────────────────────
 
-function FullReport({ profile, dimData, diagCode }) {
+function FullReport({ profile, dimData, diagCode, radarData }) {
   const cardRef = useRef(null)
   const [downloading, setDownloading] = useState(false)
   const [cachedBlob, setCachedBlob] = useState(null)
@@ -1756,7 +1769,7 @@ function FullReport({ profile, dimData, diagCode }) {
 
       {/* Hidden ShareCard for export */}
       <div style={{ position: 'fixed', left: -9999, top: 0, pointerEvents: 'none', zIndex: -1 }}>
-        <ShareCard profile={profile} dimData={dimData} diagCode={diagCode} cardRef={cardRef} />
+        <ShareCard profile={profile} dimData={dimData} radarData={radarData} diagCode={diagCode} cardRef={cardRef} />
       </div>
 
       {/* Section: Root Analysis */}
@@ -1857,7 +1870,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* Header */}
       <motion.div className="px-5 text-center mb-7"
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+        initial={{ opacity: 1, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center justify-center gap-2 flex-wrap mb-4">
           <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
             style={{ background: 'linear-gradient(135deg,rgba(220,141,243,0.12),rgba(51,171,211,0.10))', color: '#9B3FCC', border: '1px solid rgba(220,141,243,0.3)' }}>
@@ -1878,7 +1891,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       {/* SoulMap card — naturally full-width (no px-5 on parent) */}
       <motion.div className="bg-white overflow-hidden mb-5"
         style={{ borderTop: '1px solid rgba(180,160,200,0.2)', borderBottom: '1px solid rgba(180,160,200,0.2)' }}
-        initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
+        initial={{ opacity: 1, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 }}>
 
         {/* ── Video cover — pure visual, no text overlay ── */}
         <div className="w-full" style={{ aspectRatio: '16/9' }}>
@@ -1930,7 +1943,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       <div className="px-5">
       {/* Archetype card */}
       <motion.div className="bg-white rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 p-6 mb-5"
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+        initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">你的靈魂原型</p>
         <div className="flex items-start gap-4">
           <motion.div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-warm-sm border"
@@ -1949,7 +1962,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       {/* Soul paradox card */}
       <motion.div className="rounded-3xl border p-6 mb-5"
         style={{ background: 'linear-gradient(135deg, #F5F0FA 0%, #EDE8F5 100%)', borderColor: 'rgba(155,126,166,0.25)' }}
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }}>
         <div className="flex items-center gap-2 mb-3">
           <Sparkles size={13} style={{ color: '#9B7EA6' }} />
           <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#9B7EA6' }}>靈魂矛盾</p>
@@ -1959,7 +1972,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
       {/* ── 四維靈魂場域評估 — Radar + Bars ── */}
       <motion.div className="bg-white rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 p-6 mb-5"
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
+        initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
         <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">四維靈魂場域評估</p>
 
         {/* Radar chart + bars side-by-side on wider screens */}
@@ -1980,7 +1993,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       {/* ── 療癒處方預覽（免費首月，解鎖後隱藏）── */}
       {!isUnlocked && <motion.div className="rounded-3xl border p-6 mb-5 overflow-hidden relative"
         style={{ background: 'linear-gradient(135deg, #F9F6FF 0%, #F1EDF8 100%)', borderColor: 'rgba(155,126,166,0.2)' }}
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42 }}>
+        initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
 
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
@@ -2047,171 +2060,125 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
       <AnimatePresence mode="wait">
         {!isUnlocked ? (
           <motion.div key="locked"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+            initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             exit={{ opacity: 0 }}>
 
-            {/* ── Social proof quote ── */}
-            <motion.p
-              className="text-center text-sm leading-relaxed mb-5 px-3 font-serif"
-              style={{ color: '#9A8E8B' }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}>
-              「這段路上你並不孤單，<br />
-              已有{' '}
-              <strong className="text-warm-text not-italic" style={{ fontWeight: 600 }}>12,500+</strong>
-              {' '}位靈魂在此獲得平靜與解答。」
-            </motion.p>
+            {/* Section label */}
+            <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">諮詢服務</p>
 
-            {/* ── Main invitation card ── */}
-            <motion.div
-              className="bg-white overflow-hidden"
-              style={{ borderRadius: '28px', border: '1px solid rgba(196,184,228,0.5)', boxShadow: '0 16px 60px rgba(220,141,243,0.15), 0 4px 16px rgba(51,171,211,0.10)' }}
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+            {/* Main card */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
+              style={{ border: '1px solid rgba(196,184,228,0.45)' }}>
 
-              {/* ── 1. Blurred report preview ── */}
-              <div className="relative overflow-hidden" style={{ height: '196px', backgroundColor: '#F4F0FA' }}>
-                {/* Fake report skeleton – blurred */}
-                <div className="p-5 space-y-3.5 select-none pointer-events-none" style={{ filter: 'blur(3.5px)', opacity: 0.75 }}>
-                  {/* Header */}
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="h-2 w-2 rounded-full" style={{ backgroundColor: '#D48C70' }} />
-                    <div className="h-2 rounded" style={{ width: '88px', backgroundColor: '#D48C7055' }} />
+              {/* ── Therapist profile ── */}
+              <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
+                <div className="flex items-center gap-3.5 mb-4">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #52C17A 0%, #2E9E59 100%)' }}>
+                    葉
                   </div>
-                  <div className="h-4 rounded" style={{ width: '72%', backgroundColor: '#43424222' }} />
-                  <div className="space-y-1.5">
-                    {[100, 92, 100, 78, 88].map((w, i) => (
-                      <div key={i} className="h-2 rounded" style={{ width: `${w}%`, backgroundColor: '#43424215' }} />
-                    ))}
-                  </div>
-                  {/* Divider + section 2 */}
-                  <div className="pt-1">
-                    <div className="h-px mb-2.5" style={{ backgroundColor: '#E0D8F4' }} />
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div className="h-2 w-2 rounded-full" style={{ backgroundColor: '#7B9EE8' }} />
-                      <div className="h-2 rounded" style={{ width: '72px', backgroundColor: '#7B9EE855' }} />
-                    </div>
-                    <div className="h-3.5 rounded mb-1.5" style={{ width: '60%', backgroundColor: '#43424220' }} />
-                    <div className="space-y-1.5">
-                      {[100, 95, 82].map((w, i) => (
-                        <div key={i} className="h-2 rounded" style={{ width: `${w}%`, backgroundColor: '#43424213' }} />
-                      ))}
-                    </div>
-                  </div>
-                  {/* Timeline */}
-                  <div className="flex gap-3 pt-1">
-                    <div className="w-0.5 rounded-full flex-shrink-0" style={{ backgroundColor: '#6B7CB550', minHeight: '40px' }} />
-                    <div className="space-y-1.5 flex-1">
-                      <div className="h-2.5 rounded" style={{ width: '55%', backgroundColor: '#43424220' }} />
-                      {[100, 88].map((w, i) => (
-                        <div key={i} className="h-2 rounded" style={{ width: `${w}%`, backgroundColor: '#43424212' }} />
-                      ))}
-                    </div>
+                  <div>
+                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儀 諮商心理師</p>
+                    <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所 × 職涯諮詢師</p>
                   </div>
                 </div>
-
-                {/* Frosted glass overlay */}
-                <div className="absolute inset-0" style={{
-                  background: 'linear-gradient(to bottom, rgba(245,240,250,0.1) 0%, rgba(245,240,250,0.55) 38%, rgba(255,255,255,0.97) 82%)',
-                  backdropFilter: 'blur(1px)',
-                }} />
-
-                {/* Bottom label */}
-                <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2.5">
-                  <div className="flex items-center gap-1.5" style={{ color: '#9060A8' }}>
-                    <Lock size={10} />
-                    <span className="text-xs font-medium">完整報告預覽</span>
-                  </div>
-                  <span className="text-warm-text-light" style={{ fontSize: '10px' }}>·</span>
-                  <span className="text-xs" style={{ color: '#A898C8' }}>3,500+ 字 · 4 個章節</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {['依附關係', '職涯諮詢', '人生設計', 'NLP 茶藝'].map(tag => (
+                    <span key={tag} className="text-xs px-2.5 py-1 rounded-full font-medium"
+                      style={{ backgroundColor: '#EEF1FA', color: '#6B7CB5', border: '1px solid #DDE4F5' }}>
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              {/* ── 3. Value checklist ── */}
-              <div className="px-6 py-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.4)' }}>
-                <p className="text-xs tracking-widest uppercase mb-4" style={{ color: '#A898C0' }}>解鎖後你將獲得</p>
-                <div className="space-y-3.5">
-                  {[
-                    { icon: Brain,       color: '#E8956A', title: '依附人格成因溯源',       desc: '深入早期情感記憶，找到不安感真正的起源' },
-                    { icon: Eye,         color: '#7B9EE8', title: '潛意識行為模式全面解讀', desc: '讀懂你在關係中反覆觸發的無意識反應劇本' },
-                    { icon: AlertCircle, color: '#D48C70', title: '致命地雷 × 3 預防指南',  desc: '辨識並拆除最容易炸毀這段關係的互動陷阱' },
-                    { icon: Leaf,        color: '#33ABD3', title: '3 個月復原計畫',           desc: '每月具體步驟，重建你在愛中的情感安全感' },
-                  ].map((item, i) => {
-                    const Icon = item.icon
-                    return (
-                      <motion.div key={i} className="flex items-start gap-3"
-                        initial={{ opacity: 0, x: -14 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: '-8px' }}
-                        transition={{ delay: i * 0.09, duration: 0.45, ease: 'easeOut' }}>
-                        <div className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center mt-0.5"
-                          style={{ backgroundColor: item.color + '18' }}>
-                          <Icon size={14} style={{ color: item.color }} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-warm-text text-sm font-semibold leading-tight">{item.title}</p>
-                          <p className="text-warm-text-muted text-xs leading-relaxed mt-0.5">{item.desc}</p>
-                        </div>
-                        <motion.div className="flex-shrink-0 mt-1.5"
-                          initial={{ scale: 0 }} whileInView={{ scale: 1 }}
-                          viewport={{ once: true }} transition={{ delay: 0.3 + i * 0.09, type: 'spring', stiffness: 300 }}>
-                          <CheckCircle size={14} style={{ color: item.color + 'AA' }} />
-                        </motion.div>
-                      </motion.div>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* ── 4. Support CTA ── */}
+              {/* ── Package details ── */}
               <div className="px-6 py-5">
-                {/* BMC primary button */}
+                {/* Package title */}
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="text-lg">🎯</span>
+                  <p className="font-semibold text-warm-text text-sm">深度解析預約資訊包</p>
+                </div>
+                <p className="text-xs leading-relaxed mb-4" style={{ color: '#9A94B8' }}>
+                  購買後將提供葉心理師的專屬預約連結與諮詢前準備資料，協助你在正式諮商前更有方向
+                </p>
+
+                {/* Items */}
+                <div className="rounded-2xl p-4 space-y-3 mb-5"
+                  style={{ backgroundColor: '#F7F5FC', border: '1px solid rgba(196,184,228,0.3)' }}>
+                  {[
+                    { icon: '📄', text: '依附類型個人化分析報告（3,500+ 字）' },
+                    { icon: '📅', text: '葉心理師專屬預約資訊 × 諮詢前準備清單' },
+                    { icon: '💬', text: '3 個月情感安全感重建步驟指南' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <span className="text-base flex-shrink-0 leading-tight">{item.icon}</span>
+                      <p className="text-sm text-warm-text leading-relaxed">{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* ── Price + CTA (outside card) ── */}
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className="font-bold text-warm-text text-2xl leading-none">NT$ 299</p>
+                  <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>支持一杯咖啡，解鎖完整資源</p>
+                </div>
                 <motion.a
-                  href="https://portaly.cc/kindlesmind"
+                  href={(() => {
+                    const params = new URLSearchParams(window.location.search)
+                    params.set('u', '1')
+                    const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+                    return `https://portaly.cc/kindlesmind?next=${encodeURIComponent(returnUrl)}`
+                  })()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative w-full py-4 rounded-3xl font-semibold text-base overflow-hidden flex items-center justify-center gap-2.5 mb-3 no-underline"
-                  style={{
-                    background: 'linear-gradient(135deg, #FFDD00 0%, #FFC01E 100%)',
-                    color: '#1A1200',
-                    boxShadow: '0 4px 20px rgba(255,192,30,0.35)',
-                  }}
+                  className="px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-1.5 no-underline flex-shrink-0"
+                  style={{ backgroundColor: '#1A1A1A', color: '#FFFFFF' }}
                   onClick={() => setSupportClicked(true)}
-                  whileHover={{ scale: 1.015, y: -1, boxShadow: '0 8px 32px rgba(255,192,30,0.5)' }}
-                  whileTap={{ scale: 0.98 }}>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)' }} />
-                  <img src="https://portaly.cc/favicon.ico" alt="" className="relative z-10 w-5 h-5 rounded-sm flex-shrink-0" />
-                  <span className="relative z-10">支持一杯咖啡，解鎖完整報告</span>
-                  <ArrowRight size={15} className="relative z-10 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}>
+                  立即解鎖 ☕
                 </motion.a>
-
-                {/* Honor unlock — appears after clicking BMC */}
-                <AnimatePresence>
-                  {supportClicked && (
-                    <motion.button
-                      key="honor-btn"
-                      onClick={() => onUnlock()}
-                      className="w-full py-3 rounded-2xl text-sm font-medium transition-colors mb-3"
-                      style={{ backgroundColor: '#EFE9F8', color: '#7270A0', border: '1px solid rgba(196,184,228,0.7)' }}
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      whileHover={{ backgroundColor: '#E4DCEF' }}
-                      whileTap={{ scale: 0.98 }}>
-                      我已支持，顯示完整報告 ✓
-                    </motion.button>
-                  )}
-                </AnimatePresence>
-
-                <p className="text-center leading-relaxed" style={{ color: '#B4AACC', fontSize: '11px' }}>
-                  榮譽制 · 你的支持讓這個計畫走得更遠 🙏
-                </p>
               </div>
 
-            </motion.div>
+              {/* Honor unlock */}
+              <AnimatePresence>
+                {supportClicked && (
+                  <motion.button
+                    key="honor-btn"
+                    onClick={() => onUnlock()}
+                    className="w-full py-3 rounded-2xl text-sm font-medium mb-3"
+                    style={{ backgroundColor: '#EFE9F8', color: '#7270A0', border: '1px solid rgba(196,184,228,0.7)' }}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    whileHover={{ backgroundColor: '#E4DCEF' }}
+                    whileTap={{ scale: 0.98 }}>
+                    我已支持，顯示完整報告 ✓
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              {/* Disclaimer */}
+              <p className="text-center leading-relaxed mb-2" style={{ color: '#B8B0C8', fontSize: '11px' }}>
+                ★ 本服務為資訊內容與預約媒合，不包含心理師本身<br />
+                正式諮商需另行與諮商師預約
+              </p>
+              <p className="text-center leading-relaxed" style={{ color: '#C0BAD8', fontSize: '11px' }}>
+                Powered by kindlesmind x Portaly<br />
+                榮譽制，你的支持將計畫走得更遠 🙏
+              </p>
+            </div>
           </motion.div>
         ) : (
           <motion.div key="unlocked" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <FullReport profile={profile} dimData={dimData} diagCode={diagCode} />
+            <FullReport profile={profile} dimData={dimData} diagCode={diagCode} radarData={radarData} />
 
           </motion.div>
         )}
@@ -2826,8 +2793,22 @@ export default function App() {
   const [legalPage, setLegalPage]   = useState(null)  // null | 'privacy' | 'terms' | 'about'
   const [legalModal, setLegalModal] = useState(null)  // null | 'terms' | 'privacy' | 'disclaimer'
 
+  // ── Restore result from URL on first load ──────────────────────────────────
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const answers = decodeAnswers(params.get('a'))
+    if (answers) {
+      const r = calcResults(answers)
+      setResults(r)
+      setIsUnlocked(params.get('u') === '1')
+      setPhase('result')
+    }
+  }, [])
+
   const handleQuizComplete = (answers) => {
     setPhase('calculating')
+    const encoded = encodeAnswers(answers)
+    window.history.replaceState(null, '', `?a=${encoded}`)
     const r = calcResults(answers)
     setTimeout(() => { setResults(r); setPhase('result') }, 3600)
   }
@@ -2838,11 +2819,17 @@ export default function App() {
     setPhase('result')
     window.scrollTo(0, 0)
   }
-  const handleUnlock = () => setIsUnlocked(true)
+  const handleUnlock = () => {
+    setIsUnlocked(true)
+    const params = new URLSearchParams(window.location.search)
+    params.set('u', '1')
+    window.history.replaceState(null, '', `?${params.toString()}`)
+  }
   const handleRetake = () => {
     setPhase('hero')
     setResults(null)
     setIsUnlocked(false)
+    window.history.replaceState(null, '', window.location.pathname)
     window.scrollTo(0, 0)
   }
   const handleNavLegal = (page) => { setLegalPage(page); window.scrollTo(0, 0) }
