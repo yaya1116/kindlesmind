@@ -2153,7 +2153,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                     const params = new URLSearchParams(window.location.search)
                     params.set('u', '1')
                     const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
-                    return `https://portaly.cc/kindlesmind?next=${encodeURIComponent(returnUrl)}`
+                    return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
                   })()}
                   target="_blank"
                   rel="noopener noreferrer"
