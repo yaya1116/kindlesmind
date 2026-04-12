@@ -85,16 +85,17 @@ const PROFILES = {
 
   // ─── 1. 永恆的觀測者 (B高 + C高) ───
   b_eternal: {
-    label: '永恆的觀測者',
-    tag: '高迴避型依附',
+    label: '迴避型依附',
+    tag: '核心迴避型',
+    poeticName: '永恆的觀測者',
     emoji: '🌌',
     videoSrc: '/animations/The Eternal Observer.mp4',
     accentColor: '#7B9BB5',
     tagBg: '#EEF4F7', tagColor: '#3A6A80', tagBorder: '#B0CCD8',
-    summary: '你在心靈邊界築起了一條無盡的走廊，星光雖美卻觸不可及。你極度重視自主性，一旦感覺被靠近，大腦就會發出「被侵入」的警報。',
-    freeInsight: '偵測到高度「親密迴避」模式——你透過保持距離維持安全感，但這也讓最愛你的人不得其門而入。',
-    archetype: '星空走廊的守門人',
-    archetypeDesc: '你站在宇宙走廊的盡頭，仔細觀察每一個靠近的人，卻從不主動打開那道門。',
+    summary: '你觀察所有人，卻從未真正讓任何人觀察你。你用距離當保護殼，卻在深夜默默渴望被真正看見。',
+    freeInsight: '偵測到高度「親密迴避」傾向——你害怕依賴，習慣用獨立和冷靜來掩蓋那個渴望連結的部分，讓人難以靠近你。',
+    archetype: '玻璃牆後的觀察者',
+    archetypeDesc: '你站在玻璃牆後，看得見所有人的溫度，卻從不讓任何人觸碰你的。',
     soulParadox: '你深深渴望被人理解，卻在每個有人真正靠近的瞬間，不自覺地把他們推得遠一點。你不是冷漠，你是被自己保護得太好了。\n\n那道你用智識和理性建起的牆，起初是為了防禦某個特定的傷，後來卻演變成你唯一的家。你站在牆的這側觀察愛，把它分析得透透徹底，卻從未讓自己走進去淋那場雨。\n\n有時候，在深夜，你會感覺到一種說不清楚的孤獨。那不是因為你不會愛，而是因為你的靈魂知道，真正的連結需要你放下那把用來測量安全距離的尺。',
     rootAnalysis: `你的高度迴避模式，幾乎不例外地與早年照顧者的某種「過度」有關。也許是情感上的過度索求，也許是控制上的無所不在，也許是對你個人空間毫無尊重。你的神經系統在那個時期學到了一個等式：親密＝被侵佔＝失去自我。
 
@@ -134,16 +135,17 @@ const PROFILES = {
 
   // ─── 2. 溫熱的孤島 (A低 + B低) ───
   secure: {
-    label: '溫熱的孤島',
-    tag: '安全型依附',
+    label: '安全型依附',
+    tag: '核心安全型',
+    poeticName: '溫熱的孤島',
     emoji: '☕',
     videoSrc: '/animations/The Warm Island.mp4',
     accentColor: '#6B7CB5',
     tagBg: '#EEF0FA', tagColor: '#4A5A8C', tagBorder: '#B8C0E0',
-    summary: '河水代表情感的無常，而你手中的咖啡是你在混亂中維持自我的儀式。你具備承接情緒的能力，能冷靜處理衝突，因為你並不把對方的負面情緒完全視為自己的責任。',
-    freeInsight: '你展現出相當穩定的依附基礎——能在親密中保持自我，在衝突中保持連結，這是極為珍貴的情感能力。',
-    archetype: '河畔的安靜燈塔',
-    archetypeDesc: '你不需要奔跑或躲藏，你只是在河邊等待，知道真正需要光的人，自然會找到你。',
+    summary: '島嶼在霧中，仍知道自己的座標。你有邊界，有溫度，有不因對方而崩塌的內在根基。',
+    freeInsight: '你展現出安全型依附的核心特質——即使在關係的不確定性中，你仍能維持自我的穩定感，不輕易被對方的情緒或行為淹沒。',
+    archetype: '霧中的座標島',
+    archetypeDesc: '霧再濃，你也知道自己在哪。你不需要依靠他人的燈塔來確認方向，因為你就是自己的座標。',
     soulParadox: '你的穩定有時讓你顯得「太平靜」，以至於身邊的人忘了你也有脆弱的時刻。你善於安撫別人，卻有時忘記自己也需要被安撫。\n\n你懂得愛不是佔有而是陪伴，這讓你在關係中顯得從容。但從容有時也是一種距離——你有沒有讓自己真正被人需要過？\n\n你是稀有的。但即使是安全型的人，也有屬於自己的功課：允許自己在不確定中崩潰一次，讓伴侶有機會也來守護你。',
     rootAnalysis: `你的安全型依附模式通常來自早年一段「夠好」的照顧關係——不一定完美，但足夠讓你學到：愛是穩定的，需求是可以表達的，衝突不代表終結。這是一份珍貴的禮物，無論它來自父母、師長，或人生中某個重要的陪伴者。
 
@@ -183,16 +185,17 @@ const PROFILES = {
 
   // ─── 3. 暫停的焦慮家 (A高 + D高) ───
   a_timeless: {
-    label: '暫停的焦慮家',
-    tag: '焦慮型依附',
+    label: '焦慮型依附',
+    tag: '核心焦慮型',
+    poeticName: '暫停的焦慮家',
     emoji: '⏰',
     videoSrc: '/animations/The Timeless Anxious.mp4',
     accentColor: '#9B7EA6',
     tagBg: '#F0EAF5', tagColor: '#6A4A7A', tagBorder: '#C8B0D8',
-    summary: '海灘廣闊無垠，而你只聽見鬧鐘的滴答聲。你在平靜中預演災難，對「變動」極度敏感，常透過預想失敗來試圖控制未來。',
-    freeInsight: '偵測到「預期性焦慮」模式——你的安全感建立在確定性之上，總在問「這一切何時結束」，讓你難以感受當下的溫暖。',
-    archetype: '沙灘上的鬧鐘',
-    archetypeDesc: '你帶著時鐘坐在海邊，心裡計算著潮水幾時會退，卻忘了享受它現在輕撫腳踝的溫度。',
+    summary: '時鐘還在走，你卻困在那個等待回應的瞬間，周圍一切都繼續旋轉，你站在原地。',
+    freeInsight: '偵測到高度「親密焦慮」模式——你的安全感高度仰賴對方的回應，一旦沒有確認，你的大腦就啟動了災難化思考迴路。',
+    archetype: '停在3:47的時鐘',
+    archetypeDesc: '所有的時間都凝固在那個等待回覆的瞬間。世界繼續轉動，而你的時鐘，停在了那一刻。',
     soulParadox: '你比大多數人更渴望確定性，這讓你在等待中消耗了大量的情感能量。你的大腦是一台精密的「危機預測機器」，時刻準備好最壞的劇本。\n\n這不是你的錯。在某個你已記不清楚的時期，這台機器幫助你活下來了——它讓你提前準備好迎接傷害。但那個「傷害隨時會到來」的時代，其實已經結束了。\n\n你現在最需要的不是更多的預測，而是允許自己暫時放下計算，讓現在的溫度進來。',
     rootAnalysis: `焦慮型依附往往源於早年「間歇性強化」的照顧關係——照顧者有時溫暖有時冷漠，有時在場有時缺席，這種不可預測性讓你的神經系統學到：「愛是不穩定的，我必須隨時保持警覺才能抓住它。」
 
@@ -232,16 +235,17 @@ const PROFILES = {
 
   // ─── 4. 溺水的迴聲 (D高 + B高) ───
   da_drowning: {
-    label: '溺水的迴聲',
-    tag: '凍結型應激',
+    label: '衝突應激軸 × 迴避型',
+    tag: '凍結型應激（Freeze）',
+    poeticName: '溺水的迴聲',
     emoji: '🎵',
     videoSrc: '/animations/The Drowning Echo.mp4',
     accentColor: '#6080A8',
     tagBg: '#EAF0F8', tagColor: '#3A5070', tagBorder: '#A8C0D8',
-    summary: '唱盤在水底旋轉，聲音悶沈。你渴望被聽見，卻選擇了靜音。面對壓力時，你的語言功能會暫時關機，進入保護性的「防禦性沉默」。',
-    freeInsight: '偵測到「凍結應激模式」——你在衝突高峰時會進入情感關閉狀態，這讓伴侶無所適從，也讓你的感受無法被看見。',
-    archetype: '水底旋轉的唱盤',
-    archetypeDesc: '音樂在深處流動，外面的世界聽不見。你把最真實的聲音藏在了最難抵達的地方。',
+    summary: '你說過很多話，最後都沉到水底，連迴聲都沒了。你曾嘗試溝通，但在壓力下你的聲音消失，你的感受凍結，成了自己關係中的旁觀者。',
+    freeInsight: '偵測到「衝突凍結」模式——當關係壓力升高，你的神經系統選擇了「關閉」而非「戰鬥」或「逃跑」，這讓你在需要被看見的時刻，反而讓自己消失了。',
+    archetype: '水底的自己',
+    archetypeDesc: '你沉在水底，看著水面上那個世界繼續運轉。你想說話，但聲音在水裡傳不出去。',
     soulParadox: '你並不是不想說話，你是在那個時刻，所有的語言都沈入了水底。每一次沉默，都是你在用身體說：「我現在承受不了。」\n\n但那個等在水面上的人，不知道水有多深。他只看見你不說話，卻看不見你在水裡一個人掙扎。\n\n你的沉默是一種保護——保護自己不在最脆弱的時刻說出後悔的話。只是，這個保護機制需要一個「翻譯」，讓他知道沉默不等於冷漠，不等於放棄。',
     rootAnalysis: `凍結反應（Freeze Response）是神經系統在感知到「無法戰鬥、也無法逃跑」的威脅時，啟動的第三種應激模式。它讓你在衝突高峰時語言系統暫時失能、情緒感知關閉，像「斷線」一樣無法繼續當下的互動。
 
@@ -281,8 +285,9 @@ const PROFILES = {
 
   // ─── 5. 華麗的受難者 (C高 + A高) ───
   ca_masked: {
-    label: '華麗的受難者',
-    tag: '討好型依附',
+    label: '原生家庭軸 × 焦慮型',
+    tag: '討好型依附（Fawn）',
+    poeticName: '華麗的受難者',
     emoji: '🎭',
     videoSrc: '/animations/The Masked Martyr.mp4',
     accentColor: '#C896A8',
@@ -330,8 +335,9 @@ const PROFILES = {
 
   // ─── 6. 規訓的流放者 (D高 + C高) ───
   db_scholar: {
-    label: '規訓的流放者',
-    tag: '理智化防禦',
+    label: '迴避型 × 衝突應激（跨軸）',
+    tag: '理智化迴避型',
+    poeticName: '規訓的流放者',
     emoji: '📚',
     videoSrc: '/animations/The Exiled Scholar.mp4',
     accentColor: '#8A7A9E',
@@ -379,8 +385,9 @@ const PROFILES = {
 
   // ─── 7. 曠野的復讀機 (A高 + B高) ───
   ab_wilderness: {
-    label: '曠野的復讀機',
-    tag: '混亂型依附',
+    label: '混亂型依附',
+    tag: '恐懼型推拉（跨焦慮/迴避）',
+    poeticName: '曠野的復讀機',
     emoji: '📼',
     videoSrc: '/animations/The Wilderness Looper.mp4',
     accentColor: '#A07098',
@@ -428,8 +435,9 @@ const PROFILES = {
 
   // ─── 8. 失訊的預言家 (D極高) ───
   d_static: {
-    label: '失訊的預言家',
+    label: '衝突應激軸',
     tag: '解離型應激',
+    poeticName: '失訊的預言家',
     emoji: '📺',
     videoSrc: '/animations/The Static Prophet.mp4',
     accentColor: '#6070A8',
@@ -477,8 +485,9 @@ const PROFILES = {
 
   // ─── 9. 微光的殉道者 (A極高) ───
   ac_candlelit: {
-    label: '微光的殉道者',
-    tag: '融合型依附',
+    label: '焦慮型依附',
+    tag: '融合型（自我消融）',
+    poeticName: '微光的殉道者',
     emoji: '🕯️',
     videoSrc: '/animations/The Candlelit Martyr.mp4',
     accentColor: '#C8A070',
@@ -526,8 +535,9 @@ const PROFILES = {
 
   // ─── 10. 孤獨的領跑者 (C極高) ───
   c_lonely: {
-    label: '孤獨的領跑者',
-    tag: '成就導向依附',
+    label: '原生家庭軸',
+    tag: '成就導向型',
+    poeticName: '孤獨的領跑者',
     emoji: '🏃',
     videoSrc: '/animations/The Lonely Pacer.mp4',
     accentColor: '#7A6090',
@@ -575,8 +585,9 @@ const PROFILES = {
 
   // ─── 11. 斷線的呼喚者 (A高 + D低) ───
   ad_severed: {
-    label: '斷線的呼喚者',
-    tag: '追逃型依附',
+    label: '焦慮型依附',
+    tag: '追逃型（追者）',
+    poeticName: '斷線的呼喚者',
     emoji: '☎️',
     videoSrc: '/animations/The Severed Caller.mp4',
     accentColor: '#5080A0',
@@ -624,8 +635,9 @@ const PROFILES = {
 
   // ─── 12. 永存的瞬間 (C高 + D高) ───
   dc_snapshot: {
-    label: '永存的瞬間',
+    label: '衝突應激軸 × 原生家庭',
     tag: '反芻型應激',
+    poeticName: '永存的瞬間',
     emoji: '📷',
     videoSrc: '/animations/The Submerged Snapshot.mp4',
     accentColor: '#8070A8',
@@ -685,12 +697,18 @@ const DIAG_CODE_MAP = {
 
 // ─── URL ENCODE / DECODE ──────────────────────────────────────────────────────
 
+function track(event, params = {}) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', event, params)
+  }
+}
+
 function encodeAnswers(answers) {
   return answers.map(a => a.weight).join('')
 }
 
 function decodeAnswers(encoded) {
-  if (!encoded || encoded.length !== 20) return null
+  if (!encoded || encoded.length !== 28) return null
   const weights = encoded.split('').map(Number)
   if (weights.some(w => w < 1 || w > 5)) return null
   return QUESTIONS.map((q, i) => ({ dim: q.dim, weight: weights[i] }))
@@ -1187,7 +1205,7 @@ function HeroScreen({ onStart, onCode }) {
 
       {/* Logo */}
       <motion.div className="flex flex-col items-center mb-10"
-        initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+        initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <motion.div className="relative mb-5"
           animate={{ filter: ['drop-shadow(0 0 12px rgba(220,141,243,0.4))', 'drop-shadow(0 0 32px rgba(220,141,243,0.75))', 'drop-shadow(0 0 12px rgba(220,141,243,0.4))'] }}
           transition={{ duration: 3, repeat: Infinity }}>
@@ -1755,7 +1773,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 
   const handleThreads = () => {
     const text = encodeURIComponent(
-      `我在 KindlesMind 測出了「${profile.label}」\n${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
+      `我在 KindlesMind 測出了「${profile.poeticName}」\n${profile.label} · ${profile.tag}\n\n去測測你是哪種靈魂原型 ✦ https://kindlesmind.com`
     )
     window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank')
   }
@@ -1869,6 +1887,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
   const handleVerifyPayment = async () => {
     if (!verifyEmail.trim()) return
+    track('email_verify_attempt')
     setVerifyStatus('checking')
     try {
       const res = await fetch(`/api/check-payment?email=${encodeURIComponent(verifyEmail.trim())}`)
@@ -1907,9 +1926,9 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <p className="text-warm-text-muted text-sm">以下是根據你的 28 道情境題繪製的靈魂地圖</p>
       </motion.div>
 
-      {/* SoulMap card — naturally full-width (no px-5 on parent) */}
-      <motion.div className="bg-white overflow-hidden mb-5"
-        style={{ borderTop: '1px solid rgba(180,160,200,0.2)', borderBottom: '1px solid rgba(180,160,200,0.2)' }}
+      {/* SoulMap card */}
+      <div className="px-5">
+      <motion.div className="bg-white overflow-hidden rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 mb-5"
         initial={{ opacity: 1, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 }}>
 
         {/* ── Video cover — pure visual, no text overlay ── */}
@@ -1935,15 +1954,6 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           </motion.p>
           <p className="text-warm-text-muted text-sm mb-5">{profile.tag}</p>
 
-          {/* Tag chip */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"
-              style={{ backgroundColor: profile.tagBg, color: profile.tagColor, borderColor: profile.tagBorder }}>
-              <Sparkles size={11} />
-              靈魂依附標籤：{profile.tag}
-            </span>
-          </div>
-
           <p className="text-warm-text-muted text-sm leading-relaxed bg-warm-cream/80 rounded-2xl p-4 border border-warm-cream-dark/30 mb-5">
             {profile.summary}
           </p>
@@ -1958,6 +1968,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           </div>
         </div>
       </motion.div>
+      </div>
 
       <div className="px-5">
       {/* Archetype card */}
@@ -2083,7 +2094,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             exit={{ opacity: 0 }}>
 
             {/* Section label */}
-            <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">諮詢服務</p>
+            <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">為你推薦的心理師</p>
 
             {/* Main card */}
             <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
@@ -2092,17 +2103,15 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
               {/* ── Therapist profile ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
                 <div className="flex items-center gap-3.5 mb-4">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #52C17A 0%, #2E9E59 100%)' }}>
-                    黃
-                  </div>
+                  <img src="/psychologist2.jpg" alt="葉信儂 諮商心理師"
+                    className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-warm-text text-base leading-tight">黃惟雅 諮商心理師</p>
+                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儂　諮商心理師</p>
                     <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所 × 職涯諮詢師</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
-                  {['依附關係', '職涯諮詢', '人生設計', 'NLP 茶藝'].map(tag => (
+                  {['依附關係', '依附焦慮', '情感安全感'].map(tag => (
                     <span key={tag} className="text-xs px-2.5 py-1 rounded-full font-medium"
                       style={{ backgroundColor: '#EEF1FA', color: '#6B7CB5', border: '1px solid #DDE4F5' }}>
                       {tag}
@@ -2111,42 +2120,44 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 </div>
               </div>
 
-              {/* ── Package details ── */}
-              <div className="px-6 py-5">
-                {/* Package title */}
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="text-lg">🎯</span>
-                  <p className="font-semibold text-warm-text text-sm">深度解析預約資訊包</p>
-                </div>
-                <p className="text-xs leading-relaxed mb-4" style={{ color: '#9A94B8' }}>
-                  購買後將提供黃心理師的專屬預約連結與諮詢前準備資料，協助你在正式諮商前更有方向
+              {/* ── Description ── */}
+              <div className="px-6 py-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
+                <p className="text-sm text-warm-text leading-relaxed">
+                  專長於依附關係與親密關係議題，擅長陪伴在關係中感到困惑或受傷的人，透過結構化梳理，協助你將模糊的情緒轉化為清晰的問題意識，找到下一步的方向。
                 </p>
+              </div>
 
-                {/* Items */}
-                <div className="rounded-2xl p-4 space-y-3 mb-5"
-                  style={{ backgroundColor: '#F7F5FC', border: '1px solid rgba(196,184,228,0.3)' }}>
+              {/* ── Unlock items ── */}
+              <div className="px-6 py-5">
+                <p className="text-xs font-semibold text-warm-text mb-4">解鎖後包含</p>
+                <div className="space-y-4">
                   {[
-                    { icon: '📄', text: '依附類型個人化分析報告（3,500+ 字）' },
-                    { icon: '📅', text: '黃心理師專屬預約資訊 × 諮詢前準備清單' },
-                    { icon: '💬', text: '3 個月情感安全感重建步驟指南' },
+                    { icon: '📄', title: '依附類型個人化深度解析', sub: '專屬報告，3,500+ 字完整分析' },
+                    { icon: '🔗', title: '葉心理師聯繫方式', sub: '預約連結 × 諮詢前準備清單' },
+                    { icon: '📋', title: '3 個月情感安全感重建指南', sub: '階段性步驟，可自行練習' },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <span className="text-base flex-shrink-0 leading-tight">{item.icon}</span>
-                      <p className="text-sm text-warm-text leading-relaxed">{item.text}</p>
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: '#F2F0FA' }}>
+                        <span className="text-base">{item.icon}</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-warm-text leading-tight">{item.title}</p>
+                        <p className="text-xs mt-0.5" style={{ color: '#9A94B8' }}>{item.sub}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
-
               </div>
 
             </div>
 
-            {/* ── Price + CTA (outside card) ── */}
+            {/* ── Price + CTA ── */}
             <div className="mt-5">
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-end justify-between mb-3">
                 <div>
-                  <p className="font-bold text-warm-text text-2xl leading-none">NT$ 299</p>
-                  <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>支持一杯咖啡，解鎖完整資源</p>
+                  <p className="text-xs mb-1" style={{ color: '#9A94B8' }}>單次購買</p>
+                  <p className="font-bold text-warm-text text-2xl leading-none">NT$399</p>
                 </div>
                 <motion.a
                   href={(() => {
@@ -2159,12 +2170,18 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                   rel="noopener noreferrer"
                   className="px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-1.5 no-underline flex-shrink-0"
                   style={{ backgroundColor: '#1A1A1A', color: '#FFFFFF' }}
-                  onClick={() => setSupportClicked(true)}
+                  onClick={() => { track('unlock_click'); setSupportClicked(true) }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}>
-                  立即解鎖 ☕
+                  立即解鎖
                 </motion.a>
               </div>
+
+              {/* Disclaimer */}
+              <p className="text-xs leading-relaxed mb-3 rounded-2xl p-4"
+                style={{ backgroundColor: '#F2F0FA', border: '1px solid rgba(196,184,228,0.5)', color: '#7270A0' }}>
+                本次購買包含完整依附類型分析報告、3 個月情感安全感重建指南，以及葉心理師的聯繫方式。如需正式諮商，費用依心理師公告為準，與本次購買分開計算。
+              </p>
 
               {/* Email verify unlock */}
               <AnimatePresence>
@@ -2210,16 +2227,6 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* Disclaimer */}
-              <p className="text-center leading-relaxed mb-2" style={{ color: '#B8B0C8', fontSize: '11px' }}>
-                ★ 本服務為資訊內容與預約媒合，不包含心理師本身<br />
-                正式諮商需另行與諮商師預約
-              </p>
-              <p className="text-center leading-relaxed" style={{ color: '#C0BAD8', fontSize: '11px' }}>
-                Powered by kindlesmind x Portaly<br />
-                榮譽制，你的支持將計畫走得更遠 🙏
-              </p>
             </div>
           </motion.div>
         ) : (
@@ -2877,7 +2884,7 @@ export default function App() {
     window.history.replaceState(null, '', `?a=${encoded}`)
     try { localStorage.setItem('km_last_result', JSON.stringify({ encoded, unlocked: false })) } catch {}
     const r = calcResults(answers)
-    setTimeout(() => { setResults(r); setPhase('result') }, 3600)
+    setTimeout(() => { setResults(r); setPhase('result'); track('quiz_complete') }, 3600)
   }
 
   const handleCodeResult = (parsed) => {
@@ -2887,6 +2894,7 @@ export default function App() {
     window.scrollTo(0, 0)
   }
   const handleUnlock = () => {
+    track('purchase_verified')
     setIsUnlocked(true)
     const params = new URLSearchParams(window.location.search)
     params.set('u', '1')
@@ -2939,7 +2947,7 @@ export default function App() {
           {/* ── Main app flow ── */}
           {!legalPage && phase === 'hero' && (
             <motion.div key="hero" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.35 }}>
-              <HeroScreen onStart={() => setPhase('quiz')} onCode={handleCodeResult} />
+              <HeroScreen onStart={() => { track('quiz_start'); setPhase('quiz') }} onCode={handleCodeResult} />
               <Footer onNav={handleNavLegal} onModal={setLegalModal} />
             </motion.div>
           )}
