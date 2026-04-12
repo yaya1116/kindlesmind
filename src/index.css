@@ -39,6 +39,26 @@
   border-radius: 3px;
 }
 
+/* Hide scrollbar for horizontal scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Marquee animation */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-slide {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* Smooth transitions */
 * {
   -webkit-font-smoothing: antialiased;

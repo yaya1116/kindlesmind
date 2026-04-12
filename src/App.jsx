@@ -7,7 +7,7 @@ import {
   ChevronRight, ChevronLeft, Star, Flame, Leaf, Sun, Moon,
   Wind, Clock, Eye, RefreshCw, AlertCircle, Mail, ExternalLink,
   UserCheck, ShieldCheck, BadgeCheck, Zap,
-  Download, Share2, Copy, Check
+  Download, Share2, Copy, Check, Quote
 } from 'lucide-react'
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -1207,11 +1207,49 @@ function HeroScreen({ onStart }) {
         ))}
       </motion.div>
 
+      {/* ── Psychologist endorsement ── */}
+      <motion.div className="mt-8 w-full max-w-xs"
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
+        <div className="rounded-2xl p-5 border"
+          style={{ background: 'rgba(255,255,255,0.65)', borderColor: 'rgba(155,126,166,0.25)', backdropFilter: 'blur(8px)' }}>
+          {/* Psychologist info */}
+          <div className="flex items-center gap-3 mb-3.5">
+            <img src="/psychologist2.jpg" alt="葉信儂 心理師"
+              className="w-12 h-12 rounded-full object-cover border-2"
+              style={{ borderColor: 'rgba(220,141,243,0.3)' }} />
+            <div>
+              <p className="text-warm-text text-sm font-semibold">葉信儂</p>
+              <p className="text-warm-text-muted text-xs">諮商心理師 · 人生設計心理諮商所</p>
+            </div>
+          </div>
+          {/* Quote */}
+          <div className="relative pl-4 mb-3.5" style={{ borderLeft: '2px solid rgba(220,141,243,0.4)' }}>
+            <Quote size={12} className="absolute -left-0.5 -top-0.5 opacity-30" style={{ color: '#DC8DF3' }} />
+            <p className="text-warm-text text-xs leading-relaxed italic">
+              這份診斷能幫助你看見關係中未被察覺的模式，是理解自己的第一步。
+            </p>
+          </div>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {['依附關係', '親密議題', '情感安全感'].map(tag => (
+              <span key={tag} className="text-xs px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(220,141,243,0.1)', color: '#7B5E8A' }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+          {/* Theory basis */}
+          <p className="text-center text-xs" style={{ color: '#B0A0C8' }}>
+            本測驗基於依附理論（Attachment Theory）設計
+          </p>
+        </div>
+      </motion.div>
+
       {/* CTA */}
       <motion.button
-        className="group relative overflow-hidden px-10 py-4 rounded-2xl text-white font-medium text-base shadow-terracotta-lg"
+        className="mt-8 group relative overflow-hidden px-10 py-4 rounded-2xl text-white font-medium text-base shadow-terracotta-lg"
         style={{ background: 'linear-gradient(135deg, #DC8DF3, #33ABD3)' }}
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
         whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
         onClick={onStart}>
         <span className="relative z-10 flex items-center gap-2">
@@ -1223,24 +1261,38 @@ function HeroScreen({ onStart }) {
       </motion.button>
 
       <motion.p className="text-warm-text-light text-xs mt-4"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}>
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
         約 8 分鐘完成 · 28 道情境題目 · 4 個靈魂維度
       </motion.p>
 
-
-      {/* Dimension preview */}
-      <motion.div className="mt-10 grid grid-cols-2 gap-2 w-full max-w-xs"
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
-        {DIMENSIONS.map(dim => (
-          <div key={dim.id}
-            className="flex items-center gap-2 bg-white/60 rounded-xl px-3 py-2.5 border border-warm-cream-dark/40 shadow-warm-sm">
-            <dim.Icon size={13} style={{ color: dim.color }} />
-            <div>
-              <div className="text-warm-text text-xs font-medium">{dim.name}</div>
-              <div className="text-warm-text-light text-xs">{dim.sub}</div>
+      {/* ── User reviews marquee ── */}
+      <motion.div className="mt-10 w-screen overflow-hidden"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+        <div className="marquee-track">
+          {[0, 1].map(copy => (
+            <div key={copy} className="marquee-slide" aria-hidden={copy === 1}>
+              {[
+                { text: '做完才發現自己一直在用迴避的方式面對親密關係，處方建議很具體實用。', name: 'L', age: 28 },
+                { text: '比星座準太多了…每一句都像在說我，看完忍不住轉給另一半。', name: '小魚', age: 32 },
+                { text: '原來我的焦慮不是沒有原因的，第一次覺得被理解。', name: 'A', age: 25 },
+                { text: '終於理解為什麼每次吵架都想逃，報告寫得好細膩。', name: 'Mia', age: 30 },
+                { text: '跟男友一起測，互相看對方的報告，溝通變順暢了。', name: '阿晴', age: 27 },
+              ].map((review, i) => (
+                <div key={i}
+                  className="rounded-xl px-4 py-3 border flex-shrink-0"
+                  style={{ background: 'rgba(255,255,255,0.5)', borderColor: 'rgba(155,126,166,0.15)', width: 220 }}>
+                  <div className="flex gap-0.5 mb-1.5">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} size={10} fill="#F5C34B" stroke="#F5C34B" />
+                    ))}
+                  </div>
+                  <p className="text-warm-text text-xs leading-relaxed mb-1.5">「{review.text}」</p>
+                  <p className="text-right text-xs" style={{ color: '#B0A0C8' }}>— {review.name}, {review.age}</p>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </motion.div>
     </div>
   )
