@@ -1649,7 +1649,7 @@ function ShareCard({ profile, dimData, radarData, diagCode, cardRef }) {
       width: 640,
       background: 'linear-gradient(145deg,#F9F6FF 0%,#EDE8F7 55%,#F2EDF8 100%)',
       fontFamily: 'Noto Serif TC, serif',
-      position: 'relative', overflow: 'hidden',
+      position: 'relative',
       boxSizing: 'border-box',
     }}>
       {/* bg deco */}
@@ -1704,23 +1704,24 @@ function ShareCard({ profile, dimData, radarData, diagCode, cardRef }) {
           <p style={{ fontSize: 10, letterSpacing: '0.14em', color: '#A898C0', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 3px' }}>療癒處方</p>
           <p style={{ fontSize: 13, fontWeight: 600, color: '#3A2E58', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>接下來，你可以這樣做</p>
         </div>
-        {profile.prescription?.map((month, mi) => (
-          <div key={mi} style={{ padding: '16px 28px', borderBottom: mi < 2 ? '1px solid rgba(196,184,228,0.2)' : 'none' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: monthColors[mi], flexShrink: 0 }} />
-              <p style={{ fontSize: 10, color: '#A898C0', fontFamily: 'Noto Sans TC, sans-serif', margin: 0 }}>{month.month}</p>
-            </div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: monthColors[mi], margin: '0 0 10px', fontFamily: 'Noto Sans TC, sans-serif', paddingLeft: 16 }}>{month.title}</p>
-            {month.steps?.map((s, si) => (
-              <div key={si} style={{ display: 'flex', gap: 10, marginBottom: 8, paddingLeft: 16 }}>
-                <div style={{ width: 17, height: 17, borderRadius: '50%', background: `${monthColors[mi]}18`, border: `1px solid ${monthColors[mi]}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                  <span style={{ fontSize: 9, color: monthColors[mi], fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif' }}>{si + 1}</span>
+        <div style={{ padding: '16px 28px 8px' }}>
+          {profile.prescription?.map((month, mi) => (
+            <div key={mi} style={{ position: 'relative', paddingLeft: 20, paddingBottom: mi < 2 ? 20 : 4, borderLeft: `2px solid ${monthColors[mi]}` }}>
+              {/* Timeline dot */}
+              <div style={{ position: 'absolute', left: -5, top: 2, width: 8, height: 8, borderRadius: '50%', background: monthColors[mi] }} />
+              <p style={{ fontSize: 10, color: '#A898C0', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 2px' }}>{month.month}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: monthColors[mi], margin: '0 0 10px', fontFamily: 'Noto Sans TC, sans-serif' }}>{month.title}</p>
+              {month.steps?.map((s, si) => (
+                <div key={si} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
+                  <div style={{ width: 17, height: 17, borderRadius: '50%', background: `${monthColors[mi]}18`, border: `1px solid ${monthColors[mi]}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                    <span style={{ fontSize: 9, color: monthColors[mi], fontWeight: 700, fontFamily: 'Noto Sans TC, sans-serif' }}>{si + 1}</span>
+                  </div>
+                  <p style={{ fontSize: 11, color: '#5A4A76', lineHeight: 1.7, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
                 </div>
-                <p style={{ fontSize: 11, color: '#5A4A76', lineHeight: 1.7, margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>{s}</p>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── Footer ── */}
