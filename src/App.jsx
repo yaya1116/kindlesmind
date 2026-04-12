@@ -1752,11 +1752,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
     return () => clearTimeout(timer)
   }, [])
 
-  // Called synchronously (no prior await) so iOS user-gesture is preserved for navigator.share
-  const handleDownload = () => {
-    setDownloading(true)
-    const blob = cachedBlob
-    if (!blob) { setDownloading(false); return }
+  const doShare = (blob) => {
     const file = new File([blob], `KindlesMind_${diagCode}.png`, { type: 'image/png' })
     if (navigator.share && navigator.canShare?.({ files: [file] })) {
       navigator.share({ files: [file], title: 'KindlesMind 靈魂原型診斷' })
@@ -1769,6 +1765,25 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
       URL.revokeObjectURL(url)
       setDownloading(false)
     }
+  }
+
+  const handleDownload = async () => {
+    setDownloading(true)
+    let blob = cachedBlob
+    if (!blob) {
+      try {
+        if (!cardRef.current) { setDownloading(false); return }
+        const dataUrl = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true })
+        const res = await fetch(dataUrl)
+        blob = await res.blob()
+        setCachedBlob(blob)
+      } catch (e) {
+        console.error('圖片產生失敗', e)
+        setDownloading(false)
+        return
+      }
+    }
+    doShare(blob)
   }
 
   const handleThreads = () => {
