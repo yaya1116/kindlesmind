@@ -2851,27 +2851,36 @@ export default function App() {
     const params = new URLSearchParams(window.location.search)
     const urlEncoded = params.get('a')
 
+    const unlockFlag = params.get('u') === '1'
+    let restored = false
+
     if (urlEncoded) {
       // Priority 1: URL params
       const answers = decodeAnswers(urlEncoded)
       if (answers) {
-        const unlocked = params.get('u') === '1'
         setResults(calcResults(answers))
-        setIsUnlocked(unlocked)
+        setIsUnlocked(unlockFlag)
         setPhase('result')
-        try { localStorage.setItem('km_last_result', JSON.stringify({ encoded: urlEncoded, unlocked })) } catch {}
+        try { localStorage.setItem('km_last_result', JSON.stringify({ encoded: urlEncoded, unlocked: unlockFlag })) } catch {}
+        restored = true
       }
-    } else {
-      // Priority 2: localStorage (e.g. user returned from Portaly without URL params)
+    }
+
+    // Priority 2: localStorage — also used when URL has invalid/missing answer data (e.g. Portaly redirect with ?a=xxxx)
+    if (!restored) {
       try {
         const saved = JSON.parse(localStorage.getItem('km_last_result') || 'null')
         if (saved?.encoded) {
           const answers = decodeAnswers(saved.encoded)
           if (answers) {
+            const unlocked = unlockFlag || saved.unlocked || false
             setResults(calcResults(answers))
-            setIsUnlocked(saved.unlocked || false)
+            setIsUnlocked(unlocked)
             setPhase('result')
-            window.history.replaceState(null, '', `?a=${saved.encoded}${saved.unlocked ? '&u=1' : ''}`)
+            window.history.replaceState(null, '', `?a=${saved.encoded}${unlocked ? '&u=1' : ''}`)
+            if (unlocked && !saved.unlocked) {
+              try { localStorage.setItem('km_last_result', JSON.stringify({ encoded: saved.encoded, unlocked: true })) } catch {}
+            }
           }
         }
       } catch {}
