@@ -837,35 +837,6 @@ function calcResults(answers) {
   return { profile, dimData, primaryDim: p, profileKey, dimScores, diagCode, radarData }
 }
 
-// Reverse-lookup map: 'KM-01' → 'secure'
-const CODE_TO_PROFILE = Object.fromEntries(
-  Object.entries(DIAG_CODE_MAP).map(([k, v]) => [v, k])
-)
-// Bucket midpoints (score range 7–35, bucket 1–5)
-const BUCKET_MID = { 1: 9, 2: 14, 3: 19, 4: 25, 5: 31 }
-
-function parseCode(raw) {
-  const code = raw.trim().toUpperCase()
-  // Format: KM-XX-A{1-5}B{1-5}C{1-5}D{1-5}
-  const m = code.match(/^(KM-\d{2})-A([1-5])B([1-5])C([1-5])D([1-5])$/)
-  if (!m) return null
-  const profileKey = CODE_TO_PROFILE[m[1]]
-  const profile = profileKey ? PROFILES[profileKey] : null
-  if (!profile) return null
-  const dimScores = { 1: BUCKET_MID[+m[2]], 2: BUCKET_MID[+m[3]], 3: BUCKET_MID[+m[4]], 4: BUCKET_MID[+m[5]] }
-  const dimData = DIMENSIONS.map(dim => {
-    const score = dimScores[dim.id]
-    const health = Math.round(100 - ((score - 7) / 28) * 100)
-    const pct    = 100 - health
-    return { ...dim, score, health, pct }
-  })
-  const radarData = DIMENSIONS.map(dim => ({
-    ...dim, score: dimScores[dim.id],
-    pct: Math.round(((dimScores[dim.id] - 7) / 28) * 100),
-  }))
-  return { profile, dimData, primaryDim: DIMENSIONS[0], profileKey, dimScores, diagCode: code, radarData }
-}
-
 function getDimText(dimId, health) {
   const level = health >= 75 ? 3 : health >= 50 ? 2 : health >= 25 ? 1 : 0
   const map = {
@@ -1186,16 +1157,7 @@ function RadarChart({ radarData }) {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
-function HeroScreen({ onStart, onCode }) {
-  const [codeInput, setCodeInput] = useState('')
-  const [codeError, setCodeError] = useState(false)
-
-  const handleCode = () => {
-    const result = parseCode(codeInput)
-    if (!result) { setCodeError(true); return }
-    setCodeError(false)
-    onCode(result)
-  }
+function HeroScreen({ onStart }) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden">
@@ -1265,37 +1227,6 @@ function HeroScreen({ onStart, onCode }) {
         約 8 分鐘完成 · 28 道情境題目 · 4 個靈魂維度
       </motion.p>
 
-      {/* Code lookup */}
-      <motion.div className="mt-6 w-full max-w-xs"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
-        <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
-        <div className="flex items-center gap-2">
-          <input
-            value={codeInput}
-            onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
-            onKeyDown={e => e.key === 'Enter' && handleCode()}
-            placeholder="KM-04-A3B3C3D4"
-            className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
-            style={{
-              background: 'rgba(255,255,255,0.7)',
-              border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
-              color: '#434242', fontFamily: 'Noto Sans TC, sans-serif',
-              letterSpacing: '0.06em'
-            }} />
-          <motion.button
-            onClick={handleCode}
-            whileTap={{ scale: 0.97 }}
-            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
-            style={{ background: 'linear-gradient(135deg,#7B5E8A,#5A7A8E)' }}>
-            查看
-          </motion.button>
-        </div>
-        {codeError && (
-          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
-            代碼格式錯誤，請確認後再試
-          </p>
-        )}
-      </motion.div>
 
       {/* Dimension preview */}
       <motion.div className="mt-10 grid grid-cols-2 gap-2 w-full max-w-xs"
@@ -2905,12 +2836,6 @@ export default function App() {
     setTimeout(() => { setResults(r); setPhase('result'); track('quiz_complete') }, 3600)
   }
 
-  const handleCodeResult = (parsed) => {
-    setResults(parsed)
-    setIsUnlocked(true)   // code lookup = already unlocked
-    setPhase('result')
-    window.scrollTo(0, 0)
-  }
   const handleUnlock = () => {
     track('purchase_verified')
     setIsUnlocked(true)
@@ -2965,7 +2890,7 @@ export default function App() {
           {/* ── Main app flow ── */}
           {!legalPage && phase === 'hero' && (
             <motion.div key="hero" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.35 }}>
-              <HeroScreen onStart={() => { track('quiz_start'); setPhase('quiz') }} onCode={handleCodeResult} />
+              <HeroScreen onStart={() => { track('quiz_start'); setPhase('quiz') }} />
               <Footer onNav={handleNavLegal} onModal={setLegalModal} />
             </motion.div>
           )}
