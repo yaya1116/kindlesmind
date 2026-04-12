@@ -1701,7 +1701,7 @@ function ShareCard({ profile, dimData, radarData, diagCode, cardRef }) {
       {/* ── Full 3-month Prescription ── */}
       <div style={{ margin: '0 36px 36px', borderRadius: 18, background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(196,184,228,0.35)', overflow: 'hidden' }}>
         <div style={{ padding: '18px 28px 14px', borderBottom: '1px solid rgba(196,184,228,0.25)', background: 'rgba(255,255,255,0.5)' }}>
-          <p style={{ fontSize: 10, letterSpacing: '0.14em', color: '#A898C0', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 3px' }}>三個月療癒處方箋</p>
+          <p style={{ fontSize: 10, letterSpacing: '0.14em', color: '#A898C0', textTransform: 'uppercase', fontFamily: 'Noto Sans TC, sans-serif', margin: '0 0 3px' }}>療癒處方</p>
           <p style={{ fontSize: 13, fontWeight: 600, color: '#3A2E58', margin: 0, fontFamily: 'Noto Sans TC, sans-serif' }}>接下來，你可以這樣做</p>
         </div>
         {profile.prescription?.map((month, mi) => (
@@ -1814,7 +1814,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 
       {/* Section: Prescription */}
       <div className="bg-white rounded-3xl border border-warm-cream-dark/40 shadow-warm p-6">
-        <SectionLabel icon={Clock} color="#6B7CB5">三個月療癒處方箋</SectionLabel>
+        <SectionLabel icon={Clock} color="#6B7CB5">療癒處方</SectionLabel>
         <p className="font-serif text-warm-text text-base leading-relaxed font-medium mb-5">
           接下來，你可以這樣做
         </p>
@@ -2025,62 +2025,65 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         style={{ background: 'linear-gradient(135deg, #F9F6FF 0%, #F1EDF8 100%)', borderColor: 'rgba(155,126,166,0.2)' }}
         initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
 
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: profile.accentColor + '20' }}>
-            <Leaf size={13} style={{ color: profile.accentColor }} />
-          </div>
-          <div>
-            <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: profile.accentColor }}>
-              療癒處方 · 第一個月
-            </p>
-            <p className="text-[10px] text-warm-text-muted mt-0.5">{profile.prescription[0].title}</p>
-          </div>
-        </div>
+        {/* Header — matches FullReport style */}
+        <SectionLabel icon={Clock} color="#6B7CB5">療癒處方</SectionLabel>
+        <p className="font-serif text-warm-text text-base leading-relaxed font-medium mb-5">
+          接下來，你可以這樣做
+        </p>
 
-        {/* Month 1 step 1 only — free preview */}
-        <div className="flex items-start gap-3 rounded-2xl px-4 py-3 mb-3"
-          style={{ backgroundColor: profile.accentColor + '10', border: `1px solid ${profile.accentColor}20` }}>
-          <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[9px] font-bold text-white mt-0.5"
-            style={{ backgroundColor: profile.accentColor }}>1</div>
-          <p className="text-sm text-warm-text leading-relaxed">{profile.prescription[0].steps[0]}</p>
-        </div>
+        {/* Timeline — Month 1 fully visible */}
+        <div className="space-y-5">
+          <div className="relative pl-5 border-l-2" style={{ borderColor: '#D48C70' }}>
+            <div className="absolute -left-1.5 top-0.5 w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#D48C70' }} />
+            <p className="text-xs text-warm-text-muted mb-0.5">第一個月</p>
+            <p className="font-serif text-warm-text font-semibold mb-2">{profile.prescription[0].title}</p>
+            <ul className="space-y-1.5">
+              {profile.prescription[0].steps.map((s, j) => (
+                <li key={j} className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
+                  <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* Steps 2 & 3 blurred / locked */}
-        <div className="relative space-y-2">
-          {profile.prescription[0].steps.slice(1).map((step, i) => (
-            <div key={i} className="flex items-start gap-3 rounded-2xl px-4 py-3"
-              style={{
-                backgroundColor: profile.accentColor + '08',
-                border: `1px solid ${profile.accentColor}15`,
-                filter: 'blur(3px)',
-                userSelect: 'none',
-                pointerEvents: 'none',
-              }}>
-              <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[9px] font-bold text-white mt-0.5"
-                style={{ backgroundColor: profile.accentColor + '80' }}>{i + 2}</div>
-              <p className="text-sm text-warm-text leading-relaxed">{step}</p>
+          {/* Month 2 — partially visible, fading out */}
+          <div className="relative" style={{ maxHeight: 105, overflow: 'clip', overflowX: 'visible' }}>
+            <div className="relative pl-5 border-l-2" style={{ borderColor: '#7B9EE8', userSelect: 'none', pointerEvents: 'none' }}>
+              <div className="absolute -left-1.5 top-0.5 w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#7B9EE8' }} />
+              <p className="text-xs text-warm-text-muted mb-0.5">{profile.prescription[1].month}</p>
+              <p className="font-serif text-warm-text font-semibold mb-2">{profile.prescription[1].title}</p>
+              <ul className="space-y-1.5">
+                <li className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
+                  <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
+                  {profile.prescription[1].steps[0]}
+                </li>
+              </ul>
             </div>
-          ))}
-          {/* Frosted overlay with lock */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 rounded-xl"
-            style={{ background: 'linear-gradient(to bottom, transparent, rgba(249,246,255,0.92))' }}>
-            <Lock size={13} style={{ color: profile.accentColor }} />
-            <span className="text-[11px] font-medium" style={{ color: profile.accentColor }}>解鎖完整 3 個月處方箋</span>
+            {/* Seamless fade to card background */}
+            <div className="absolute inset-0" style={{
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(241,237,248,0.5) 40%, rgba(241,237,248,1) 80%)',
+              pointerEvents: 'none',
+            }} />
+          </div>
+
+          {/* Lock hint */}
+          <div className="flex flex-col items-center gap-1 -mt-2 pb-1">
+            <Lock size={13} style={{ color: '#6B7CB5' }} />
+            <span className="text-[11px] font-medium" style={{ color: '#6B7CB5' }}>解鎖完整療癒處方</span>
           </div>
         </div>
 
         {/* Month badges */}
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2 mt-5">
           {profile.prescription.map((m, i) => (
             <div key={i} className="flex-1 rounded-xl py-2 text-center text-[10px] font-semibold"
               style={{
-                backgroundColor: i === 0 ? profile.accentColor + '20' : '#F0ECF8',
-                color: i === 0 ? profile.accentColor : '#B0A8C8',
-                border: `1px solid ${i === 0 ? profile.accentColor + '30' : '#E0D8F0'}`,
+                backgroundColor: i === 0 ? '#D48C70' + '20' : '#F0ECF8',
+                color: i === 0 ? '#D48C70' : '#B0A8C8',
+                border: `1px solid ${i === 0 ? '#D48C70' + '30' : '#E0D8F0'}`,
               }}>
-              {i === 0 ? '✓ ' : '🔒 '}{m.month.replace('第', '').replace('個月', 'M')}
+              {i === 0 ? '✓ ' : '🔒 '}{m.month}
             </div>
           ))}
         </div>
@@ -2093,23 +2096,50 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             exit={{ opacity: 0 }}>
 
-            {/* Section label */}
-            <p className="text-xs text-warm-text-muted tracking-widest uppercase mb-4">為你推薦的心理師</p>
-
-            {/* Main card */}
+            {/* ── 1. 心理師 + Price + CTA ── */}
             <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
               style={{ border: '1px solid rgba(196,184,228,0.45)' }}>
 
-              {/* ── Therapist profile ── */}
+              {/* ── Therapist + CTA row ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
-                <div className="flex items-center gap-3.5 mb-4">
-                  <img src="/psychologist2.jpg" alt="葉信儂 諮商心理師"
-                    className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-warm-text text-base leading-tight">葉信儂　諮商心理師</p>
-                    <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所 × 職涯諮詢師</p>
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-3">
+                    <img src="/psychologist2.jpg" alt="葉信儂 諮商心理師"
+                      className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-warm-text text-base leading-tight">葉信儂　諮商心理師</p>
+                      <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end flex-shrink-0">
+                    <p className="font-bold text-warm-text text-lg leading-none mb-2">NT$399</p>
+                    <motion.a
+                      href={(() => {
+                        const params = new URLSearchParams(window.location.search)
+                        params.set('u', '1')
+                        const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+                        return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
+                      })()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-2xl font-semibold text-sm no-underline whitespace-nowrap"
+                      style={{ backgroundColor: '#1A1A1A', color: '#FFFFFF' }}
+                      onClick={() => { track('unlock_click'); setSupportClicked(true) }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}>
+                      查看完整報告
+                    </motion.a>
                   </div>
                 </div>
+                {/* Disclaimer under CTA */}
+                <p className="text-xs leading-relaxed rounded-xl p-3 mb-3"
+                  style={{ backgroundColor: '#F7F5FC', color: '#9A94B8' }}>
+                  本次購買包含完整依附類型分析報告、3 個月情感安全感重建指南，以及葉心理師的聯繫方式。如需正式諮商，費用依心理師公告為準，與本次購買分開計算。
+                </p>
+                {/* Description under avatar */}
+                <p className="text-xs leading-relaxed mb-3" style={{ color: '#9A94B8' }}>
+                  專長於依附關係與親密關係議題，擅長陪伴在關係中感到困惑或受傷的人，透過結構化梳理，協助你將模糊的情緒轉化為清晰的問題意識，找到下一步的方向。
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {['依附關係', '依附焦慮', '情感安全感'].map(tag => (
                     <span key={tag} className="text-xs px-2.5 py-1 rounded-full font-medium"
@@ -2118,13 +2148,6 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                     </span>
                   ))}
                 </div>
-              </div>
-
-              {/* ── Description ── */}
-              <div className="px-6 py-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
-                <p className="text-sm text-warm-text leading-relaxed">
-                  專長於依附關係與親密關係議題，擅長陪伴在關係中感到困惑或受傷的人，透過結構化梳理，協助你將模糊的情緒轉化為清晰的問題意識，找到下一步的方向。
-                </p>
               </div>
 
               {/* ── Unlock items ── */}
@@ -2152,38 +2175,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
             </div>
 
-            {/* ── Price + CTA ── */}
+            {/* ── 3. Email 驗證 ── */}
             <div className="mt-5">
-              <div className="flex items-end justify-between mb-3">
-                <div>
-                  <p className="text-xs mb-1" style={{ color: '#9A94B8' }}>單次購買</p>
-                  <p className="font-bold text-warm-text text-2xl leading-none">NT$399</p>
-                </div>
-                <motion.a
-                  href={(() => {
-                    const params = new URLSearchParams(window.location.search)
-                    params.set('u', '1')
-                    const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
-                    return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
-                  })()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-2xl font-semibold text-sm flex items-center gap-1.5 no-underline flex-shrink-0"
-                  style={{ backgroundColor: '#1A1A1A', color: '#FFFFFF' }}
-                  onClick={() => { track('unlock_click'); setSupportClicked(true) }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}>
-                  立即解鎖
-                </motion.a>
-              </div>
-
-              {/* Disclaimer */}
-              <p className="text-xs leading-relaxed mb-3 rounded-2xl p-4"
-                style={{ backgroundColor: '#F2F0FA', border: '1px solid rgba(196,184,228,0.5)', color: '#7270A0' }}>
-                本次購買包含完整依附類型分析報告、3 個月情感安全感重建指南，以及葉心理師的聯繫方式。如需正式諮商，費用依心理師公告為準，與本次購買分開計算。
-              </p>
-
-              {/* Email verify unlock */}
               <AnimatePresence>
                 {supportClicked && (
                   <motion.div
