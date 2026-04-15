@@ -1258,24 +1258,6 @@ function HeroScreen({ onStart, onCode }) {
         </p>
       </motion.div>
 
-      {/* Stats */}
-      <motion.div className="flex items-center gap-5 mb-9"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
-        {[
-          { Icon: Star,  label: '4.9 評分', sub: '心理師督導認證' },
-          { Icon: Heart, label: '12,400+', sub: '已完成診斷' },
-          { Icon: Shield,label: '匿名保護', sub: '資料不被儲存' },
-        ].map(({ Icon, label, sub }, i) => (
-          <div key={i} className="text-center">
-            <div className="flex items-center justify-center gap-1 mb-0.5">
-              <Icon size={11} style={{ color: '#DC8DF3' }} />
-              <span className="text-warm-text text-xs font-semibold">{label}</span>
-            </div>
-            <span className="text-warm-text-light text-xs">{sub}</span>
-          </div>
-        ))}
-      </motion.div>
-
       {/* ── Psychologist endorsement ── */}
       <motion.div className="mt-8 w-full max-w-xs"
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
@@ -1375,6 +1357,24 @@ function HeroScreen({ onStart, onCode }) {
               <div className="text-warm-text text-xs font-medium">{dim.name}</div>
               <div className="text-warm-text-light text-xs">{dim.sub}</div>
             </div>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Stats */}
+      <motion.div className="flex items-center gap-5 mt-10"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
+        {[
+          { Icon: Star,  label: '4.9 評分', sub: '心理師督導認證' },
+          { Icon: Heart, label: '12,400+', sub: '已完成診斷' },
+          { Icon: Shield,label: '匿名保護', sub: '資料不被儲存' },
+        ].map(({ Icon, label, sub }, i) => (
+          <div key={i} className="text-center">
+            <div className="flex items-center justify-center gap-1 mb-0.5">
+              <Icon size={11} style={{ color: '#DC8DF3' }} />
+              <span className="text-warm-text text-xs font-semibold">{label}</span>
+            </div>
+            <span className="text-warm-text-light text-xs">{sub}</span>
           </div>
         ))}
       </motion.div>
