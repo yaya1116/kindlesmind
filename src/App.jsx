@@ -1277,6 +1277,38 @@ function HeroScreen({ onStart, onCode }) {
         約 8 分鐘完成 · 28 道情境題目 · 4 個靈魂維度
       </motion.p>
 
+      {/* ── Code lookup ── */}
+      <motion.div className="mt-6 w-full max-w-xs"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}>
+        <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
+        <div className="flex items-center gap-2">
+          <input
+            value={codeInput}
+            onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
+            onKeyDown={e => e.key === 'Enter' && handleCode()}
+            placeholder="KM-04-A3B3C3D4"
+            className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
+              color: '#434242', fontFamily: 'Noto Sans TC, sans-serif',
+              letterSpacing: '0.06em'
+            }} />
+          <motion.button
+            onClick={handleCode}
+            whileTap={{ scale: 0.97 }}
+            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
+            style={{ background: '#9B7EA6' }}>
+            查看
+          </motion.button>
+        </div>
+        {codeError && (
+          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
+            代碼格式錯誤，請確認後再試
+          </p>
+        )}
+      </motion.div>
+
       {/* ── User reviews marquee ── */}
       <motion.div className="mt-10 w-screen overflow-hidden"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
@@ -1305,38 +1337,6 @@ function HeroScreen({ onStart, onCode }) {
             </div>
           ))}
         </div>
-      </motion.div>
-
-      {/* ── Code lookup ── */}
-      <motion.div className="mt-10 w-full max-w-xs"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
-        <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
-        <div className="flex items-center gap-2">
-          <input
-            value={codeInput}
-            onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
-            onKeyDown={e => e.key === 'Enter' && handleCode()}
-            placeholder="KM-04-A3B3C3D4"
-            className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
-            style={{
-              background: 'rgba(255,255,255,0.7)',
-              border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
-              color: '#434242', fontFamily: 'Noto Sans TC, sans-serif',
-              letterSpacing: '0.06em'
-            }} />
-          <motion.button
-            onClick={handleCode}
-            whileTap={{ scale: 0.97 }}
-            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
-            style={{ background: '#9B7EA6' }}>
-            查看
-          </motion.button>
-        </div>
-        {codeError && (
-          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
-            代碼格式錯誤，請確認後再試
-          </p>
-        )}
       </motion.div>
 
       {/* Stats */}
