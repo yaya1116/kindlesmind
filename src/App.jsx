@@ -1249,10 +1249,10 @@ function HeroScreen({ onStart, onCode }) {
             className="w-8 h-8 rounded-full object-cover"
             style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
           <p className="text-warm-text-muted text-xs">
-            <span className="text-warm-text-light font-medium">葉信儂</span> · 專業顧問督導
+            <span className="text-warm-text-muted font-medium">葉信儂</span> · 專業顧問督導
           </p>
         </div>
-        <p className="text-warm-text-light text-xs leading-relaxed italic pl-10">
+        <p className="text-warm-text-muted text-xs leading-relaxed italic pl-10">
           「這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。」
         </p>
       </motion.div>
