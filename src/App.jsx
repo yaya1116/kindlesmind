@@ -1214,9 +1214,21 @@ function HeroScreen({ onStart, onCode }) {
         <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Attachment Style Diagnosis</p>
       </motion.div>
 
+      {/* Tagline */}
+      <motion.div className="text-center mb-8 max-w-xs"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+        <p className="font-serif text-2xl text-warm-text leading-snug mb-3 font-medium">
+          總在關係中後退一步？<br />測測你的依附類型
+        </p>
+        <p className="text-warm-text-muted text-sm leading-relaxed">
+          基於依附理論，二十八道情境題。<br />
+          <span style={{ background: 'linear-gradient(90deg,#DC8DF3,#33ABD3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>找出你是安全型、焦慮型、還是迴避型。</span>
+        </p>
+      </motion.div>
+
       {/* ── Dimension preview ── */}
       <motion.div className="mb-8 grid grid-cols-2 gap-2 w-full max-w-xs"
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
         {DIMENSIONS.map(dim => (
           <div key={dim.id}
             className="flex items-center gap-2 bg-white/60 rounded-xl px-3 py-2.5 border border-warm-cream-dark/40 shadow-warm-sm">
@@ -1227,18 +1239,6 @@ function HeroScreen({ onStart, onCode }) {
             </div>
           </div>
         ))}
-      </motion.div>
-
-      {/* Tagline */}
-      <motion.div className="text-center mb-8 max-w-xs"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-        <p className="font-serif text-2xl text-warm-text leading-snug mb-3 font-medium">
-          總在關係中後退一步？<br />測測你的依附類型
-        </p>
-        <p className="text-warm-text-muted text-sm leading-relaxed">
-          基於依附理論，二十八道情境題。<br />
-          <span style={{ background: 'linear-gradient(90deg,#DC8DF3,#33ABD3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>找出你是安全型、焦慮型、還是迴避型。</span>
-        </p>
       </motion.div>
 
       {/* ── Psychologist endorsement ── */}
