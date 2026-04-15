@@ -1328,7 +1328,7 @@ function HeroScreen({ onStart, onCode }) {
             onClick={handleCode}
             whileTap={{ scale: 0.97 }}
             className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
-            style={{ background: 'linear-gradient(135deg,#DC8DF3,#33ABD3)' }}>
+            style={{ background: '#9B7EA6' }}>
             查看
           </motion.button>
         </div>
