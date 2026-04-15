@@ -1241,42 +1241,20 @@ function HeroScreen({ onStart, onCode }) {
         ))}
       </motion.div>
 
-      {/* ── Psychologist endorsement ── */}
-      <motion.div className="mt-8 w-full max-w-xs"
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-        <div className="rounded-2xl p-5 border"
-          style={{ background: 'rgba(255,255,255,0.65)', borderColor: 'rgba(155,126,166,0.25)', backdropFilter: 'blur(8px)' }}>
-          {/* Psychologist info */}
-          <div className="flex items-center gap-3 mb-3.5">
-            <img src="/psychologist2.jpg" alt="葉信儂 心理師"
-              className="w-12 h-12 rounded-full object-cover border-2"
-              style={{ borderColor: 'rgba(220,141,243,0.3)' }} />
-            <div>
-              <p className="text-warm-text text-sm font-semibold">葉信儂</p>
-              <p className="text-warm-text-muted text-xs">專業顧問 · 督導</p>
-            </div>
-          </div>
-          {/* Quote */}
-          <div className="relative pl-4 mb-3.5" style={{ borderLeft: '2px solid rgba(220,141,243,0.4)' }}>
-            <Quote size={12} className="absolute -left-0.5 -top-0.5 opacity-30" style={{ color: '#DC8DF3' }} />
-            <p className="text-warm-text text-xs leading-relaxed italic">
-              這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。
-            </p>
-          </div>
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {['依附關係', '親密議題', '情感安全感'].map(tag => (
-              <span key={tag} className="text-xs px-2 py-0.5 rounded-full"
-                style={{ background: 'rgba(220,141,243,0.1)', color: '#7B5E8A' }}>
-                {tag}
-              </span>
-            ))}
-          </div>
-          {/* Theory basis */}
-          <p className="text-center text-xs" style={{ color: '#B0A0C8' }}>
-            專業顧問督導 · 基於依附理論設計
+      {/* ── Psychologist endorsement (subtle) ── */}
+      <motion.div className="mt-6 w-full max-w-xs opacity-70"
+        initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 0.9 }}>
+        <div className="flex items-center gap-2.5 mb-2">
+          <img src="/psychologist2.jpg" alt="葉信儂"
+            className="w-8 h-8 rounded-full object-cover"
+            style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
+          <p className="text-warm-text-muted text-xs">
+            <span className="text-warm-text-light font-medium">葉信儂</span> · 專業顧問督導
           </p>
         </div>
+        <p className="text-warm-text-light text-xs leading-relaxed italic pl-10">
+          「這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。」
+        </p>
       </motion.div>
 
       {/* CTA */}
