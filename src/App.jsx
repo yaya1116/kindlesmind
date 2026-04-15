@@ -1249,7 +1249,7 @@ function HeroScreen({ onStart, onCode }) {
             className="w-8 h-8 rounded-full object-cover"
             style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
           <p className="text-warm-text-muted text-xs">
-            <span className="text-warm-text-muted font-medium">葉信儂</span> · 專業顧問督導
+            <span className="text-warm-text-muted font-medium">葉信儂</span> · 專業心理師顧問
           </p>
         </div>
         <p className="text-warm-text-muted text-xs leading-relaxed italic pl-10">
@@ -1343,7 +1343,7 @@ function HeroScreen({ onStart, onCode }) {
       <motion.div className="flex items-center gap-5 mt-10"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
         {[
-          { Icon: Star,  label: '4.9 評分', sub: '心理師督導認證' },
+          { Icon: Star,  label: '4.9 評分', sub: '心理師顧問認證' },
           { Icon: Heart, label: '12,400+', sub: '已完成診斷' },
           { Icon: Shield,label: '匿名保護', sub: '資料不被儲存' },
         ].map(({ Icon, label, sub }, i) => (
