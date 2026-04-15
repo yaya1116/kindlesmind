@@ -837,6 +837,34 @@ function calcResults(answers) {
   return { profile, dimData, primaryDim: p, profileKey, dimScores, diagCode, radarData }
 }
 
+// Reverse-lookup map: 'KM-01' → 'secure'
+const CODE_TO_PROFILE = Object.fromEntries(
+  Object.entries(DIAG_CODE_MAP).map(([k, v]) => [v, k])
+)
+// Bucket midpoints (score range 7–35, bucket 1–5)
+const BUCKET_MID = { 1: 9, 2: 14, 3: 19, 4: 25, 5: 31 }
+
+function parseCode(raw) {
+  const code = raw.trim().toUpperCase()
+  const m = code.match(/^(KM-\d{2})-A([1-5])B([1-5])C([1-5])D([1-5])$/)
+  if (!m) return null
+  const profileKey = CODE_TO_PROFILE[m[1]]
+  const profile = profileKey ? PROFILES[profileKey] : null
+  if (!profile) return null
+  const dimScores = { 1: BUCKET_MID[+m[2]], 2: BUCKET_MID[+m[3]], 3: BUCKET_MID[+m[4]], 4: BUCKET_MID[+m[5]] }
+  const dimData = DIMENSIONS.map(dim => {
+    const score = dimScores[dim.id]
+    const health = Math.round(100 - ((score - 7) / 28) * 100)
+    const pct    = 100 - health
+    return { ...dim, score, health, pct }
+  })
+  const radarData = DIMENSIONS.map(dim => ({
+    ...dim, score: dimScores[dim.id],
+    pct: Math.round(((dimScores[dim.id] - 7) / 28) * 100),
+  }))
+  return { profile, dimData, primaryDim: DIMENSIONS[0], profileKey, dimScores, diagCode: code, radarData }
+}
+
 function getDimText(dimId, health) {
   const level = health >= 75 ? 3 : health >= 50 ? 2 : health >= 25 ? 1 : 0
   const map = {
@@ -1157,7 +1185,16 @@ function RadarChart({ radarData }) {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
-function HeroScreen({ onStart }) {
+function HeroScreen({ onStart, onCode }) {
+  const [codeInput, setCodeInput] = useState('')
+  const [codeError, setCodeError] = useState(false)
+
+  const handleCode = () => {
+    const result = parseCode(codeInput)
+    if (!result) { setCodeError(true); return }
+    setCodeError(false)
+    onCode(result)
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden">
@@ -1174,18 +1211,18 @@ function HeroScreen({ onStart }) {
           <img src="/logo.svg" alt="KindlesMind" className="w-16 h-16 rounded-2xl shadow-terracotta-lg" />
         </motion.div>
         <h1 className="font-serif text-4xl font-bold tracking-tight text-warm-text mb-1">KindlesMind</h1>
-        <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Soul Frequency Diagnosis</p>
+        <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Attachment Style Diagnosis</p>
       </motion.div>
 
       {/* Tagline */}
       <motion.div className="text-center mb-10 max-w-xs"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
         <p className="font-serif text-2xl text-warm-text leading-snug mb-3 font-medium">
-          你的情感，以夢核的語言，<br />說出了什麼？
+          總在關係中後退一步？<br />測測你的依附類型
         </p>
         <p className="text-warm-text-muted text-sm leading-relaxed">
-          二十八道情境，四維靈魂地圖。<br />
-          <span style={{ background: 'linear-gradient(90deg,#DC8DF3,#33ABD3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>找到你的心靈原色。</span>
+          基於依附理論，二十八道情境題。<br />
+          <span style={{ background: 'linear-gradient(90deg,#DC8DF3,#33ABD3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>找出你是安全型、焦慮型、還是迴避型。</span>
         </p>
       </motion.div>
 
@@ -1193,7 +1230,7 @@ function HeroScreen({ onStart }) {
       <motion.div className="flex items-center gap-5 mb-9"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
         {[
-          { Icon: Star,  label: '4.9 評分', sub: '心理師團隊認證' },
+          { Icon: Star,  label: '4.9 評分', sub: '心理師督導認證' },
           { Icon: Heart, label: '12,400+', sub: '已完成診斷' },
           { Icon: Shield,label: '匿名保護', sub: '資料不被儲存' },
         ].map(({ Icon, label, sub }, i) => (
@@ -1219,14 +1256,14 @@ function HeroScreen({ onStart }) {
               style={{ borderColor: 'rgba(220,141,243,0.3)' }} />
             <div>
               <p className="text-warm-text text-sm font-semibold">葉信儂</p>
-              <p className="text-warm-text-muted text-xs">諮商心理師 · 人生設計心理諮商所</p>
+              <p className="text-warm-text-muted text-xs">專業顧問 · 督導</p>
             </div>
           </div>
           {/* Quote */}
           <div className="relative pl-4 mb-3.5" style={{ borderLeft: '2px solid rgba(220,141,243,0.4)' }}>
             <Quote size={12} className="absolute -left-0.5 -top-0.5 opacity-30" style={{ color: '#DC8DF3' }} />
             <p className="text-warm-text text-xs leading-relaxed italic">
-              這份診斷能幫助你看見關係中未被察覺的模式，是理解自己的第一步。
+              這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。
             </p>
           </div>
           {/* Tags */}
@@ -1240,7 +1277,7 @@ function HeroScreen({ onStart }) {
           </div>
           {/* Theory basis */}
           <p className="text-center text-xs" style={{ color: '#B0A0C8' }}>
-            本測驗基於依附理論（Attachment Theory）設計
+            專業顧問督導 · 基於依附理論設計
           </p>
         </div>
       </motion.div>
@@ -1293,6 +1330,53 @@ function HeroScreen({ onStart }) {
             </div>
           ))}
         </div>
+      </motion.div>
+
+      {/* ── Dimension preview ── */}
+      <motion.div className="mt-10 grid grid-cols-2 gap-2 w-full max-w-xs"
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.7 }}>
+        {DIMENSIONS.map(dim => (
+          <div key={dim.id}
+            className="flex items-center gap-2 bg-white/60 rounded-xl px-3 py-2.5 border border-warm-cream-dark/40 shadow-warm-sm">
+            <dim.Icon size={13} style={{ color: dim.color }} />
+            <div>
+              <div className="text-warm-text text-xs font-medium">{dim.name}</div>
+              <div className="text-warm-text-light text-xs">{dim.sub}</div>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* ── Code lookup ── */}
+      <motion.div className="mt-8 w-full max-w-xs"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.9 }}>
+        <p className="text-center text-xs text-warm-text-light mb-2">已有診斷代碼？直接查看結果</p>
+        <div className="flex items-center gap-2">
+          <input
+            value={codeInput}
+            onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
+            onKeyDown={e => e.key === 'Enter' && handleCode()}
+            placeholder="KM-04-A3B3C3D4"
+            className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: codeError ? '1.5px solid #D48C70' : '1.5px solid rgba(155,126,166,0.3)',
+              color: '#434242', fontFamily: 'Noto Sans TC, sans-serif',
+              letterSpacing: '0.06em'
+            }} />
+          <motion.button
+            onClick={handleCode}
+            whileTap={{ scale: 0.97 }}
+            className="flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
+            style={{ background: 'linear-gradient(135deg,#7B5E8A,#5A7A8E)' }}>
+            查看
+          </motion.button>
+        </div>
+        {codeError && (
+          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
+            代碼格式錯誤，請確認後再試
+          </p>
+        )}
       </motion.div>
     </div>
   )
@@ -2888,6 +2972,12 @@ export default function App() {
     setTimeout(() => { setResults(r); setPhase('result'); track('quiz_complete') }, 3600)
   }
 
+  const handleCodeResult = (parsed) => {
+    setResults(parsed)
+    setIsUnlocked(true)
+    setPhase('result')
+    window.scrollTo(0, 0)
+  }
   const handleUnlock = () => {
     track('purchase_verified')
     setIsUnlocked(true)
@@ -2942,7 +3032,7 @@ export default function App() {
           {/* ── Main app flow ── */}
           {!legalPage && phase === 'hero' && (
             <motion.div key="hero" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.35 }}>
-              <HeroScreen onStart={() => { track('quiz_start'); setPhase('quiz') }} />
+              <HeroScreen onStart={() => { track('quiz_start'); setPhase('quiz') }} onCode={handleCodeResult} />
               <Footer onNav={handleNavLegal} onModal={setLegalModal} />
             </motion.div>
           )}
