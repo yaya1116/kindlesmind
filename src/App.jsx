@@ -2162,16 +2162,12 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
               style={{ border: '1px solid rgba(196,184,228,0.45)' }}>
 
-              {/* ── Therapist + CTA row ── */}
+              {/* ── Product header + CTA ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
-                <div className="flex items-center justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-3">
-                    <img src="/psychologist2.jpg" alt="葉信儂 諮商心理師"
-                      className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-warm-text text-base leading-tight">葉信儂　諮商心理師</p>
-                      <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>人生設計心理諮商所</p>
-                    </div>
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <div>
+                    <p className="font-serif font-semibold text-warm-text text-base leading-tight">解鎖完整診斷報告</p>
+                    <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>深度了解你的依附類型</p>
                   </div>
                   <div className="flex flex-col items-end flex-shrink-0">
                     <p className="font-bold text-warm-text text-lg leading-none mb-2">NT$399</p>
@@ -2189,27 +2185,14 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                       onClick={() => { track('unlock_click'); setSupportClicked(true) }}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}>
-                      查看完整報告
+                      立即解鎖
                     </motion.a>
                   </div>
                 </div>
-                {/* Disclaimer under CTA */}
-                <p className="text-xs leading-relaxed rounded-xl p-3 mb-3"
+                <p className="text-xs leading-relaxed rounded-xl p-3"
                   style={{ backgroundColor: '#F7F5FC', color: '#9A94B8' }}>
-                  本次購買包含完整依附類型分析報告、3 個月情感安全感重建指南，以及葉心理師的聯繫方式。如需正式諮商，費用依心理師公告為準，與本次購買分開計算。
+                  包含完整依附類型分析報告、3 個月情感安全感重建指南，以及專業心理師顧問聯繫方式。
                 </p>
-                {/* Description under avatar */}
-                <p className="text-xs leading-relaxed mb-3" style={{ color: '#9A94B8' }}>
-                  專長於依附關係與親密關係議題，擅長陪伴在關係中感到困惑或受傷的人，透過結構化梳理，協助你將模糊的情緒轉化為清晰的問題意識，找到下一步的方向。
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {['依附關係', '依附焦慮', '情感安全感'].map(tag => (
-                    <span key={tag} className="text-xs px-2.5 py-1 rounded-full font-medium"
-                      style={{ backgroundColor: '#EEF1FA', color: '#6B7CB5', border: '1px solid #DDE4F5' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               {/* ── Unlock items ── */}
@@ -2218,8 +2201,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 <div className="space-y-4">
                   {[
                     { icon: '📄', title: '依附類型個人化深度解析', sub: '專屬報告，3,500+ 字完整分析' },
-                    { icon: '🔗', title: '葉心理師聯繫方式', sub: '預約連結 × 諮詢前準備清單' },
                     { icon: '📋', title: '3 個月情感安全感重建指南', sub: '階段性步驟，可自行練習' },
+                    { icon: '🔗', title: '專業心理師顧問聯繫方式', sub: '預約連結 × 諮詢前準備清單' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
