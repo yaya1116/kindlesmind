@@ -2706,7 +2706,7 @@ function AboutPage({ onBack }) {
       <LegalSection title="版本資訊">
         <p className="text-warm-text-light text-xs">
           KindlesMind v2.0<br />
-          © 2026 KindlesMind. All Rights Reserved.
+          © 2026 uiuxtogether 科技鴨鴨 All Rights Reserved.
         </p>
       </LegalSection>
     </LegalPage>
@@ -2867,7 +2867,7 @@ function Footer({ onNav, onModal }) {
         </div>
 
         {/* Contact */}
-        <div className="flex items-center justify-center gap-1.5 mb-3">
+        <div className="flex items-center justify-center gap-1.5 mb-2">
           <Mail size={11} style={{ color: '#B4AACC' }} />
           <a href="mailto:support@kindlesmind.com"
             className="text-xs hover:text-warm-terracotta transition-colors"
@@ -2876,9 +2876,19 @@ function Footer({ onNav, onModal }) {
           </a>
         </div>
 
+        {/* Business / collaboration contact */}
+        <p className="text-center text-xs mb-3" style={{ color: '#B4AACC' }}>
+          想製作類似的心理測驗？合作請洽{' '}
+          <a href="mailto:yaya.huang1116@gmail.com"
+            className="hover:text-warm-terracotta transition-colors underline"
+            style={{ color: '#9A94B8' }}>
+            yaya.huang1116@gmail.com
+          </a>
+        </p>
+
         {/* Copyright */}
         <p className="text-center text-warm-text-light text-xs">
-          © 2026 KindlesMind. All Rights Reserved.
+          © 2026 uiuxtogether 科技鴨鴨 All Rights Reserved.
         </p>
 
       </div>
