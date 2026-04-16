@@ -1977,12 +1977,14 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             <Sparkles size={11} />
             診斷完成 · {new Date().toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' })}
           </div>
-          {/* 診斷代碼 chip */}
-          <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono font-semibold tracking-wider"
-            style={{ backgroundColor: profile.accentColor + '18', color: profile.accentColor, border: `1px solid ${profile.accentColor}30` }}>
-            <BadgeCheck size={11} />
-            {diagCode}
-          </div>
+          {/* 診斷代碼 chip — 解鎖後才顯示 */}
+          {isUnlocked && (
+            <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono font-semibold tracking-wider"
+              style={{ backgroundColor: profile.accentColor + '18', color: profile.accentColor, border: `1px solid ${profile.accentColor}30` }}>
+              <BadgeCheck size={11} />
+              {diagCode}
+            </div>
+          )}
         </div>
         <h2 className="font-serif text-2xl text-warm-text font-semibold mb-1">你的靈魂頻率診斷</h2>
         <p className="text-warm-text-muted text-sm">以下是根據你的 28 道情境題繪製的靈魂地圖</p>
