@@ -2203,8 +2203,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
               {/* ── Header + value prop ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
                 <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
-                <p className="font-serif font-bold text-warm-text text-xl leading-tight mb-2">
-                  看見你在愛中<br />真實的樣貌
+                <p className="font-serif font-bold text-warm-text text-2xl leading-tight mb-2">
+                  看見你在愛中真實的樣貌
                 </p>
                 <p className="text-xs leading-relaxed mb-4 pb-4" style={{ color: '#7A6E95', borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
                   3,500+ 字深度解析 × 3 個月重建指南，<br />
