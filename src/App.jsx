@@ -1944,6 +1944,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
   const [supportClicked, setSupportClicked] = useState(false)
+  const [codeCopied, setCodeCopied] = useState(false)
   const [verifyEmail, setVerifyEmail]       = useState('')
   const [verifyStatus, setVerifyStatus]     = useState('idle') // idle | checking | paid | not_paid
 
@@ -2297,6 +2298,36 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           </motion.div>
         ) : (
           <motion.div key="unlocked" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            {/* ── Save code reminder (prominent) ── */}
+            <motion.div
+              className="mx-5 mb-5 rounded-2xl p-5"
+              style={{ background: `linear-gradient(135deg, ${profile.accentColor}14, ${profile.accentColor}08)`, border: `1.5px solid ${profile.accentColor}40` }}
+              initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+              <div className="flex items-center gap-2 mb-2">
+                <BadgeCheck size={14} style={{ color: profile.accentColor }} />
+                <p className="text-xs font-semibold tracking-wider uppercase" style={{ color: profile.accentColor }}>
+                  你的診斷編碼
+                </p>
+              </div>
+              <p className="font-mono font-bold text-2xl tracking-wider mb-2" style={{ color: profile.accentColor }}>
+                {diagCode}
+              </p>
+              <p className="text-xs leading-relaxed" style={{ color: '#7A6E95' }}>
+                💡 請務必保留此編碼，未來可隨時回到首頁輸入查看完整報告。
+              </p>
+              <motion.button
+                onClick={() => {
+                  navigator.clipboard?.writeText(diagCode)
+                  setCodeCopied(true)
+                  setTimeout(() => setCodeCopied(false), 2000)
+                }}
+                whileTap={{ scale: 0.97 }}
+                className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                style={{ background: '#FFFFFF', color: profile.accentColor, border: `1px solid ${profile.accentColor}40` }}>
+                {codeCopied ? <><Check size={12} /> 已複製</> : <><Copy size={12} /> 複製編碼</>}
+              </motion.button>
+            </motion.div>
+
             <FullReport profile={profile} dimData={dimData} diagCode={diagCode} radarData={radarData} />
 
           </motion.div>
