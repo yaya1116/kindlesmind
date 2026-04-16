@@ -7,7 +7,7 @@ import {
   ChevronRight, ChevronLeft, Star, Flame, Leaf, Sun, Moon,
   Wind, Clock, Eye, RefreshCw, AlertCircle, Mail, ExternalLink,
   UserCheck, ShieldCheck, BadgeCheck, Zap,
-  Download, Share2, Copy, Check, Quote
+  Download, Share2, Copy, Check, Quote, Send
 } from 'lucide-react'
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -2895,11 +2895,18 @@ function Footer({ onNav, onModal }) {
 
         {/* Contact */}
         <div className="flex items-center justify-center gap-1.5 mb-2">
-          <Mail size={11} style={{ color: '#B4AACC' }} />
+          <button
+            onClick={() => copyEmail('support@kindlesmind.com')}
+            className="inline-flex items-center justify-center rounded-full p-1 transition-colors hover:bg-warm-cream"
+            aria-label="複製 Email">
+            {copiedKey === 'support@kindlesmind.com'
+              ? <Send size={11} style={{ color: '#4CAF82' }} />
+              : <Mail size={11} style={{ color: '#B4AACC' }} />}
+          </button>
           <a href="mailto:support@kindlesmind.com"
             className="text-xs hover:text-warm-terracotta transition-colors"
-            style={{ color: '#B4AACC' }}>
-            support@kindlesmind.com
+            style={{ color: copiedKey === 'support@kindlesmind.com' ? '#4CAF82' : '#B4AACC' }}>
+            {copiedKey === 'support@kindlesmind.com' ? '已複製' : 'support@kindlesmind.com'}
           </a>
         </div>
 
