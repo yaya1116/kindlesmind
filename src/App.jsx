@@ -2894,20 +2894,16 @@ function Footer({ onNav, onModal }) {
         </div>
 
         {/* Contact */}
-        <div className="flex items-center justify-center gap-1.5 mb-2">
+        <div className="flex items-center justify-center mb-2">
           <button
             onClick={() => copyEmail('support@kindlesmind.com')}
-            className="inline-flex items-center justify-center rounded-full p-1 transition-colors hover:bg-warm-cream"
+            className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs transition-colors hover:bg-warm-cream cursor-pointer"
+            style={{ color: copiedKey === 'support@kindlesmind.com' ? '#4CAF82' : '#B4AACC' }}
             aria-label="複製 Email">
             {copiedKey === 'support@kindlesmind.com'
-              ? <Send size={11} style={{ color: '#4CAF82' }} />
-              : <Mail size={11} style={{ color: '#B4AACC' }} />}
+              ? <><Send size={11} /> 已複製</>
+              : <><Mail size={11} /> support@kindlesmind.com</>}
           </button>
-          <a href="mailto:support@kindlesmind.com"
-            className="text-xs hover:text-warm-terracotta transition-colors"
-            style={{ color: copiedKey === 'support@kindlesmind.com' ? '#4CAF82' : '#B4AACC' }}>
-            {copiedKey === 'support@kindlesmind.com' ? '已複製' : 'support@kindlesmind.com'}
-          </a>
         </div>
 
         {/* Copyright — clickable to reveal business contact */}
