@@ -2158,63 +2158,89 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             initial={{ opacity: 1, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             exit={{ opacity: 0 }}>
 
-            {/* ── 1. 心理師 + Price + CTA ── */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
+            {/* ── Purchase card ── */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg relative"
               style={{ border: '1px solid rgba(196,184,228,0.45)' }}>
 
-              {/* ── Product header + CTA ── */}
+              {/* Early-bird badge */}
+              <div className="absolute top-4 right-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold z-10"
+                style={{ background: 'linear-gradient(135deg,#FFB572,#FF8A8A)', color: '#FFFFFF' }}>
+                <span>🔥</span> 早鳥限時
+              </div>
+
+              {/* ── Header + value prop ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <div>
-                    <p className="font-serif font-semibold text-warm-text text-base leading-tight">解鎖完整診斷報告</p>
-                    <p className="text-xs mt-1" style={{ color: '#9A94B8' }}>深度了解你的依附類型</p>
-                  </div>
-                  <div className="flex flex-col items-end flex-shrink-0">
-                    <p className="font-bold text-warm-text text-lg leading-none mb-2">NT$399</p>
-                    <motion.a
-                      href={(() => {
-                        const params = new URLSearchParams(window.location.search)
-                        params.set('u', '1')
-                        const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
-                        return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
-                      })()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-5 py-2.5 rounded-2xl font-semibold text-sm no-underline whitespace-nowrap"
-                      style={{ backgroundColor: '#1A1A1A', color: '#FFFFFF' }}
-                      onClick={() => { track('unlock_click'); setSupportClicked(true) }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.97 }}>
-                      立即解鎖
-                    </motion.a>
-                  </div>
-                </div>
-                <p className="text-xs leading-relaxed rounded-xl p-3"
-                  style={{ backgroundColor: '#F7F5FC', color: '#9A94B8' }}>
-                  包含完整依附類型分析報告、3 個月情感安全感重建指南，以及專業心理師顧問聯繫方式。
+                <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
+                <p className="font-serif font-bold text-warm-text text-xl leading-tight mb-2">
+                  看見你在愛中<br />真實的樣貌
                 </p>
+                <p className="text-xs leading-relaxed mb-4 pb-4" style={{ color: '#7A6E95', borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
+                  3,500+ 字深度解析 × 3 個月重建指南，<br />
+                  讓模糊的感受，變成清楚的行動。
+                </p>
+
+                {/* Price + CTA */}
+                <div className="flex items-end justify-between gap-3">
+                  <div>
+                    <div className="flex items-baseline gap-2 mb-0.5">
+                      <span className="text-xs line-through" style={{ color: '#C0B8D0' }}>NT$1,200</span>
+                      <span className="text-xs font-semibold" style={{ color: '#E8956A' }}>省 67%</span>
+                    </div>
+                    <p className="font-bold text-2xl leading-none" style={{ color: '#2E2150' }}>NT$399</p>
+                  </div>
+                  <motion.a
+                    href={(() => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('u', '1')
+                      const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+                      return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
+                    })()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-2xl font-semibold text-sm no-underline whitespace-nowrap flex items-center gap-1.5"
+                    style={{ background: 'linear-gradient(135deg,#DC8DF3,#33ABD3)', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(220,141,243,0.35)' }}
+                    onClick={() => { track('unlock_click'); setSupportClicked(true) }}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.97 }}>
+                    立即解鎖 <ArrowRight size={14} />
+                  </motion.a>
+                </div>
               </div>
 
               {/* ── Unlock items ── */}
               <div className="px-6 py-5">
-                <p className="text-xs font-semibold text-warm-text mb-4">解鎖後包含</p>
+                <p className="text-xs font-semibold text-warm-text mb-4">你將獲得</p>
                 <div className="space-y-4">
                   {[
-                    { icon: '📄', title: '依附類型個人化深度解析', sub: '專屬報告，3,500+ 字完整分析' },
-                    { icon: '📋', title: '3 個月情感安全感重建指南', sub: '階段性步驟，可自行練習' },
-                    { icon: '🔗', title: '專業心理師顧問聯繫方式', sub: '預約連結 × 諮詢前準備清單' },
+                    { icon: '📄', title: '依附類型個人化深度解析', sub: '讀懂你在關係中的核心劇本，3,500+ 字完整報告' },
+                    { icon: '📋', title: '3 個月情感安全感重建指南', sub: '每月具體步驟，從無意識循環走向安全依附' },
+                    { icon: '🔗', title: '專業心理師顧問聯繫方式', sub: '需要進一步支持時，有專業資源可用' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: '#F2F0FA' }}>
                         <span className="text-base">{item.icon}</span>
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <p className="text-sm font-semibold text-warm-text leading-tight">{item.title}</p>
-                        <p className="text-xs mt-0.5" style={{ color: '#9A94B8' }}>{item.sub}</p>
+                        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#9A94B8' }}>{item.sub}</p>
                       </div>
+                      <CheckCircle size={14} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
                     </div>
                   ))}
+                </div>
+
+                {/* Trust signals */}
+                <div className="flex items-center justify-center gap-4 mt-5 pt-4" style={{ borderTop: '1px solid rgba(196,184,228,0.3)' }}>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <Shield size={11} /> 匿名保護
+                  </div>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <Zap size={11} /> 付款即解鎖
+                  </div>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <BadgeCheck size={11} /> 終身查看
+                  </div>
                 </div>
               </div>
 
