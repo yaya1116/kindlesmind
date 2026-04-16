@@ -2841,6 +2841,33 @@ function LegalModal({ modalKey, onClose }) {
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 
 function Footer({ onNav, onModal }) {
+  const [copiedKey, setCopiedKey] = useState(null)
+  const [showBizContact, setShowBizContact] = useState(false)
+
+  const copyEmail = async (email) => {
+    let ok = false
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(email)
+        ok = true
+      }
+    } catch { /* fall through */ }
+    if (!ok) {
+      try {
+        const ta = document.createElement('textarea')
+        ta.value = email
+        ta.style.position = 'fixed'
+        ta.style.opacity = '0'
+        document.body.appendChild(ta)
+        ta.focus(); ta.select()
+        document.execCommand('copy')
+        document.body.removeChild(ta)
+      } catch {}
+    }
+    setCopiedKey(email)
+    setTimeout(() => setCopiedKey(null), 2000)
+  }
+
   return (
     <footer className="border-t border-warm-cream-dark/40 mt-8 py-7 px-5">
       <div className="max-w-lg mx-auto">
@@ -2876,20 +2903,43 @@ function Footer({ onNav, onModal }) {
           </a>
         </div>
 
-        {/* Business / collaboration contact */}
-        <p className="text-center text-xs mb-3" style={{ color: '#B4AACC' }}>
-          想製作類似的心理測驗？合作請洽{' '}
-          <a href="mailto:yaya.huang1116@gmail.com"
-            className="hover:text-warm-terracotta transition-colors underline"
-            style={{ color: '#9A94B8' }}>
-            yaya.huang1116@gmail.com
-          </a>
-        </p>
-
-        {/* Copyright */}
-        <p className="text-center text-warm-text-light text-xs">
+        {/* Copyright — clickable to reveal business contact */}
+        <button
+          onClick={() => setShowBizContact(v => !v)}
+          className="block mx-auto text-warm-text-light text-xs hover:text-warm-terracotta transition-colors cursor-pointer">
           © 2026 uiuxtogether 科技鴨鴨 All Rights Reserved.
-        </p>
+        </button>
+
+        {/* Business / collaboration contact — revealed on copyright click */}
+        <AnimatePresence>
+          {showBizContact && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
+              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+              transition={{ duration: 0.25 }}
+              className="text-center text-xs overflow-hidden"
+              style={{ color: '#B4AACC' }}>
+              <p className="mb-1.5">想製作類似的心理測驗？歡迎合作洽詢</p>
+              <div className="inline-flex items-center gap-1.5">
+                <a href="mailto:yaya.huang1116@gmail.com"
+                  className="hover:text-warm-terracotta transition-colors underline"
+                  style={{ color: '#9A94B8' }}>
+                  yaya.huang1116@gmail.com
+                </a>
+                <button
+                  onClick={() => copyEmail('yaya.huang1116@gmail.com')}
+                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs transition-colors hover:bg-warm-cream"
+                  style={{ color: '#9A94B8' }}
+                  aria-label="複製 Email">
+                  {copiedKey === 'yaya.huang1116@gmail.com'
+                    ? <><Check size={10} style={{ color: '#4CAF82' }} /> <span style={{ color: '#4CAF82' }}>已複製</span></>
+                    : <><Copy size={10} /> <span>複製</span></>}
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </footer>
