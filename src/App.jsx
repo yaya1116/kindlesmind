@@ -2932,7 +2932,7 @@ function Footer({ onNav, onModal }) {
                 </a>
                 <button
                   onClick={() => copyEmail('yaya.huang1116@gmail.com')}
-                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs transition-colors hover:bg-warm-cream"
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-colors hover:bg-warm-cream"
                   style={{ color: '#9A94B8' }}
                   aria-label="複製 Email">
                   {copiedKey === 'yaya.huang1116@gmail.com'
