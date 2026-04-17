@@ -2206,10 +2206,25 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 <p className="font-serif font-bold text-warm-text text-2xl leading-tight mb-2">
                   看見你在愛中真實的樣貌
                 </p>
-                <p className="text-xs leading-relaxed mb-4 pb-4" style={{ color: '#7A6E95', borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
+                <p className="text-xs leading-relaxed mb-4" style={{ color: '#7A6E95' }}>
                   3,500+ 字深度解析 × 3 個月重建指南，<br />
                   讓模糊的感受，變成清楚的行動。
                 </p>
+
+                {/* Psychologist endorsement */}
+                <div className="mb-4 pb-4 opacity-80" style={{ borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <img src="/psychologist2.jpg" alt="葉信儂"
+                      className="w-8 h-8 rounded-full object-cover"
+                      style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
+                    <p className="text-warm-text-muted text-xs">
+                      <span className="font-medium">葉信儂</span> · 專業心理師顧問
+                    </p>
+                  </div>
+                  <p className="text-warm-text-muted text-xs leading-relaxed italic pl-10">
+                    「這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。」
+                  </p>
+                </div>
 
                 {/* Price + CTA */}
                 <div className="flex items-end justify-between gap-3">
