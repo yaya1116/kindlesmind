@@ -2191,67 +2191,43 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             exit={{ opacity: 0 }}>
 
             {/* ── Purchase card ── */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg"
+            <div className="bg-white rounded-3xl overflow-hidden shadow-warm-lg relative"
               style={{ border: '1px solid rgba(196,184,228,0.45)' }}>
 
-              {/* ── 1. Header ── */}
-              <div className="px-6 pt-6 pb-5">
-                <div className="flex items-start justify-between mb-3">
-                  <p className="text-xs tracking-widest uppercase" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"
-                    style={{ background: 'linear-gradient(135deg,#FFB572,#FF8A8A)', color: '#FFFFFF' }}>
-                    🔥 早鳥限時
-                  </span>
-                </div>
+              {/* Early-bird badge */}
+              <div className="absolute top-4 right-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold z-10"
+                style={{ background: 'linear-gradient(135deg,#FFB572,#FF8A8A)', color: '#FFFFFF' }}>
+                <span>🔥</span> 早鳥限時
+              </div>
+
+              {/* ── Header + value prop ── */}
+              <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
+                <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
                 <p className="font-serif font-bold text-warm-text text-2xl leading-tight mb-2">
                   看見你在愛中真實的樣貌
                 </p>
-                <p className="text-xs leading-relaxed" style={{ color: '#7A6E95' }}>
-                  3,500+ 字深度解析 × 3 個月重建指南，讓模糊的感受，變成清楚的行動。
+                <p className="text-xs leading-relaxed mb-4" style={{ color: '#7A6E95' }}>
+                  3,500+ 字深度解析 × 3 個月重建指南，<br />
+                  讓模糊的感受，變成清楚的行動。
                 </p>
-              </div>
 
-              {/* ── 2. Value items ── */}
-              <div className="px-6 py-4" style={{ background: '#FAFAFE' }}>
-                <div className="space-y-3.5">
-                  {[
-                    { icon: '📄', title: '依附類型深度解析', sub: '3,500+ 字，讀懂你在關係中的核心劇本' },
-                    { icon: '📋', title: '3 個月重建指南', sub: '每月具體步驟，走向安全依附' },
-                    { icon: '🔗', title: '心理師顧問聯繫方式', sub: '需要時，有專業資源可用' },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: '#F0ECF8' }}>
-                        <span className="text-sm">{item.icon}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-warm-text leading-tight">{item.title}</p>
-                        <p className="text-xs leading-snug" style={{ color: '#9A94B8' }}>{item.sub}</p>
-                      </div>
-                      <CheckCircle size={13} className="flex-shrink-0" style={{ color: '#DC8DF388' }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* ── 3. Psychologist endorsement ── */}
-              <div className="px-6 py-4" style={{ borderTop: '1px solid rgba(196,184,228,0.2)' }}>
-                <div className="flex items-center gap-3">
-                  <img src="/psychologist2.jpg" alt="葉信儂"
-                    className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                    style={{ border: '1.5px solid rgba(155,126,166,0.2)' }} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-warm-text">葉信儂 · 專業心理師顧問</p>
-                    <p className="text-xs leading-relaxed italic mt-0.5" style={{ color: '#9A94B8' }}>
-                      「從依附理論出發，幫助你覺察關係中的隱性模式。」
+                {/* Psychologist endorsement */}
+                <div className="mb-4 pb-4 opacity-80" style={{ borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <img src="/psychologist2.jpg" alt="葉信儂"
+                      className="w-8 h-8 rounded-full object-cover"
+                      style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
+                    <p className="text-warm-text-muted text-xs">
+                      <span className="font-medium">葉信儂</span> · 專業心理師顧問
                     </p>
                   </div>
+                  <p className="text-warm-text-muted text-xs leading-relaxed italic pl-10">
+                    「這份測驗從依附理論出發，幫助你覺察關係中的隱性模式。」
+                  </p>
                 </div>
-              </div>
 
-              {/* ── 4. Price + CTA (bottom, full-width) ── */}
-              <div className="px-6 py-5" style={{ background: 'linear-gradient(180deg, #F8F5FF 0%, #FFFFFF 100%)', borderTop: '1px solid rgba(196,184,228,0.2)' }}>
-                <div className="flex items-center justify-between mb-4">
+                {/* Price + CTA */}
+                <div className="flex items-end justify-between gap-3">
                   <div>
                     <div className="flex items-baseline gap-2 mb-0.5">
                       <span className="text-xs line-through" style={{ color: '#C0B8D0' }}>NT$1,200</span>
@@ -2259,28 +2235,60 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                     </div>
                     <p className="font-bold text-2xl leading-none" style={{ color: '#2E2150' }}>NT$399</p>
                   </div>
-                  <div className="flex items-center gap-3 text-xs" style={{ color: '#B0A8C8' }}>
-                    <span className="flex items-center gap-1"><Shield size={10} /> 匿名</span>
-                    <span className="flex items-center gap-1"><Zap size={10} /> 即時</span>
-                    <span className="flex items-center gap-1"><BadgeCheck size={10} /> 終身</span>
+                  <motion.a
+                    href={(() => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('u', '1')
+                      const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+                      return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
+                    })()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-2xl font-semibold text-sm no-underline whitespace-nowrap flex items-center gap-1.5"
+                    style={{ background: 'linear-gradient(135deg,#DC8DF3,#33ABD3)', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(220,141,243,0.35)' }}
+                    onClick={() => { track('unlock_click') }}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.97 }}>
+                    立即解鎖 <ArrowRight size={14} />
+                  </motion.a>
+                </div>
+              </div>
+
+              {/* ── Unlock items ── */}
+              <div className="px-6 py-5">
+                <p className="text-xs font-semibold text-warm-text mb-4">你將獲得</p>
+                <div className="space-y-4">
+                  {[
+                    { icon: '📄', title: '依附類型個人化深度解析', sub: '讀懂你在關係中的核心劇本，3,500+ 字完整報告' },
+                    { icon: '📋', title: '3 個月情感安全感重建指南', sub: '每月具體步驟，從無意識循環走向安全依附' },
+                    { icon: '🔗', title: '專業心理師顧問聯繫方式', sub: '需要進一步支持時，有專業資源可用' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: '#F2F0FA' }}>
+                        <span className="text-base">{item.icon}</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-warm-text leading-tight">{item.title}</p>
+                        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#9A94B8' }}>{item.sub}</p>
+                      </div>
+                      <CheckCircle size={14} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Trust signals */}
+                <div className="flex items-center justify-center gap-4 mt-5 pt-4" style={{ borderTop: '1px solid rgba(196,184,228,0.3)' }}>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <Shield size={11} /> 匿名保護
+                  </div>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <Zap size={11} /> 付款即解鎖
+                  </div>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#9A94B8' }}>
+                    <BadgeCheck size={11} /> 終身查看
                   </div>
                 </div>
-                <motion.a
-                  href={(() => {
-                    const params = new URLSearchParams(window.location.search)
-                    params.set('u', '1')
-                    const returnUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`
-                    return `https://portaly.cc/kindlesmind/product/fgqHt0NJ9DokyCZ0zayS?next=${encodeURIComponent(returnUrl)}`
-                  })()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3.5 rounded-2xl font-semibold text-base no-underline flex items-center justify-center gap-2"
-                  style={{ background: 'linear-gradient(135deg,#DC8DF3,#33ABD3)', color: '#FFFFFF', boxShadow: '0 4px 20px rgba(220,141,243,0.35)' }}
-                  onClick={() => { track('unlock_click') }}
-                  whileHover={{ scale: 1.01, y: -1 }}
-                  whileTap={{ scale: 0.98 }}>
-                  立即解鎖完整報告 <ArrowRight size={16} />
-                </motion.a>
               </div>
 
             </div>
