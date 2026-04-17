@@ -2212,18 +2212,20 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 </p>
 
                 {/* Psychologist endorsement */}
-                <div className="mb-4 pb-4 opacity-80" style={{ borderBottom: '1px dashed rgba(196,184,228,0.5)' }}>
-                  <div className="flex items-center gap-2.5 mb-1.5">
+                <div className="mb-4 rounded-xl p-4"
+                  style={{ background: '#F9F7FD', border: '1px solid rgba(196,184,228,0.35)' }}>
+                  <p className="text-xs font-medium mb-3" style={{ color: '#B0A0C8', letterSpacing: '0.08em' }}>心理師推薦序</p>
+                  <div className="flex items-start gap-3">
                     <img src="/psychologist2.jpg" alt="葉信儂"
-                      className="w-8 h-8 rounded-full object-cover"
-                      style={{ border: '1px solid rgba(155,126,166,0.2)' }} />
-                    <p className="text-warm-text-muted text-xs">
-                      <span className="font-medium">葉信儂</span> 心理師推薦
-                    </p>
+                      className="w-9 h-9 rounded-full object-cover flex-shrink-0 mt-0.5"
+                      style={{ border: '1.5px solid rgba(155,126,166,0.25)' }} />
+                    <div>
+                      <p className="text-xs leading-relaxed italic mb-2" style={{ color: '#6B5F8A' }}>
+                        「我推薦這份測驗給想更了解自己依附模式的人，它能幫你看見關係中未察覺的盲點。」
+                      </p>
+                      <p className="text-xs font-medium" style={{ color: '#9A94B8' }}>— 葉信儂，諮商心理師</p>
+                    </div>
                   </div>
-                  <p className="text-warm-text-muted text-xs leading-relaxed italic pl-10">
-                    「我推薦這份測驗給想更了解自己依附模式的人，它能幫你看見關係中未察覺的盲點。」
-                  </p>
                 </div>
 
                 {/* Price + CTA */}
