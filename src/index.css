@@ -15,6 +15,7 @@
     background-color: #F4EEFF;
     color: #2B1A42;
   }
+
 }
 
 @layer utilities {
@@ -63,8 +64,14 @@
   100% { transform: translateX(-50%); }
 }
 
-/* Smooth transitions */
+/* Smooth transitions + minimum font size */
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Override Tailwind text-xs to never go below 11px */
+.text-xs {
+  font-size: max(0.75rem, 11px) !important;
+  line-height: 1.6 !important;
 }
