@@ -2202,28 +2202,28 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
               {/* ── Header + value prop ── */}
               <div className="px-6 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(196,184,228,0.25)' }}>
-                <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
-                <p className="font-serif font-bold text-warm-text text-2xl leading-tight mb-2">
+                <p className="text-sm tracking-widest uppercase mb-3" style={{ color: '#B0A0C8' }}>完整診斷報告</p>
+                <p className="font-serif font-bold text-warm-text text-2xl leading-tight mb-3">
                   看見你在愛中真實的樣貌
                 </p>
-                <p className="text-xs leading-relaxed mb-4" style={{ color: '#7A6E95' }}>
+                <p className="text-sm leading-relaxed mb-5" style={{ color: '#7A6E95' }}>
                   3,500+ 字深度解析 × 3 個月重建指南，<br />
                   讓模糊的感受，變成清楚的行動。
                 </p>
 
                 {/* Psychologist endorsement */}
-                <div className="mb-4 rounded-xl p-4"
+                <div className="mb-5 rounded-xl p-4"
                   style={{ background: '#F9F7FD', border: '1px solid rgba(196,184,228,0.35)' }}>
-                  <p className="text-xs font-medium mb-3" style={{ color: '#B0A0C8', letterSpacing: '0.08em' }}>心理師推薦序</p>
+                  <p className="text-sm font-medium mb-3" style={{ color: '#B0A0C8', letterSpacing: '0.08em' }}>心理師推薦序</p>
                   <div className="flex items-start gap-3">
                     <img src="/psychologist2.jpg" alt="葉信儂"
-                      className="w-9 h-9 rounded-full object-cover flex-shrink-0 mt-0.5"
+                      className="w-10 h-10 rounded-full object-cover flex-shrink-0 mt-0.5"
                       style={{ border: '1.5px solid rgba(155,126,166,0.25)' }} />
                     <div>
-                      <p className="text-xs leading-relaxed italic mb-2" style={{ color: '#6B5F8A' }}>
+                      <p className="text-sm leading-relaxed italic mb-2" style={{ color: '#6B5F8A' }}>
                         「我推薦這份測驗給想更了解自己依附模式的人，它能幫你看見關係中未察覺的盲點。」
                       </p>
-                      <p className="text-xs font-medium" style={{ color: '#9A94B8' }}>— 葉信儂，諮商心理師</p>
+                      <p className="text-sm font-medium" style={{ color: '#9A94B8' }}>— 葉信儂，諮商心理師</p>
                     </div>
                   </div>
                 </div>
@@ -2231,9 +2231,9 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
                 {/* Price + CTA */}
                 <div className="flex items-end justify-between gap-3">
                   <div>
-                    <div className="flex items-baseline gap-2 mb-0.5">
-                      <span className="text-xs line-through" style={{ color: '#C0B8D0' }}>NT$1,200</span>
-                      <span className="text-xs font-semibold" style={{ color: '#E8956A' }}>省 67%</span>
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <span className="text-sm line-through" style={{ color: '#C0B8D0' }}>NT$1,200</span>
+                      <span className="text-sm font-semibold" style={{ color: '#E8956A' }}>省 67%</span>
                     </div>
                     <p className="font-bold text-2xl leading-none" style={{ color: '#2E2150' }}>NT$399</p>
                   </div>
@@ -2258,23 +2258,23 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
               {/* ── Unlock items ── */}
               <div className="px-6 py-5">
-                <p className="text-xs font-semibold text-warm-text mb-4">你將獲得</p>
-                <div className="space-y-4">
+                <p className="text-sm font-semibold text-warm-text mb-4">你將獲得</p>
+                <div className="space-y-5">
                   {[
                     { icon: '📄', title: '依附類型個人化深度解析', sub: '讀懂你在關係中的核心劇本，3,500+ 字完整報告' },
                     { icon: '📋', title: '3 個月情感安全感重建指南', sub: '每月具體步驟，從無意識循環走向安全依附' },
                     { icon: '🔗', title: '專業心理師顧問聯繫方式', sub: '需要進一步支持時，有專業資源可用' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: '#F2F0FA' }}>
-                        <span className="text-base">{item.icon}</span>
+                        <span className="text-lg">{item.icon}</span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-warm-text leading-tight">{item.title}</p>
-                        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#9A94B8' }}>{item.sub}</p>
+                        <p className="text-sm font-semibold text-warm-text leading-snug">{item.title}</p>
+                        <p className="text-sm mt-0.5 leading-relaxed" style={{ color: '#9A94B8' }}>{item.sub}</p>
                       </div>
-                      <CheckCircle size={14} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
+                      <CheckCircle size={16} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
                     </div>
                   ))}
                 </div>
