@@ -1495,7 +1495,7 @@ function QuizScreen({ onComplete }) {
   }
 
   return (
-    <div className="h-dvh flex flex-col max-w-lg mx-auto overflow-hidden" style={{ overscrollBehavior: 'none' }}>
+    <div className="fixed inset-0 flex flex-col max-w-lg mx-auto overflow-hidden" style={{ overscrollBehavior: 'none' }}>
       {/* Header progress */}
       <div className="flex-shrink-0 px-5 pt-8 pb-4">
         <div className="flex items-center justify-between mb-2">
@@ -1565,7 +1565,7 @@ function QuizScreen({ onComplete }) {
       </div>
 
       {/* Fixed bottom bar — anchor labels + 1–5 buttons + nav */}
-      <div className="flex-shrink-0 px-5 pt-3 pb-6 bg-warm-bg border-t border-warm-cream-dark/20">
+      <div className="flex-shrink-0 px-5 pt-3 bg-warm-bg border-t border-warm-cream-dark/20" style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
         {/* Anchor labels */}
         <div className="flex justify-between text-xs leading-snug mb-3 px-0.5" style={{ color: '#2B1A42' }}>
           <span className="max-w-[42%]">{q.anchor1}</span>
