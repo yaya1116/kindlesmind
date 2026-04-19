@@ -2038,8 +2038,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           key={profile.videoSrc}
           src={profile.videoSrc}
           autoPlay muted loop playsInline
-          preload="auto"
           className="w-full"
+          onLoadedData={(e) => { e.currentTarget.play().catch(() => {}) }}
           style={{
             objectFit: 'cover',
             display: 'block',
