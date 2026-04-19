@@ -2149,8 +2149,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             <p className="font-serif text-warm-text font-semibold mb-2">{profile.prescription[0].title}</p>
             <ul className="space-y-1.5">
               {profile.prescription[0].steps.map((s, j) => (
-                <li key={j} className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
-                  <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
+                <li key={j} className="flex items-start gap-2 text-base text-warm-text-muted leading-relaxed">
+                  <CheckCircle size={14} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
                   {s}
                 </li>
               ))}
@@ -2164,8 +2164,8 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
               <p className="text-xs text-warm-text-muted mb-0.5">{profile.prescription[1].month}</p>
               <p className="font-serif text-warm-text font-semibold mb-2">{profile.prescription[1].title}</p>
               <ul className="space-y-1.5">
-                <li className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
-                  <CheckCircle size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
+                <li className="flex items-start gap-2 text-base text-warm-text-muted leading-relaxed">
+                  <CheckCircle size={14} className="flex-shrink-0 mt-1" style={{ color: '#DC8DF3' }} />
                   {profile.prescription[1].steps[0]}
                 </li>
               </ul>
