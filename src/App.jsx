@@ -2038,8 +2038,16 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           key={profile.videoSrc}
           src={profile.videoSrc}
           autoPlay muted loop playsInline
+          preload="auto"
           className="w-full"
-          style={{ objectFit: 'cover', display: 'block', aspectRatio: '16/9' }}
+          style={{
+            objectFit: 'cover',
+            display: 'block',
+            aspectRatio: '16/9',
+            borderTopLeftRadius: '1.5rem',
+            borderTopRightRadius: '1.5rem',
+            transform: 'translateZ(0)', // iOS Safari 強制 GPU 合成，確保圓角生效
+          }}
         />
 
         {/* ── Card body ── */}
