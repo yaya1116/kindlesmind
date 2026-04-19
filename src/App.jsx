@@ -951,7 +951,7 @@ function DimBar({ dim, pct, delay = 0, text }) {
         />
       </div>
       {text && (
-        <p className="text-xs leading-relaxed italic px-0.5" style={{ color: dim.color + 'CC' }}>{text}</p>
+        <p className="text-sm leading-relaxed italic px-0.5" style={{ color: dim.color + 'CC' }}>{text}</p>
       )}
     </div>
   )
@@ -1859,7 +1859,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
         <p className="font-serif text-warm-text text-base leading-relaxed font-medium mb-3">
           你的心靈地圖是如何形成的？
         </p>
-        <p className="text-warm-text-muted text-sm leading-loose whitespace-pre-line">
+        <p className="text-warm-text-muted text-base leading-loose whitespace-pre-line">
           {profile.rootAnalysis}
         </p>
       </div>
@@ -1870,7 +1870,7 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
         <p className="font-serif text-warm-text text-base leading-relaxed font-medium mb-3">
           他的行為背後，藏著什麼？
         </p>
-        <p className="text-warm-text-muted text-sm leading-loose whitespace-pre-line">
+        <p className="text-warm-text-muted text-base leading-loose whitespace-pre-line">
           {profile.partnerDecode}
         </p>
       </div>
@@ -1895,8 +1895,8 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
               <p className="font-serif text-warm-text font-semibold mb-2">{month.title}</p>
               <ul className="space-y-1.5">
                 {month.steps.map((s, j) => (
-                  <li key={j} className="flex items-start gap-2 text-sm text-warm-text-muted leading-relaxed">
-                    <CheckCircle size={13} className="flex-shrink-0 mt-0.5 text-warm-sage" style={{ color: '#DC8DF3' }} />
+                  <li key={j} className="flex items-start gap-2 text-base text-warm-text-muted leading-relaxed">
+                    <CheckCircle size={14} className="flex-shrink-0 mt-1 text-warm-sage" style={{ color: '#DC8DF3' }} />
                     {s}
                   </li>
                 ))}
@@ -2020,9 +2020,12 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <p className="text-warm-text-muted text-sm">以下是根據你的 28 道情境題繪製的靈魂地圖</p>
       </motion.div>
 
-      {/* Video cover — full bleed */}
-      <motion.div className="w-full overflow-hidden"
+      {/* SoulMap card */}
+      <div className="px-5">
+      <motion.div className="bg-white overflow-hidden rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 mb-5"
         initial={{ opacity: 1, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 }}>
+
+        {/* ── Video cover ── */}
         <video
           key={profile.videoSrc}
           src={profile.videoSrc}
@@ -2030,11 +2033,9 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           className="w-full"
           style={{ objectFit: 'cover', display: 'block', aspectRatio: '16/9' }}
         />
-      </motion.div>
 
-      {/* SoulMap card body */}
-      <div className="px-5">
-        <div className="bg-white rounded-b-3xl shadow-warm-lg border border-warm-cream-dark/40 border-t-0 mb-5">
+        {/* ── Card body ── */}
+        <div>
           <div className="px-6 pb-6 pt-5">
             <p className="text-warm-text-muted text-xs tracking-widest uppercase mb-1">靈魂原色地圖</p>
             <motion.p className="font-serif text-2xl font-bold leading-tight mb-1"
@@ -2046,7 +2047,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             </motion.p>
             <p className="text-warm-text-muted text-sm mb-5">{profile.tag}</p>
 
-            <p className="text-warm-text-muted text-sm leading-relaxed bg-warm-cream/80 rounded-2xl p-4 border border-warm-cream-dark/30 mb-5">
+            <p className="text-warm-text-muted text-base leading-relaxed bg-warm-cream/80 rounded-2xl p-4 border border-warm-cream-dark/30 mb-5">
               {profile.summary}
             </p>
 
@@ -2054,12 +2055,13 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
             <div className="flex items-start gap-2.5 rounded-xl px-4 py-3 border"
               style={{ backgroundColor: 'rgba(220,141,243,0.06)', borderColor: 'rgba(220,141,243,0.18)' }}>
               <Eye size={14} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
-              <p className="text-sm text-warm-text-muted leading-relaxed">
+              <p className="text-base text-warm-text-muted leading-relaxed">
                 <span className="font-semibold text-warm-text">初步觀測：</span>{profile.freeInsight}
               </p>
             </div>
           </div>
         </div>
+      </motion.div>
       </div>
 
       <div className="px-5">
@@ -2076,7 +2078,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           </motion.div>
           <div>
             <p className="font-serif text-xl text-warm-text font-semibold leading-tight mb-1.5">{profile.archetype}</p>
-            <p className="text-warm-text-muted text-sm leading-relaxed italic">{profile.archetypeDesc}</p>
+            <p className="text-warm-text-muted text-base leading-relaxed italic">{profile.archetypeDesc}</p>
           </div>
         </div>
       </motion.div>
@@ -2089,7 +2091,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
           <Sparkles size={13} style={{ color: '#9B7EA6' }} />
           <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#9B7EA6' }}>靈魂矛盾</p>
         </div>
-        <p className="text-warm-text text-sm leading-loose">{profile.soulParadox}</p>
+        <p className="text-warm-text text-base leading-loose">{profile.soulParadox}</p>
       </motion.div>
 
       {/* ── 四維靈魂場域評估 — Radar + Bars ── */}
@@ -2100,7 +2102,7 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         {/* Radar chart + bars side-by-side on wider screens */}
         <div className="flex flex-col gap-5 mb-1">
           {/* Radar chart */}
-          <div style={{ margin: '0 40px' }}>
+          <div style={{ margin: '0 -8px' }}>
             <RadarChart radarData={radarData} />
           </div>
           {/* Dim bars — use radarData.pct so numbers match radar labels */}
