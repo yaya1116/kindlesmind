@@ -1374,26 +1374,33 @@ function MilestoneCard({ milestone, onContinue }) {
       <motion.div className="w-full max-w-sm bg-white rounded-3xl shadow-warm-xl border border-warm-cream-dark/40 p-8 text-center"
         initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} transition={{ type: 'spring', damping: 20 }}>
         {/* Circle progress */}
-        <div className="relative w-24 h-24 mx-auto mb-6">
-          <svg width="96" height="96" viewBox="0 0 96 96" className="-rotate-90">
+        <div className="w-24 h-24 mx-auto mb-6">
+          <svg width="96" height="96" viewBox="0 0 96 96" className="block">
             <defs>
               <linearGradient id="mgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#DC8DF3" />
                 <stop offset="100%" stopColor="#33ABD3" />
               </linearGradient>
             </defs>
-            <circle cx="48" cy="48" r={r} fill="none" stroke="#E0D8F4" strokeWidth="6" />
-            <motion.circle cx="48" cy="48" r={r} fill="none" stroke="url(#mgGrad)" strokeWidth="6"
-              strokeLinecap="round"
-              strokeDasharray={circ}
-              initial={{ strokeDashoffset: circ }}
-              animate={{ strokeDashoffset: circ - strokeDash }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
-            />
+            <g transform="rotate(-90 48 48)">
+              <circle cx="48" cy="48" r={r} fill="none" stroke="#E0D8F4" strokeWidth="6" />
+              <motion.circle cx="48" cy="48" r={r} fill="none" stroke="url(#mgGrad)" strokeWidth="6"
+                strokeLinecap="round"
+                strokeDasharray={circ}
+                initial={{ strokeDashoffset: circ }}
+                animate={{ strokeDashoffset: circ - strokeDash }}
+                transition={{ duration: 1.2, ease: 'easeOut' }}
+              />
+            </g>
+            <text
+              x="48" y="48"
+              textAnchor="middle"
+              dominantBaseline="central"
+              style={{ fontFamily: "'Noto Serif TC', serif", fontSize: '20px', fontWeight: 700, fill: '#9B7EA6' }}
+            >
+              {pct}%
+            </text>
           </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-serif text-xl font-bold" style={{ color: '#9B7EA6' }}>{pct}%</span>
-          </div>
         </div>
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
