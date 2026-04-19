@@ -2020,48 +2020,46 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <p className="text-warm-text-muted text-sm">以下是根據你的 28 道情境題繪製的靈魂地圖</p>
       </motion.div>
 
-      {/* SoulMap card */}
-      <div className="px-5">
-      <motion.div className="bg-white overflow-hidden rounded-3xl shadow-warm-lg border border-warm-cream-dark/40 mb-5"
+      {/* Video cover — full bleed */}
+      <motion.div className="w-full overflow-hidden"
         initial={{ opacity: 1, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 }}>
+        <video
+          key={profile.videoSrc}
+          src={profile.videoSrc}
+          autoPlay muted loop playsInline
+          className="w-full"
+          style={{ objectFit: 'cover', display: 'block', aspectRatio: '16/9' }}
+        />
+      </motion.div>
 
-        {/* ── Video cover — pure visual, no text overlay ── */}
-        <div className="w-full" style={{ aspectRatio: '16/9' }}>
-          <video
-            key={profile.videoSrc}
-            src={profile.videoSrc}
-            autoPlay muted loop playsInline
-            className="w-full h-full"
-            style={{ objectFit: 'cover', display: 'block' }}
-          />
-        </div>
+      {/* SoulMap card body */}
+      <div className="px-5">
+        <div className="bg-white rounded-b-3xl shadow-warm-lg border border-warm-cream-dark/40 border-t-0 mb-5">
+          <div className="px-6 pb-6 pt-5">
+            <p className="text-warm-text-muted text-xs tracking-widest uppercase mb-1">靈魂原色地圖</p>
+            <motion.p className="font-serif text-2xl font-bold leading-tight mb-1"
+              style={{ color: profile.accentColor }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}>
+              {profile.label}
+            </motion.p>
+            <p className="text-warm-text-muted text-sm mb-5">{profile.tag}</p>
 
-        {/* ── Card body ── */}
-        <div className="px-6 pb-6 pt-5">
-          <p className="text-warm-text-muted text-xs tracking-widest uppercase mb-1">靈魂原色地圖</p>
-          <motion.p className="font-serif text-2xl font-bold leading-tight mb-1"
-            style={{ color: profile.accentColor }}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}>
-            {profile.label}
-          </motion.p>
-          <p className="text-warm-text-muted text-sm mb-5">{profile.tag}</p>
-
-          <p className="text-warm-text-muted text-sm leading-relaxed bg-warm-cream/80 rounded-2xl p-4 border border-warm-cream-dark/30 mb-5">
-            {profile.summary}
-          </p>
-
-          {/* Free insight pill */}
-          <div className="flex items-start gap-2.5 rounded-xl px-4 py-3 border"
-            style={{ backgroundColor: 'rgba(220,141,243,0.06)', borderColor: 'rgba(220,141,243,0.18)' }}>
-            <Eye size={14} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
-            <p className="text-sm text-warm-text-muted leading-relaxed">
-              <span className="font-semibold text-warm-text">初步觀測：</span>{profile.freeInsight}
+            <p className="text-warm-text-muted text-sm leading-relaxed bg-warm-cream/80 rounded-2xl p-4 border border-warm-cream-dark/30 mb-5">
+              {profile.summary}
             </p>
+
+            {/* Free insight pill */}
+            <div className="flex items-start gap-2.5 rounded-xl px-4 py-3 border"
+              style={{ backgroundColor: 'rgba(220,141,243,0.06)', borderColor: 'rgba(220,141,243,0.18)' }}>
+              <Eye size={14} className="flex-shrink-0 mt-0.5" style={{ color: '#DC8DF3' }} />
+              <p className="text-sm text-warm-text-muted leading-relaxed">
+                <span className="font-semibold text-warm-text">初步觀測：</span>{profile.freeInsight}
+              </p>
+            </div>
           </div>
         </div>
-      </motion.div>
       </div>
 
       <div className="px-5">
