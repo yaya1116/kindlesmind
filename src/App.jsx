@@ -1368,7 +1368,8 @@ function MilestoneCard({ milestone, onContinue }) {
   const r = 40, circ = 2 * Math.PI * r
   const strokeDash = (pct / 100) * circ
   return (
-    <motion.div className="min-h-screen flex flex-col items-center justify-center px-6"
+    <motion.div className="fixed inset-0 flex flex-col items-center justify-center px-6 overflow-hidden"
+      style={{ overscrollBehavior: 'none' }}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <motion.div className="w-full max-w-sm bg-white rounded-3xl shadow-warm-xl border border-warm-cream-dark/40 p-8 text-center"
         initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} transition={{ type: 'spring', damping: 20 }}>
