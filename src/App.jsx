@@ -335,7 +335,7 @@ const PROFILES = {
 
   // ─── 6. 規訓的流放者 (D高 + C高) ───
   db_scholar: {
-    label: '迴避型 × 衝突應激（跨軸）',
+    label: '衝突應激軸 × 原生家庭（跨軸）',
     tag: '理智化迴避型',
     poeticName: '規訓的流放者',
     emoji: '📚',
@@ -635,7 +635,7 @@ const PROFILES = {
 
   // ─── 12. 永存的瞬間 (C高 + D高) ───
   dc_snapshot: {
-    label: '衝突應激軸 × 原生家庭',
+    label: '原生家庭軸 × 衝突應激',
     tag: '反芻型應激',
     poeticName: '永存的瞬間',
     emoji: '📷',
