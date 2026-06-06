@@ -2002,6 +2002,25 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 
 function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
+  const videoRef = useRef(null)
+
+  // iOS Safari 在從外部頁面（Portaly 付款）回來後會失去 user gesture context，
+  // muted+playsInline 的影片仍可能被擋。主動在 mount、可見性切換、profile 變更時呼叫 play()。
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    const tryPlay = () => { v.play().catch(() => {}) }
+    tryPlay()
+    const onVisible = () => { if (!document.hidden) tryPlay() }
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('pageshow', tryPlay)
+    window.addEventListener('focus', tryPlay)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('pageshow', tryPlay)
+      window.removeEventListener('focus', tryPlay)
+    }
+  }, [profile.videoSrc, isUnlocked])
 
   return (
     <motion.div className="min-h-screen py-10 max-w-lg mx-auto"
@@ -2035,11 +2054,21 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
         {/* ── Video cover ── */}
         <video
+          ref={videoRef}
           key={profile.videoSrc}
           src={profile.videoSrc}
           autoPlay muted loop playsInline
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
           className="w-full"
+          onLoadedMetadata={(e) => { e.currentTarget.play().catch(() => {}) }}
           onLoadedData={(e) => { e.currentTarget.play().catch(() => {}) }}
+          onCanPlay={(e) => { e.currentTarget.play().catch(() => {}) }}
+          onPause={(e) => {
+            // 防止 iOS Safari 在外部頁面回來後自動暫停
+            if (!document.hidden) e.currentTarget.play().catch(() => {})
+          }}
           style={{
             objectFit: 'cover',
             display: 'block',
