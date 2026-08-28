@@ -8,6 +8,7 @@
 // cover exactly the same set of paths.
 
 import { PAGES } from '../lib/content.mjs'
+import { SECURITY_HEADERS } from '../lib/security-headers.mjs'
 
 const MARKDOWN_ACCEPT = /text\/markdown/i
 
@@ -34,6 +35,10 @@ export default function previewRoutes() {
     name: 'kindlesmind-preview-routes',
     configurePreviewServer(server) {
       server.middlewares.use(async (req, res, next) => {
+        // vercel.json applies these to /(.*) in production. Setting them here
+        // too is what lets the CSP be exercised against the real app locally.
+        for (const { key, value } of SECURITY_HEADERS) res.setHeader(key, value)
+
         const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`)
         const pathname = url.pathname
 
