@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F7F2FF"/>
+      <stop offset="100%" stop-color="#E6DAFB"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#DC8DF3"/>
+      <stop offset="100%" stop-color="#33ABD3"/>
+    </linearGradient>
+    <clipPath id="band"><rect x="0" y="285" width="1200" height="630"/></clipPath>
+  </defs>
+  <rect width="1200" height="1200" fill="#E6DAFB"/>
+  <g clip-path="url(#band)">
+    <rect x="0" y="285" width="1200" height="630" fill="url(#bg)"/>
+    <circle cx="120" cy="405" r="220" fill="#DC8DF3" opacity="0.10"/>
+    <circle cx="1080" cy="805" r="240" fill="#33ABD3" opacity="0.10"/>
+    <rect x="0" y="285" width="1200" height="10" fill="url(#accent)"/>
+    <text x="100" y="470" font-family="Helvetica Neue, Helvetica, Arial" font-size="80" font-weight="700" fill="#2B1A42">KindlesMind</text>
+    <text x="104" y="530" font-family="Helvetica Neue, Helvetica, Arial" font-size="26" fill="#8060A8" letter-spacing="7">ATTACHMENT STYLE DIAGNOSIS</text>
+    <text x="100" y="640" font-family="Hiragino Sans GB, Hiragino Sans, Arial Unicode MS" font-size="46" fill="#2B1A42">總在關係中後退一步？測測你的依附類型</text>
+    <text x="100" y="712" font-family="Hiragino Sans GB, Hiragino Sans, Arial Unicode MS" font-size="30" fill="#8060A8">28 道情境題 · 4 個心理向度 · 12 種依附原型</text>
+    <rect x="100" y="790" width="330" height="66" rx="33" fill="url(#accent)"/>
+    <text x="146" y="833" font-family="Hiragino Sans GB, Hiragino Sans, Arial Unicode MS" font-size="28" fill="#FFFFFF">免費開始診斷 →</text>
+  </g>
+</svg>
