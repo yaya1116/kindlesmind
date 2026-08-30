@@ -1208,7 +1208,7 @@ function HeroScreen({ onStart, onCode }) {
         <motion.div className="relative mb-5"
           animate={{ filter: ['drop-shadow(0 0 12px rgba(220,141,243,0.4))', 'drop-shadow(0 0 32px rgba(220,141,243,0.75))', 'drop-shadow(0 0 12px rgba(220,141,243,0.4))'] }}
           transition={{ duration: 3, repeat: Infinity }}>
-          <img src="/logo.svg" alt="KindlesMind" className="w-16 h-16 rounded-2xl shadow-terracotta-lg" />
+          <img src="/logo.png" alt="KindlesMind" className="w-16 h-16 rounded-2xl shadow-terracotta-lg" />
         </motion.div>
         <h1 className="font-serif text-4xl font-bold tracking-tight text-warm-text mb-1">KindlesMind</h1>
         <p className="text-warm-text-muted text-xs tracking-[0.25em] uppercase">Attachment Style Diagnosis</p>
@@ -1649,7 +1649,7 @@ function CalculatingScreen() {
         <motion.div className="relative w-24 h-24"
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
-          <img src="/logo.svg" alt="KindlesMind" className="w-24 h-24 rounded-full shadow-warm-xl" />
+          <img src="/logo.png" alt="KindlesMind" className="w-24 h-24 rounded-full shadow-warm-xl" />
         </motion.div>
       </div>
 
@@ -2907,7 +2907,7 @@ function Footer({ onNav, onModal }) {
 
         {/* Brand */}
         <div className="flex items-center justify-center gap-2 mb-4">
-          <img src="/logo.svg" alt="KindlesMind" className="w-6 h-6 rounded-md" />
+          <img src="/logo.png" alt="KindlesMind" className="w-6 h-6 rounded-md" />
           <span className="font-serif text-sm font-semibold text-warm-text">KindlesMind</span>
         </div>
 
