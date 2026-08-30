@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { toPng } from 'html-to-image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion'
 import {
   Heart, Thermometer, Lock, Unlock, Sparkles, FileText,
   CheckCircle, ArrowRight, X, Brain, Shield, TrendingUp,
@@ -413,6 +413,9 @@ function HeroScreen({ onStart, onCode }) {
             value={codeInput}
             onChange={e => { setCodeInput(e.target.value); setCodeError(false) }}
             onKeyDown={e => e.key === 'Enter' && handleCode()}
+            aria-label="診斷代碼"
+            aria-invalid={codeError}
+            aria-describedby={codeError ? 'code-error' : undefined}
             placeholder="KM-04-A3B3C3D4"
             className="flex-1 min-w-0 rounded-xl px-3 py-2.5 text-sm outline-none"
             style={{
@@ -430,7 +433,7 @@ function HeroScreen({ onStart, onCode }) {
           </motion.button>
         </div>
         {codeError && (
-          <p className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
+          <p id="code-error" role="alert" className="text-xs mt-1.5 text-center" style={{ color: '#D48C70' }}>
             代碼格式錯誤，請確認後再試
           </p>
         )}
@@ -648,7 +651,13 @@ function QuizScreen({ onComplete }) {
             <span className="text-warm-text-muted text-xs">{currentQ + 1} / 28</span>
           </div>
         </div>
-        <div className="h-1 bg-warm-cream-dark rounded-full overflow-hidden">
+        <div className="h-1 bg-warm-cream-dark rounded-full overflow-hidden"
+          role="progressbar"
+          aria-label="測驗進度"
+          aria-valuemin={0}
+          aria-valuemax={QUESTIONS.length}
+          aria-valuenow={currentQ + 1}
+          aria-valuetext={`第 ${currentQ + 1} 題，共 ${QUESTIONS.length} 題`}>
           <motion.div className="h-full rounded-full"
             style={{ background: `linear-gradient(90deg, ${dim.color}99, ${dim.color})` }}
             animate={{ width: `${progressPct + 5}%` }}
@@ -1129,6 +1138,9 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 
 function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
+  // 原型動畫是全畫面中最強的動態元素。使用者若已表明想減少動態效果，就不
+  // 自動播放，改為給出播放控制項，讓他們自己決定。
+  const prefersReducedMotion = useReducedMotion()
 
   return (
     <motion.div className="min-h-screen py-10 max-w-lg mx-auto"
@@ -1164,9 +1176,12 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
         <video
           key={profile.videoSrc}
           src={profile.videoSrc}
-          autoPlay muted loop playsInline
+          autoPlay={!prefersReducedMotion}
+          loop={!prefersReducedMotion}
+          controls={prefersReducedMotion}
+          muted playsInline
           className="w-full"
-          onLoadedData={(e) => { e.currentTarget.play().catch(() => {}) }}
+          onLoadedData={(e) => { if (!prefersReducedMotion) e.currentTarget.play().catch(() => {}) }}
           style={{
             objectFit: 'cover',
             display: 'block',
@@ -1510,6 +1525,7 @@ function EcpayModal({ onClose, onSuccess, email }) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.96 }}>
               <div className="px-6 pt-6 pb-5">
                 <button onClick={onClose}
+                  aria-label="關閉"
                   className="absolute top-4 right-4 w-8 h-8 rounded-full bg-warm-cream flex items-center justify-center text-warm-text-muted hover:bg-warm-cream-dark transition-colors">
                   <X size={14} />
                 </button>
@@ -1965,6 +1981,7 @@ function LegalModal({ modalKey, onClose }) {
           <h3 className="font-serif text-warm-text text-xl font-semibold">{content.title}</h3>
           <button
             onClick={onClose}
+            aria-label="關閉"
             className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
             style={{ backgroundColor: '#E0D8F460', color: '#9A8E8B' }}>
             <X size={16} />
@@ -2039,7 +2056,7 @@ function Footer({ onNav, onModal }) {
         </div>
 
         {/* Legal links — modal */}
-        <div className="flex items-center justify-center gap-5 mb-4">
+        <nav aria-label="法律資訊" className="flex items-center justify-center gap-5 mb-4">
           {[
             { label: '服務條款',  key: 'terms'      },
             { label: '隱私政策',  key: 'privacy'    },
@@ -2051,7 +2068,7 @@ function Footer({ onNav, onModal }) {
               {label}
             </button>
           ))}
-        </div>
+        </nav>
 
         {/* Contact */}
         <div className="flex items-center justify-center mb-2">
@@ -2203,6 +2220,9 @@ export default function App() {
   }
 
   return (
+    // reducedMotion="user" 讓所有 motion 元件在使用者系統設定為「減少動態效果」
+    // 時自動停用位移與縮放，只保留淡入淡出。
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen relative overflow-x-hidden" style={{ backgroundColor: '#F4EEFF' }}>
       <NoiseOverlay />
       {/* Global ambient gradient */}
@@ -2210,7 +2230,7 @@ export default function App() {
         background: 'radial-gradient(ellipse at 15% 85%, rgba(220,141,243,0.09) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(51,171,211,0.08) 0%, transparent 55%)'
       }} />
 
-      <div className="relative z-10">
+      <main className="relative z-10">
         <AnimatePresence mode="wait">
 
           {/* ── Legal pages ── */}
@@ -2264,7 +2284,7 @@ export default function App() {
           )}
 
         </AnimatePresence>
-      </div>
+      </main>
 
 
       <AnimatePresence>
@@ -2273,5 +2293,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+    </MotionConfig>
   )
 }
