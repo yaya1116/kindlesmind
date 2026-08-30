@@ -75,3 +75,17 @@
   font-size: max(0.75rem, 11px) !important;
   line-height: 1.6 !important;
 }
+
+/* 使用者在系統設定中選擇「減少動態效果」時，關閉所有 CSS 動畫、轉場與
+   平滑捲動。Framer Motion 的部分由 App.jsx 的
+   <MotionConfig reducedMotion="user"> 負責。 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
