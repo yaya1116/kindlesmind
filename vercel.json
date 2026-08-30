@@ -1,7 +1,98 @@
 {
-  "name": "kindlesmind",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*text/markdown.*)" }],
+      "destination": "/api/content?page=home"
+    },
+    {
+      "source": "/about",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*text/markdown.*)" }],
+      "destination": "/api/content?page=about"
+    },
+    {
+      "source": "/contact",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*text/markdown.*)" }],
+      "destination": "/api/content?page=contact"
+    },
+    {
+      "source": "/privacy",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*text/markdown.*)" }],
+      "destination": "/api/content?page=privacy"
+    },
+    {
+      "source": "/terms",
+      "has": [{ "type": "header", "key": "accept", "value": "(.*text/markdown.*)" }],
+      "destination": "/api/content?page=terms"
+    },
+
+    { "source": "/index.md", "destination": "/api/content?page=home&ext=md" },
+    { "source": "/about.md", "destination": "/api/content?page=about&ext=md" },
+    { "source": "/contact.md", "destination": "/api/content?page=contact&ext=md" },
+    { "source": "/privacy.md", "destination": "/api/content?page=privacy&ext=md" },
+    { "source": "/terms.md", "destination": "/api/content?page=terms&ext=md" },
+
+    { "source": "/", "destination": "/pages/home.html" },
+    { "source": "/about", "destination": "/pages/about.html" },
+    { "source": "/contact", "destination": "/pages/contact.html" },
+    { "source": "/privacy", "destination": "/pages/privacy.html" },
+    { "source": "/terms", "destination": "/pages/terms.html" },
+
+    { "source": "/(.*)", "destination": "/api/not-found" }
+  ],
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        { "key": "Link", "value": "</index.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/about",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        { "key": "Link", "value": "</about.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/contact",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        { "key": "Link", "value": "</contact.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/privacy",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        { "key": "Link", "value": "</privacy.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/terms",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        { "key": "Link", "value": "</terms.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/pages/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/(llms.txt|sitemap.xml|robots.txt)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=3600, must-revalidate" }
+      ]
+    }
+  ]
 }

@@ -1138,9 +1138,30 @@ function FullReport({ profile, dimData, diagCode, radarData }) {
 
 function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
   const { profile, dimData, diagCode, radarData } = results
+  const videoRef = useRef(null)
   // 原型動畫是全畫面中最強的動態元素。使用者若已表明想減少動態效果，就不
   // 自動播放，改為給出播放控制項，讓他們自己決定。
   const prefersReducedMotion = useReducedMotion()
+
+  // iOS Safari 在從外部頁面（Portaly 付款）回來後會失去 user gesture context，
+  // muted+playsInline 的影片仍可能被擋。主動在 mount、可見性切換、profile 變更時呼叫 play()。
+  // 但使用者若偏好減量動畫，這些補救一律不執行。
+  useEffect(() => {
+    if (prefersReducedMotion) return
+    const v = videoRef.current
+    if (!v) return
+    const tryPlay = () => { v.play().catch(() => {}) }
+    tryPlay()
+    const onVisible = () => { if (!document.hidden) tryPlay() }
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('pageshow', tryPlay)
+    window.addEventListener('focus', tryPlay)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('pageshow', tryPlay)
+      window.removeEventListener('focus', tryPlay)
+    }
+  }, [profile.videoSrc, isUnlocked, prefersReducedMotion])
 
   return (
     <motion.div className="min-h-screen py-10 max-w-lg mx-auto"
@@ -1174,14 +1195,24 @@ function ResultScreen({ results, onUnlock, isUnlocked, onModal, onRetake }) {
 
         {/* ── Video cover ── */}
         <video
+          ref={videoRef}
           key={profile.videoSrc}
           src={profile.videoSrc}
           autoPlay={!prefersReducedMotion}
           loop={!prefersReducedMotion}
           controls={prefersReducedMotion}
           muted playsInline
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
           className="w-full"
+          onLoadedMetadata={(e) => { if (!prefersReducedMotion) e.currentTarget.play().catch(() => {}) }}
           onLoadedData={(e) => { if (!prefersReducedMotion) e.currentTarget.play().catch(() => {}) }}
+          onCanPlay={(e) => { if (!prefersReducedMotion) e.currentTarget.play().catch(() => {}) }}
+          onPause={(e) => {
+            // 防止 iOS Safari 在外部頁面回來後自動暫停；減量動畫下不干預使用者的暫停
+            if (!prefersReducedMotion && !document.hidden) e.currentTarget.play().catch(() => {})
+          }}
           style={{
             objectFit: 'cover',
             display: 'block',
